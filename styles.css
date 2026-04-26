@@ -137,22 +137,45 @@ h1, h2, h3, h4 {
 
 /* Navbar */
 .navbar {
-    padding: 1.2rem 0;
+    padding: 1rem 0;
     position: fixed;
     top: 0;
     width: 100%;
-    background: #ffffff;
-    border-bottom: 1px solid #eaeaea;
+    background: rgba(18, 18, 18, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     z-index: 100;
+    transition: all 0.3s ease;
 }
 
 .navbar .logo {
-    color: #1a1a1a;
+    color: #ffffff !important;
 }
 
-.navbar .lang-switcher {
-    color: #1a1a1a;
-    border-color: #cccccc;
+.lang-pill {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 30px;
+    padding: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.lang-pill-btn {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+.lang-pill-btn.active {
+    background: #ffffff;
+    color: #111111;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.lang-pill-btn:hover:not(.active) {
+    color: #ffffff;
 }
 
 .nav-actions {
@@ -182,7 +205,7 @@ h1, h2, h3, h4 {
 }
 
 .nav-menu a {
-    color: #1a1a1a;
+    color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     font-weight: 600;
     font-size: 0.95rem;
@@ -198,7 +221,7 @@ h1, h2, h3, h4 {
     background: none;
     border: none;
     font-size: 1.8rem;
-    color: #1a1a1a;
+    color: #ffffff;
     cursor: pointer;
 }
 
