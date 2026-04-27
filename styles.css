@@ -150,7 +150,18 @@ h1, h2, h3, h4 {
 }
 
 .navbar .logo {
-    color: #ffffff !important;
+    display: flex;
+    align-items: center;
+}
+
+.navbar .logo img {
+    height: 38px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.navbar .logo:hover img {
+    transform: scale(1.05);
 }
 
 .lang-pill {
@@ -191,12 +202,10 @@ h1, h2, h3, h4 {
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: var(--text-main);
     text-decoration: none;
+    display: flex;
+    align-items: center;
 }
-.logo .dot { color: var(--primary-color); }
 
 /* Nav Menu */
 .nav-menu {
