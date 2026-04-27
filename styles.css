@@ -1053,98 +1053,328 @@ h1, h2, h3, h4 {
     letter-spacing: 2px;
 }
 
-/* Pricing Section Redesign */
+/* =============================================
+   PRICING SECTION
+   ============================================= */
 .pricing-section-new {
     background-color: #0a0a0a;
 }
 
+/* ── Comparison Table ── */
+.pricing-compare-block {
+    max-width: 860px;
+    margin: 0 auto 4rem;
+}
+
+.pricing-compare-headline {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 1.8rem;
+}
+
+.pricing-compare-table-wrap {
+    overflow-x: auto;
+    border: 1px solid #222;
+    border-radius: 6px;
+}
+
+.pricing-compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-family);
+}
+
+.pricing-compare-table thead tr {
+    background-color: #141414;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.pricing-compare-table thead th {
+    padding: 0.9rem 1.5rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.pricing-compare-table thead th.col-feature {
+    color: #555;
+    text-align: left;
+    width: 40%;
+}
+
+.pricing-compare-table thead th.col-agency {
+    color: #666;
+    text-align: center;
+}
+
+.pricing-compare-table thead th.col-vexasus {
+    color: #E24B4A;
+    text-align: center;
+    border-left: 1px solid rgba(226,75,74,0.2);
+    background: rgba(226,75,74,0.04);
+}
+
+.pricing-compare-table tbody tr {
+    border-bottom: 1px solid #181818;
+    transition: background-color 0.18s;
+}
+
+.pricing-compare-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.pricing-compare-table tbody tr:hover {
+    background-color: rgba(255,255,255,0.015);
+}
+
+.pricing-compare-table tbody td {
+    padding: 0.9rem 1.5rem;
+    font-size: 0.95rem;
+}
+
+.pricing-compare-table tbody td.col-feature {
+    color: #bbb;
+    font-weight: 500;
+    text-align: left;
+}
+
+.pricing-compare-table tbody td.col-agency {
+    color: #555;
+    text-align: center;
+}
+
+.pricing-compare-table tbody td.col-agency s {
+    text-decoration: line-through;
+    color: #b03030;
+    opacity: 0.85;
+}
+
+.pricing-compare-table tbody td.col-vexasus {
+    color: #E24B4A;
+    font-weight: 700;
+    text-align: center;
+    border-left: 1px solid rgba(226,75,74,0.15);
+    background: rgba(226,75,74,0.03);
+}
+
+/* ── Pricing Card ── */
 .pricing-card-new {
     background-color: #111111;
     border: 1px solid #222222;
     border-radius: 8px;
     padding: 3rem;
-    max-width: 100%;
-    margin-bottom: 0;
+    max-width: 720px;
+    margin: 0 auto;
 }
 
 .pricing-label {
     color: #E24B4A;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 2px;
-    margin-bottom: 2rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     text-align: center;
+    margin-bottom: 0.8rem;
 }
 
-.pricing-price-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
+.pricing-card-headline {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-align: center;
+    line-height: 1.25;
+    margin-bottom: 2.2rem;
 }
 
-.price-item {
+/* Construction countdown animation */
+.construction-countdown-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 1.5rem;
 }
 
-.price-large {
-    font-size: 4rem;
-    font-weight: 800;
-    line-height: 1;
-    color: #ffffff;
-}
-
-.price-mo {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #888;
-}
-
-.price-desc {
-    font-size: 0.9rem;
-    color: #888;
-    margin-top: 0.5rem;
+.countdown-label {
+    font-size: 0.8rem;
+    color: #666;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.2rem;
 }
 
-.price-plus {
+.countdown-display {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.1rem;
+    line-height: 1;
+}
+
+.countdown-display.is-zero {
+    color: #E24B4A;
+    animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.countdown-display .currency {
+    font-size: 1.4rem;
+    color: #E24B4A;
+    margin-right: 2px;
+}
+
+/* ── Hero Price Display ── */
+.pricing-hero-price {
+    text-align: center;
+    padding: 2rem 0 1.5rem;
+    border-top: 1px solid #1e1e1e;
+    border-bottom: 1px solid #1e1e1e;
+    margin-bottom: 1.6rem;
+}
+
+/* Top badge: "Construção: €0 · Alojamento: €0,66/dia" */
+.price-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid #2a2a2a;
+    border-radius: 50px;
+    padding: 0.35rem 1.1rem;
+    font-size: 0.78rem;
+    color: #777;
+    letter-spacing: 0.04em;
+    margin-bottom: 1.4rem;
+}
+
+.price-hero-badge strong {
+    color: #E24B4A;
+    font-weight: 700;
+}
+
+/* The giant daily number */
+.price-hero-number {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.4rem;
+    line-height: 1;
+    margin-bottom: 0.7rem;
+}
+
+.price-coffee-icon {
+    font-size: 1.8rem;
+    color: #E24B4A;
+    align-self: center;
+    margin-right: 0.2rem;
+}
+
+.price-cents {
+    font-size: 5rem;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+.price-cents-dec {
     font-size: 3rem;
-    font-weight: 300;
-    color: #444;
+    font-weight: 700;
+    color: #E24B4A;
 }
 
+.price-per-day {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    align-self: flex-end;
+    padding-bottom: 0.6rem;
+}
+
+/* "= €20/mês" note — small and understated */
+.price-monthly-note {
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+}
+
+.price-agency-note {
+    font-size: 0.8rem;
+    color: #444;
+    line-height: 1.4;
+}
+
+/* Divider */
 .pricing-divider {
     border: none;
-    border-top: 1px solid #222222;
-    margin: 2.5rem 0;
+    border-top: 1px solid #1e1e1e;
+    margin: 2rem 0;
 }
 
+/* Feature list — 2-col grid */
 .pricing-features {
     list-style: none;
     padding: 0;
-    margin: 0 0 2.5rem 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem 2rem;
 }
 
 .pricing-features li {
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    font-size: 1.05rem;
-    color: #cccccc;
+    gap: 0.65rem;
+    font-size: 0.95rem;
+    color: #bbb;
+    line-height: 1.4;
 }
 
 .pricing-features li i {
     color: #E24B4A;
-    font-size: 1.2rem;
+    font-size: 0.95rem;
     margin-top: 3px;
+    flex-shrink: 0;
 }
 
+/* CTA Area */
 .pricing-action {
     text-align: center;
+}
+
+.pricing-guarantee-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    background: rgba(226, 75, 74, 0.07);
+    border: 1px solid rgba(226, 75, 74, 0.22);
+    border-radius: 0;
+    padding: 14px 16px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: left;
+    margin-bottom: 1.5rem;
+    line-height: 1.55;
+}
+
+.pricing-guarantee-line > i {
+    font-size: 1.3rem;
+    color: #E24B4A;
+    flex-shrink: 0;
+    margin-top: 2px;
 }
 
 .pricing-guarantees {
@@ -1155,16 +1385,14 @@ h1, h2, h3, h4 {
 
 .pricing-transparency {
     max-width: 600px;
-    font-size: 0.95rem;
-    color: #888;
+    font-size: 0.9rem;
+    color: #555;
     line-height: 1.6;
+    margin-top: 2.5rem;
 }
 
-@media (max-width: 992px) {
-    .pricing-grid {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-    }
+/* Responsive */
+@media (max-width: 768px) {
     .pricing-card-new {
         padding: 2rem 1.5rem;
     }
@@ -1172,8 +1400,20 @@ h1, h2, h3, h4 {
         flex-direction: column;
         gap: 1rem;
     }
-    .price-plus {
-        line-height: 0.5;
+    .price-separator {
+        padding-bottom: 0;
+    }
+    .pricing-features {
+        grid-template-columns: 1fr;
+    }
+    .pricing-daily-row {
+        flex-direction: column;
+        text-align: center;
+        max-width: 100%;
+    }
+    .pricing-guarantee-line {
+        flex-direction: column;
+        gap: 0.5rem;
     }
 }
 

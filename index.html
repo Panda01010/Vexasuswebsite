@@ -31,6 +31,7 @@
                 <div class="lang-pill nav-desktop-only">
                     <a href="index.html" class="lang-pill-btn active">PT</a>
                     <a href="en.html" class="lang-pill-btn">EN</a>
+                    <a href="ma.html" class="lang-pill-btn">MA</a>
                 </div>
                 <a href="#apply" class="btn btn-primary btn-sm nav-cta-desktop">Quero o meu site grátis</a>
                 <a href="https://wa.me/351920351606?text=Olá,%20vi%20o%20site%20da%20Vexasus%20e%20quero%20saber%20mais%20sobre%20o%20site%20grátis." class="nav-whatsapp-mobile" target="_blank" rel="noopener noreferrer">
@@ -50,6 +51,7 @@
         <div class="lang-pill" style="margin-bottom: 1rem; transform: scale(1.2);">
             <a href="index.html" class="lang-pill-btn active">PT</a>
             <a href="en.html" class="lang-pill-btn">EN</a>
+            <a href="ma.html" class="lang-pill-btn">MA</a>
         </div>
         <a href="#how-it-works">Como funciona</a>
         <a href="#trades">Especialidades</a>
@@ -269,53 +271,109 @@
 
     <section id="pricing" class="section pricing-section-new text-white">
         <div class="container">
+
+            <!-- Section Header -->
             <div class="text-center mb-5" data-aos="fade-up">
-                <h2 class="section-title">O preço mais honesto que vais encontrar.</h2>
+                <span class="section-subtitle color-light">PREÇO</span>
+                <h2 class="section-title">O preço mais honesto<br>que vais encontrar.</h2>
             </div>
-            
-            <div class="pricing-grid">
-                <div class="pricing-visuals" data-aos="fade-right">
-                    <div class="mockup-container">
-                        <div class="mockup-glow"></div>
-                        <img src="assets/templates_construction.png" alt="Modelos de Site" class="pricing-mockup-img">
+
+            <!-- Zone 1: Comparison Table -->
+            <div class="pricing-compare-block" data-aos="fade-up">
+                <p class="pricing-compare-headline">Quanto custa normalmente um site profissional?</p>
+                <div class="pricing-compare-table-wrap">
+                    <table class="pricing-compare-table">
+                        <thead>
+                            <tr>
+                                <th class="col-feature"></th>
+                                <th class="col-agency"><i class="ph ph-buildings"></i> Agência Normal</th>
+                                <th class="col-vexasus"><i class="ph ph-lightning"></i> Vexasus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-feature">Construção do site</td>
+                                <td class="col-agency"><s>€800 — €2.500</s></td>
+                                <td class="col-vexasus">€0</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">Alojamento anual</td>
+                                <td class="col-agency"><s>€200 — €400/ano</s></td>
+                                <td class="col-vexasus">€240/ano</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">Contrato obrigatório</td>
+                                <td class="col-agency"><s>Sim, 12 meses</s></td>
+                                <td class="col-vexasus">Não</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">Tempo de entrega</td>
+                                <td class="col-agency"><s>4 — 8 semanas</s></td>
+                                <td class="col-vexasus">24 horas</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">Revisões</td>
+                                <td class="col-agency"><s>2 — 3 incluídas</s></td>
+                                <td class="col-vexasus">Ilimitadas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Zone 2: Pricing Card -->
+            <div class="pricing-card-new" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="pricing-label">SITE PROFISSIONAL VEXASUS</div>
+                <p class="pricing-card-headline">O teu site profissional<br>por menos de €1 por dia.</p>
+
+                <!-- Price display — lead with daily cost -->
+                <div class="pricing-hero-price">
+                    <!-- Construction cost countdown -->
+                    <div class="construction-countdown-wrapper">
+                        <span class="countdown-label">Construção do site:</span>
+                        <div class="countdown-display" id="construction-countdown-box">
+                            <span class="currency">€</span><span id="construction-countdown">1000</span>
+                        </div>
                     </div>
-                    <div class="mockup-caption">Design de alta conversão</div>
+
+                    <div class="price-hero-number">
+                        <span class="price-coffee-icon"><i class="ph ph-coffee"></i></span>
+                        <span class="price-cents">€0<span class="price-cents-dec">,66</span></span>
+                        <span class="price-per-day">por dia</span>
+                    </div>
+
+                    <p class="price-monthly-note">= €20/mês &middot; menos do que um café por dia</p>
+                    <p class="price-agency-note">Uma agência normal cobra €800 só para começar. Aqui começas por zero.</p>
                 </div>
 
-                <div class="pricing-card-new" data-aos="fade-left" data-aos-delay="100">
-                    <div class="pricing-label">SITE PROFISSIONAL VEXASUS</div>
-                    <div class="pricing-price-row">
-                        <div class="price-item">
-                            <span class="price-large">€0</span>
-                            <span class="price-desc">construção do site</span>
-                        </div>
-                        <div class="price-plus">+</div>
-                        <div class="price-item">
-                            <span class="price-large">€20<span class="price-mo">/mês</span></span>
-                            <span class="price-desc">alojamento e manutenção</span>
-                        </div>
+                <hr class="pricing-divider">
+
+                <!-- Feature list — 2-col grid -->
+                <ul class="pricing-features">
+                    <li><i class="ph-bold ph-check"></i> Site completo com portfólio de obras</li>
+                    <li><i class="ph-bold ph-check"></i> Ajudo a registar o teu domínio (~€16/ano, pago por ti)</li>
+                    <li><i class="ph-bold ph-check"></i> Email profissional (geral@tuanegocio.pt)</li>
+                    <li><i class="ph-bold ph-check"></i> Formulário de contacto que chega ao teu WhatsApp</li>
+                    <li><i class="ph-bold ph-check"></i> Otimizado para aparecer no Google</li>
+                    <li><i class="ph-bold ph-check"></i> Suporte via WhatsApp incluído</li>
+                    <li><i class="ph-bold ph-check"></i> Sem contratos — cancelas quando quiseres</li>
+                    <li><i class="ph-bold ph-check"></i> Exclusividade por zona</li>
+                </ul>
+
+                <hr class="pricing-divider">
+
+                <!-- Guarantee + CTA -->
+                <div class="pricing-action">
+                    <div class="pricing-guarantee-line">
+                        <i class="ph ph-shield-check"></i>
+                        Se não ficares satisfeito com o resultado — não pagas nada. Zero. Nem o primeiro mês.
                     </div>
-                    
-                    <hr class="pricing-divider">
-                    
-                    <ul class="pricing-features">
-                        <li><i class="ph-bold ph-check"></i> Site completo com portfólio de obras</li>
-                        <li><i class="ph-bold ph-check"></i> Domínio incluído (tuanegocio.pt)</li>
-                        <li><i class="ph-bold ph-check"></i> Email profissional (geral@tuanegocio.pt)</li>
-                        <li><i class="ph-bold ph-check"></i> Formulário de contacto que chega ao teu WhatsApp</li>
-                        <li><i class="ph-bold ph-check"></i> Otimizado para aparecer no Google</li>
-                        <li><i class="ph-bold ph-check"></i> Suporte via WhatsApp incluído</li>
-                        <li><i class="ph-bold ph-check"></i> Sem contratos — cancelas quando quiseres</li>
-                        <li><i class="ph-bold ph-check"></i> Exclusividade por zona (só um empreiteiro por cidade por especialidade)</li>
-                    </ul>
-                    
-                    <div class="pricing-action">
-                        <a href="#apply" class="btn-hero-primary w-100" style="justify-content: center;">Quero o meu site grátis &rarr;</a>
-                        <p class="pricing-guarantees">Revisões ilimitadas &middot; Aprovação antes de publicar &middot; Todo Portugal</p>
-                    </div>
+                    <a href="#apply" class="btn-hero-primary w-100" style="justify-content: center;">Quero o meu site grátis &rarr;</a>
+                    <p class="pricing-guarantees">Revisões ilimitadas &middot; Aprovação antes de publicar &middot; Todo Portugal</p>
                 </div>
             </div>
-            
+
             <p class="pricing-transparency text-center mx-auto" data-aos="fade-up" data-aos-delay="200">
                 O custo do domínio (~€16/ano) é pago diretamente ao registador — para que o site seja 100% teu, não meu. Eu ajudo-te com o processo.
             </p>
@@ -581,6 +639,47 @@
                 carouselObserver.observe(carousel);
             });
         });
+
+        // Construction Countdown Logic
+        const countdownEl = document.getElementById('construction-countdown');
+        const countdownBox = document.getElementById('construction-countdown-box');
+        
+        const startCountdown = () => {
+            let count = 1000;
+            const duration = 4000; // Slower drop: 4 seconds
+            const startTime = performance.now();
+            
+            const updateCount = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Ease out quad
+                const easedProgress = 1 - (1 - progress) * (1 - progress);
+                
+                const currentVal = Math.floor(1000 * (1 - easedProgress));
+                countdownEl.innerText = currentVal;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
+                } else {
+                    countdownEl.innerText = "0";
+                    countdownBox.classList.add('is-zero');
+                }
+            };
+            
+            requestAnimationFrame(updateCount);
+        };
+
+        const countdownObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                setTimeout(startCountdown, 2000); // 2 seconds delay at the high price
+                countdownObserver.unobserve(entries[0].target);
+            }
+        }, { threshold: 0.5 });
+
+        if (countdownBox) {
+            countdownObserver.observe(countdownBox);
+        }
     </script>
 </body>
 </html>

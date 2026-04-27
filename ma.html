@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vexasus | السيت ديال الشركة ديالك</title>
+    <meta name="description" content="الخدمة ديالك في البني واعرة. تا واحد ما عارفها. وصل الوقت باش يكون عندك سيت بروفيسيونال.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&family=Noto+Sans+Arabic:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', 'Noto Sans Arabic', sans-serif; }
+        .rtl-flip { transform: scaleX(-1); }
+        /* RTL specific tweaks */
+        .pricing-features li { text-align: right; }
+        .pricing-features li i { margin-left: 0.65rem; margin-right: 0; }
+        .pricing-guarantee-line { text-align: right; }
+        .pricing-guarantee-line > i { margin-left: 0.75rem; margin-right: 0; }
+        .hero-trust span { display: flex; align-items: center; gap: 8px; }
+        .timeline-number { margin-left: 2rem; margin-right: 0; }
+        .about-badge i { margin-left: 8px; margin-right: 0; }
+        @media (max-width: 768px) {
+            .pricing-guarantee-line { text-align: center; }
+        }
+    </style>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="ma.html" class="logo">
+                <img src="grey logo.png" alt="Vexasus Logo">
+            </a>
+            
+            <div class="nav-menu">
+                <a href="#how-it-works">كيفاش خدام</a>
+                <a href="#trades">التخصصات</a>
+                <a href="#about">شكون أنا</a>
+                <a href="#pricing">الثمن</a>
+                <a href="#faq">أسئلة</a>
+            </div>
+
+            <div class="nav-actions">
+                <div class="lang-pill nav-desktop-only">
+                    <a href="index.html" class="lang-pill-btn">PT</a>
+                    <a href="en.html" class="lang-pill-btn">EN</a>
+                    <a href="ma.html" class="lang-pill-btn active">MA</a>
+                </div>
+                <a href="#apply" class="btn btn-primary btn-sm nav-cta-desktop">بغيت السيت ديالي فابور</a>
+                <a href="https://wa.me/351920351606?text=السلام%20عليكم،%20شفت%20السيت%20ديال%20Vexasus%20وبغيت%20نعرف%20أكثر%20على%20السيت%20الفابور." class="nav-whatsapp-mobile" target="_blank" rel="noopener noreferrer">
+                    <i class="ph-fill ph-whatsapp-logo"></i>
+                </a>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="ph ph-list"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-nav-overlay" id="mobileNav">
+        <button class="mobile-nav-close" id="mobileClose">
+            <i class="ph ph-x"></i>
+        </button>
+        <div class="lang-pill" style="margin-bottom: 1rem; transform: scale(1.2);">
+            <a href="index.html" class="lang-pill-btn">PT</a>
+            <a href="en.html" class="lang-pill-btn">EN</a>
+            <a href="ma.html" class="lang-pill-btn active">MA</a>
+        </div>
+        <a href="#how-it-works">كيفاش خدام</a>
+        <a href="#trades">التخصصات</a>
+        <a href="#about">شكون أنا</a>
+        <a href="#pricing">الثمن</a>
+        <a href="#faq">أسئلة</a>
+        <a href="#apply" class="btn btn-primary">بغيت السيت ديالي فابور</a>
+    </div>
+
+    <header class="hero section hero-bg">
+        <div class="hero-overlay"></div>
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="hero-grid">
+                <div class="hero-content" data-aos="fade-left">
+                    <h1 class="hero-title-new">الخدمة ديالك واعرة.<br><span class="hero-red">المشكل هو تا واحد ما كيشوفها.</span></h1>
+                    <p class="hero-subtitle-new">كنصاوب ليك سيت بروفيسيونال بالتصاور ديال الخدمة ديالك — فابور 100%. كتخلص غير الاستضافة ديال السيرفر.</p>
+                    <div class="hero-cta-row">
+                        <a href="#apply" class="btn-hero-primary">بغيت السيت ديالي فابور &larr;</a>
+                        <div class="hero-price-pill">البني: 0 درهم &middot; الاستضافة: 200 درهم/شهر</div>
+                    </div>
+                    <div class="hero-trust">
+                        <span><i class="ph-bold ph-check"></i> بلا كونطرا</span>
+                        <span><i class="ph-bold ph-check"></i> وافق على السيت قبل ما يتنشر</span>
+                        <span><i class="ph-bold ph-check"></i> المغرب كامل</span>
+                    </div>
+                </div>
+                <div class="hero-image-wrapper" data-aos="fade-right">
+                    <img src="assets/hero_premium_mockup.png" alt="Construction Site" class="hero-image">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="hero-scarcity-bar" style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);">
+            <span style="background-color: #25D366; width: 8px; height: 8px; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px rgba(37, 211, 102, 0.6);"></span>
+            <strong style="color: white; font-size: 0.9rem;">موجود للمشاريع</strong>
+        </div>
+        <span style="font-size: 0.9rem; color: #ccc;">كنقبل غير معلم واحد في كل مدينة/تخصص.</span>
+    </div>
+
+    <section id="problems" class="section bg-light">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-subtitle">المشكل</span>
+                <h2 class="section-title">علاش كيمشيو ليك<br>الكليان عند <span class="highlight">وحدين آخرين؟</span></h2>
+                <p class="section-description mx-auto">ماشي حيت الثمن ولا الخدمة. حيت المنافسين ديالك عندهم ثقة أكثر في الأنترنت.</p>
+            </div>
+            
+            <div class="grid cards-grid">
+                <div class="problem-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="ph ph-google-logo" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
+                    <h3 class="card-title">Google ما عارفكش كاين</h3>
+                    <p class="card-text">فاش كليان كيقلب على 'معلم في [مدينة]'، سميتك ما كطلعش. المنافس ديالك كيططلع — وهو اللي كياخد الخدمة.</p>
+                </div>
+                <div class="problem-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="ph ph-eye-slash" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
+                    <h3 class="card-title">خدمة واعرة تا واحد ما كيشوفها</h3>
+                    <p class="card-text">صاوبتي ديور ديال الحلم. ولكن الكليان الجديد ما عندوش كيفاش يعرفها. الهضرة بوحدها ما كافياش لمشاريع ديال 200.000 درهم.</p>
+                </div>
+                <div class="problem-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="ph ph-phone-disconnect" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
+                    <h3 class="card-title">مكالمات ضايعة في الخدمة</h3>
+                    <p class="card-text">تكون خدام، التيليفون كيصوني وما قدرتيش تجاوب. الكليان كيدوز للي موراه. هذيك الخدمة مشات ليك.</p>
+                </div>
+                <div class="problem-card" data-aos="fade-up" data-aos-delay="400">
+                    <i class="ph ph-warning-circle" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
+                    <h3 class="card-title">السمعة ديالك في خطر</h3>
+                    <p class="card-text">واحد الكومنتير خايب كيبان في Google قبل سميتك. سيت بروفيسيونال بالخدمة ديالك هو الحل الوحيد.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="showcase" class="section bg-white">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-subtitle">قوة البورتفوليو</span>
+                <h2 class="section-title">شنو الكليان ديالك <span class="highlight">كيقلب يشوف.</span></h2>
+                <p class="section-description mx-auto">سيت بروفيسيونال هو أحسن طريقة باش تبين الموهبة ديالك. شوف الخدمة ديالي.</p>
+            </div>
+
+            <div class="portfolio-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;" data-aos="fade-up">
+                <div class="portfolio-item" style="border-radius: 8px; overflow: hidden; border: 1px solid #eee; background: #fafafa; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <img src="assets/mockup_laptop_pt.png" alt="Desktop Site" style="width: 100%; height: 250px; object-fit: cover;">
+                    <div style="padding: 1.5rem; text-align: right;">
+                        <h3 style="margin-bottom: 0.5rem; color: #111; font-size: 1.2rem;">بني عصري</h3>
+                        <p style="color: #666; font-size: 0.9rem;">ديزاين واعر خدام في الكمبيوتر</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" style="border-radius: 8px; overflow: hidden; border: 1px solid #eee; background: #fafafa; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <img src="assets/mockup_phone_new.png" alt="Mobile Site" style="width: 100%; height: 250px; object-fit: cover;">
+                    <div style="padding: 1.5rem; text-align: right;">
+                        <h3 style="margin-bottom: 0.5rem; color: #111; font-size: 1.2rem;">إصلاحات بالتلفون</h3>
+                        <p style="color: #666; font-size: 0.9rem;">خدمة مثالية في الهواتف الذكية</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" style="border-radius: 8px; overflow: hidden; border: 1px solid #eee; background: #fafafa; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <img src="assets/mockup_tablet_pt.png" alt="Tablet Site" style="width: 100%; height: 250px; object-fit: cover;">
+                    <div style="padding: 1.5rem; text-align: right;">
+                        <h3 style="margin-bottom: 0.5rem; color: #111; font-size: 1.2rem;">أشغال ومعمار</h3>
+                        <p style="color: #666; font-size: 0.9rem;">عرض ممتاز للتابليت</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="trades" class="section bg-dark text-white">
+        <div class="container text-center" data-aos="fade-up">
+            <span class="section-subtitle color-light">لكاع التخصصات</span>
+            <h2 class="section-title">كنبني للي <span class="highlight">كيبني.</span></h2>
+            <div class="grid cards-grid" style="margin-top: 3rem;">
+                <div class="card bg-light text-main" style="border-radius: 4px; padding: 1.5rem; text-align: center;">
+                    <i class="ph ph-house-line" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+                    <h4 style="margin-top: 1rem; color: var(--text-main);">إصلاحات</h4>
+                </div>
+                <div class="card bg-light text-main" style="border-radius: 4px; padding: 1.5rem; text-align: center;">
+                    <i class="ph ph-paint-roller" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+                    <h4 style="margin-top: 1rem; color: var(--text-main);">صباغة</h4>
+                </div>
+                <div class="card bg-light text-main" style="border-radius: 4px; padding: 1.5rem; text-align: center;">
+                    <i class="ph ph-drop" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+                    <h4 style="margin-top: 1rem; color: var(--text-main);">بلومبي</h4>
+                </div>
+                <div class="card bg-light text-main" style="border-radius: 4px; padding: 1.5rem; text-align: center;">
+                    <i class="ph ph-lightning" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+                    <h4 style="margin-top: 1rem; color: var(--text-main);">تريسيان</h4>
+                </div>
+                <div class="card bg-light text-main" style="border-radius: 4px; padding: 1.5rem; text-align: center;">
+                    <i class="ph ph-wall" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+                    <h4 style="margin-top: 1rem; color: var(--text-main);">بلادر</h4>
+                </div>
+                <div class="card bg-light text-main" style="border-radius: 4px; padding: 1.5rem; text-align: center;">
+                    <i class="ph ph-house" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+                    <h4 style="margin-top: 1rem; color: var(--text-main);">سطوح</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="section">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-subtitle">كيفاش خدام</span>
+                <h2 class="section-title">من الخطة ل <span class="highlight">الخدمة واجدة.</span><br>دغيا وبلا تعقيد.</h2>
+            </div>
+            
+            <div class="timeline-layout">
+                <div class="timeline-step" data-aos="fade-up" data-aos-delay="100">
+                    <div class="timeline-number">01</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">نهضرو في WhatsApp</h3>
+                        <p class="timeline-text">بلا مكالمات، بلا اجتماعات. كتقول ليا البلاصة فين خدام، التخصص ديالك وتصيفط ليا التصاور في WhatsApp. أنا كنتكلف بكلشي.</p>
+                    </div>
+                </div>
+                <div class="timeline-step" data-aos="fade-up" data-aos-delay="200">
+                    <div class="timeline-number">02</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">السيت ديالك واجد في 24 ساعة</h3>
+                        <p class="timeline-text">قريت 5 سنين باش نقدر نصاوب سيت واعر في نهار واحد. السيت ديالك غادي ينافس أكبر الشركات.</p>
+                    </div>
+                </div>
+                <div class="timeline-step" data-aos="fade-up" data-aos-delay="300">
+                    <div class="timeline-number">03</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">توافق قبل ما نشروه</h3>
+                        <p class="timeline-text">كنوريك السيت قبل ما يولي online. إلا كاين شي حاجة ماشي هي هذيك، كنقادها ديك الساعة. كنشر السيت غير فاش تكون راضي عليه 100%.</p>
+                    </div>
+                </div>
+                <div class="timeline-step" data-aos="fade-up" data-aos-delay="400">
+                    <div class="timeline-number">04</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Online. خدام ليك.</h3>
+                        <p class="timeline-text">السيت كيولي خدام. كل مرة كليان كيقلب على معلم في جيهتك، سميتك تقدر تطلع. غير ب 200 درهم في الشهر.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section bg-white">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content" data-aos="fade-left">
+                    <span class="section-subtitle">شكون صاوب ليك السيت</span>
+                    <h2 class="section-title">أنا ماشي وكالة. أنا طالب محتاج ليك.</h2>
+                    <div class="about-text">
+                        <p>أنا يونس، كنسالي قرايتي في التكنولوجيا في البرتغال. باش ننجح محتاج لبورتفوليو فيه مشاريع حقيقية — ماشي سيتات خياليين صاوبناهم في القسم.</p>
+                        <p>قررت نخدم مع المعلمين حيت هما اللي محتاجين أكثر شي يكون عندهم أثر في الأنترنت وما كيلقاوش اللي يصاوب ليهم.</p>
+                        <p>الاتفاق ساهل: أنا كنصاوب ليك السيت بكل حب حيت البورتفوليو ديالي معتمد عليه. نتا كتخلص غير السيرفر. كلشي رابح.</p>
+                    </div>
+                    <blockquote class="about-quote">
+                        "النجاح ديالي معتمد على أنني نصاوب ليك خدمة واعرة."<br>
+                        <cite>— يونس السالمي</cite>
+                    </blockquote>
+                </div>
+                
+                <div class="about-visuals" data-aos="fade-right">
+                    <div class="about-photos">
+                        <div class="about-student">
+                            <img src="assets/younes.png?v=2" alt="يونس السالمي">
+                            <div class="byline">
+                                <strong>يونس السالمي</strong><br>
+                                طالب في هندسة البرمجيات
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-badge">
+                        <i class="ph-fill ph-seal-check"></i> طالب موثق &middot; البرتغال 2026
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="section pricing-section-new text-white">
+        <div class="container">
+
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-subtitle color-light">الثمن</span>
+                <h2 class="section-title">أكثر ثمن صريح<br>غادي تلقى.</h2>
+            </div>
+
+            <div class="pricing-compare-block" data-aos="fade-up">
+                <p class="pricing-compare-headline">شحال كيسوى عادة سيت بروفيسيونال؟</p>
+                <div class="pricing-compare-table-wrap">
+                    <table class="pricing-compare-table">
+                        <thead>
+                            <tr>
+                                <th class="col-feature"></th>
+                                <th class="col-agency"><i class="ph ph-buildings"></i> وكالة عادية</th>
+                                <th class="col-vexasus"><i class="ph ph-lightning"></i> Vexasus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-feature">صناعة السيت</td>
+                                <td class="col-agency"><s>8.000 درهم — 25.000 درهم</s></td>
+                                <td class="col-vexasus">0 درهم</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">الاستضافة السنوية</td>
+                                <td class="col-agency"><s>2.000 درهم — 4.000 درهم/عام</s></td>
+                                <td class="col-vexasus">2.400 درهم/عام</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">كونطرا ضرورية</td>
+                                <td class="col-agency"><s>آه، 12 شهر</s></td>
+                                <td class="col-vexasus">لا</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">وقت التسليم</td>
+                                <td class="col-agency"><s>4 — 8 سيمانات</s></td>
+                                <td class="col-vexasus">24 ساعة</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">التعديلات</td>
+                                <td class="col-agency"><s>2 — 3 محسوبين</s></td>
+                                <td class="col-vexasus">بلا حدود</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="pricing-card-new" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="pricing-label">سيت بروفيسيونال VEXASUS</div>
+                <p class="pricing-card-headline">السيت ديالك ب قل<br>من 7 دراهم في النهار.</p>
+
+                <div class="pricing-hero-price">
+                    <div class="construction-countdown-wrapper">
+                        <span class="countdown-label">ثمن البني:</span>
+                        <div class="countdown-display" id="construction-countdown-box">
+                            <span id="construction-countdown">10000</span><span class="currency">درهم</span>
+                        </div>
+                    </div>
+
+                    <div class="price-hero-number">
+                        <span class="price-coffee-icon"><i class="ph ph-coffee"></i></span>
+                        <span class="price-cents">7<span class="price-cents-dec">دراهم</span></span>
+                        <span class="price-per-day">في النهار</span>
+                    </div>
+
+                    <p class="price-monthly-note">= 200 درهم/شهر &middot; قل من ثمن قهوة في النهار</p>
+                    <p class="price-agency-note">الوكالة العادية كتاخد 8.000 درهم غير باش تبدا. هنا كتبدا ب زيرو.</p>
+                </div>
+
+                <hr class="pricing-divider">
+
+                <ul class="pricing-features">
+                    <li><i class="ph-bold ph-check"></i> سيت كامل فيه الخدمة ديالك</li>
+                    <li><i class="ph-bold ph-check"></i> كنعاونك تسجل الدومين ديالك (~160 درهم/عام، كتخلصها نتا)</li>
+                    <li><i class="ph-bold ph-check"></i> إيميل بروفيسيونال (contact@tuanegocio.ma)</li>
+                    <li><i class="ph-bold ph-check"></i> فورمولير كيوصل ليك نيشان ل WhatsApp</li>
+                    <li><i class="ph-bold ph-check"></i> مقاد باش يبان في Google</li>
+                    <li><i class="ph-bold ph-check"></i> دعم فني في WhatsApp</li>
+                    <li><i class="ph-bold ph-check"></i> بلا كونطرا — كتحبس وقت ما بغيتي</li>
+                    <li><i class="ph-bold ph-check"></i> التميز في المنقطة ديالك</li>
+                </ul>
+
+                <hr class="pricing-divider">
+
+                <div class="pricing-action">
+                    <div class="pricing-guarantee-line">
+                        <i class="ph ph-shield-check"></i>
+                        إلا ما عجباتكش الخدمة — ما كتخلص والو. زيرو. تا الشهر اللول لا.
+                    </div>
+                    <a href="#apply" class="btn-hero-primary w-100" style="justify-content: center;">بغيت السيت ديالي فابور &larr;</a>
+                    <p class="pricing-guarantees">تعديلات بلا حدود &middot; موافقة قبل النشر &middot; كاع المغرب</p>
+                </div>
+            </div>
+
+            <p class="pricing-transparency text-center mx-auto" data-aos="fade-up" data-aos-delay="200">
+                ثمن الدومين (~160 درهم/عام) كيتخلص نيشان للشركة المسجلة — باش يكون السيت ديالك 100%، ماشي ديالي. أنا كنعاونك في العملية.
+            </p>
+        </div>
+    </section>
+
+    <section id="faq" class="section faq-section text-white">
+        <div class="container" data-aos="fade-up">
+            <h2 class="section-title text-center mb-5">أسئلة كتعاود</h2>
+            
+            <div class="faq-accordion mx-auto">
+                <details class="faq-item">
+                    <summary class="faq-question">علاش السيت فابور؟ فين كاين القالب؟ <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">ما كاين تا قالب. أنا طالب في التكنولوجيا محتاج مشاريع حقيقية للبورتفوليو ديالي. الخدمة ديالك هي المشروع ديالي — أنا كناخد حالة دراسية نوريها للاساتذة، ونتا كتاخد السيت. الحاجة الوحيدة اللي كتخلص هي الاستضافة: 200 درهم/شهر.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">شنو كيوقع إلا بغيت نحبس؟ <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">كتحبس وقت ما بغيتي بلا مشاكل. السيت كيولي offline. بلا كونطرات طويلة، بلا غرامات. إلا بغيتي ترجع شي نهار، السيت كيبقى محفوظ عندي.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">واش السيت غادي يبان في Google؟ <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">كنقاد ليك SEO أساسي للمنطقة ديالك ونوع الخدمة. ما كنواعدكش بالرتبة اللولة — داكشي كياخد وقت. ولكن غادي تولي تبان. دابا ما باينش كاع.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">وإلا ما عجبنيش السيت؟ <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">كنوريك السيت قبل ما نشروه. عندك تعديلات بلا حدود حتى ترضى. كنشر السيت غير بالموافقة ديالك.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">واش خصني نكون كنفهم في المعلوميات؟ <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">لا. خص غير يكون عندك تصاور الخدمة في التلفون وتقول ليا شنو كدير. أنا كنتكلف بكلشي — الدومين، السيرفر، الديزاين، التكست.</div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section id="apply" class="section form-section bg-form">
+        <div class="container text-center" data-aos="fade-up">
+            <h2 class="section-title" style="color: #111;">طلب السيت ديالك دابا.</h2>
+            <p class="section-description mx-auto mb-5" style="color: #444;">عمر في 2 دقايق. غادي نهضر معاك في WhatsApp في أقل من 24 ساعة.</p>
+            
+            <div class="form-card mx-auto text-right" style="padding: 0; border: none; background: transparent; max-width: 650px; min-height: 820px;">
+                <iframe
+                    src="https://link.24sevenai.com/widget/form/gfDAkR0oypl2CvKLIdh9"
+                    style="width:100%;height:100%;border:none;border-radius:5px"
+                    id="inline-gfDAkR0oypl2CvKLIdh9" 
+                    data-layout="{'id':'INLINE'}"
+                    data-trigger-type="alwaysShow"
+                    data-form-id="gfDAkR0oypl2CvKLIdh9"
+                    title="Form 0">
+                </iframe>
+                <script src="https://link.24sevenai.com/js/form_embed.js"></script>
+            </div>
+        </div>
+    </section>
+
+    <section class="section final-cta-section text-white">
+        <div class="final-cta-overlay"></div>
+        <div class="container text-center position-relative z-1" data-aos="zoom-in">
+            <h2 class="final-cta-headline">المنافس ديالك ديجا عنده سيت.</h2>
+            <h2 class="final-cta-headline-red">ونتا؟</h2>
+            <p class="final-cta-sub mx-auto">بلايص محدودة في كل مدينة. ما كنخدمش مع جوج معلمين من نفس التخصص في مدينة وحدة.</p>
+            <a href="#apply" class="btn btn-white-cta btn-lg mt-4">بغيت السيت ديالي فابور &larr;</a>
+            <p class="final-cta-meta mt-3">البني فابور &middot; 200 درهم/شهر استضافة &middot; بلا كونطرا &middot; المغرب كامل</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo mb-3">
+                        <img src="grey logo.png" alt="Vexasus Logo" style="height: 32px; width: auto;">
+                    </div>
+                    <p class="footer-tagline">سيتات بروفيسيونال للي كيبنيو المغرب.</p>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">روابط سريعة</h4>
+                    <ul class="footer-links">
+                        <li><a href="#how-it-works">كيفاش خدام</a></li>
+                        <li><a href="#pricing">الاتفاق ديالي</a></li>
+                        <li><a href="#faq">أسئلة</a></li>
+                        <li><a href="#apply">اتصال</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">اتصال</h4>
+                    <p class="footer-contact"><i class="ph-fill ph-whatsapp-logo"></i> +351 920 351 606</p>
+                    <p class="footer-contact"><i class="ph-fill ph-envelope"></i> contact@vexasus.ma</p>
+                    <p class="footer-meta mt-3">كنجاوب في أقل من 24 ساعة.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Vexasus &middot; يونس السالمي &middot; طالب تكنولوجيا في البرتغال</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/351920351606?text=السلام%20عليكم،%20شفت%20السيت%20ديال%20Vexasus%20وبغيت%20نعرف%20أكثر%20على%20السيت%20الفابور." class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+        <i class="ph-fill ph-whatsapp-logo"></i>
+    </a>
+
+    <div class="mobile-sticky-cta d-md-none">
+        <a href="#apply" class="btn-hero-primary w-100" style="justify-content: center; height: 48px; border-radius: 8px;">بغيت السيت ديالي فابور</a>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 30, duration: 600, easing: 'ease-out-cubic' });
+        
+        const mobileToggle = document.getElementById('mobileToggle');
+        const mobileClose = document.getElementById('mobileClose');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-overlay a');
+
+        mobileToggle.addEventListener('click', () => {
+            mobileNav.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        const closeMenu = () => {
+            mobileNav.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+
+        mobileClose.addEventListener('click', closeMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                e.preventDefault();
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Construction Countdown Logic
+        const countdownEl = document.getElementById('construction-countdown');
+        const countdownBox = document.getElementById('construction-countdown-box');
+        
+        const startCountdown = () => {
+            let count = 10000;
+            const duration = 4000;
+            const startTime = performance.now();
+            
+            const updateCount = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easedProgress = 1 - (1 - progress) * (1 - progress);
+                const currentVal = Math.floor(1000 * (1 - easedProgress));
+                countdownEl.innerText = currentVal;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
+                } else {
+                    countdownEl.innerText = "0";
+                    countdownBox.classList.add('is-zero');
+                }
+            };
+            requestAnimationFrame(updateCount);
+        };
+
+        const countdownObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                setTimeout(startCountdown, 2000);
+                countdownObserver.unobserve(entries[0].target);
+            }
+        }, { threshold: 0.5 });
+
+        if (countdownBox) countdownObserver.observe(countdownBox);
+    </script>
+</body>
+</html>

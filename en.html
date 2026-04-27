@@ -31,6 +31,7 @@
                 <div class="lang-pill nav-desktop-only">
                     <a href="index.html" class="lang-pill-btn">PT</a>
                     <a href="en.html" class="lang-pill-btn active">EN</a>
+                    <a href="ma.html" class="lang-pill-btn">MA</a>
                 </div>
                 <a href="#apply" class="btn btn-primary btn-sm nav-cta-desktop">I want my free website</a>
                 <a href="https://wa.me/351920351606?text=Hello,%20I%20saw%20the%20Vexasus%20website%20and%20want%20to%20know%20more%20about%20the%20free%20website." class="nav-whatsapp-mobile" target="_blank" rel="noopener noreferrer">
@@ -50,6 +51,7 @@
         <div class="lang-pill" style="margin-bottom: 1rem; transform: scale(1.2);">
             <a href="index.html" class="lang-pill-btn">PT</a>
             <a href="en.html" class="lang-pill-btn active">EN</a>
+            <a href="ma.html" class="lang-pill-btn">MA</a>
         </div>
         <a href="#how-it-works">How it works</a>
         <a href="#trades">Trades</a>
@@ -282,34 +284,47 @@
                     <div class="mockup-caption">High-conversion design</div>
                 </div>
 
-                <div class="pricing-card-new" data-aos="fade-left" data-aos-delay="100">
+                <div class="pricing-card-new" data-aos="fade-up" data-aos-delay="100">
                     <div class="pricing-label">PROFESSIONAL VEXASUS SITE</div>
-                    <div class="pricing-price-row">
-                        <div class="price-item">
-                            <span class="price-large">€0</span>
-                            <span class="price-desc">site construction</span>
+                    <p class="pricing-card-headline">Your professional website<br>for less than €1 per day.</p>
+
+                    <div class="pricing-hero-price">
+                        <!-- Construction cost countdown -->
+                        <div class="construction-countdown-wrapper">
+                            <span class="countdown-label">Website Construction:</span>
+                            <div class="countdown-display" id="construction-countdown-box">
+                                <span class="currency">€</span><span id="construction-countdown">1000</span>
+                            </div>
                         </div>
-                        <div class="price-plus">+</div>
-                        <div class="price-item">
-                            <span class="price-large">€20<span class="price-mo">/month</span></span>
-                            <span class="price-desc">hosting and maintenance</span>
+
+                        <div class="price-hero-number">
+                            <span class="price-coffee-icon"><i class="ph ph-coffee"></i></span>
+                            <span class="price-cents">€0<span class="price-cents-dec">.66</span></span>
+                            <span class="price-per-day">per day</span>
                         </div>
+
+                        <p class="price-monthly-note">= €20/month &middot; less than a coffee per day</p>
+                        <p class="price-agency-note">A normal agency charges €800 just to start. Here you start for zero.</p>
                     </div>
                     
                     <hr class="pricing-divider">
                     
                     <ul class="pricing-features">
                         <li><i class="ph-bold ph-check"></i> Complete site with work portfolio</li>
-                        <li><i class="ph-bold ph-check"></i> Domain included (yourbusiness.pt)</li>
+                        <li><i class="ph-bold ph-check"></i> I help you register your domain (~€16/year, paid by you)</li>
                         <li><i class="ph-bold ph-check"></i> Professional email (general@yourbusiness.pt)</li>
                         <li><i class="ph-bold ph-check"></i> Contact form that goes to your WhatsApp</li>
                         <li><i class="ph-bold ph-check"></i> Optimized to appear on Google</li>
                         <li><i class="ph-bold ph-check"></i> WhatsApp support included</li>
                         <li><i class="ph-bold ph-check"></i> No contracts — cancel anytime</li>
-                        <li><i class="ph-bold ph-check"></i> Exclusivity by area (only one contractor per city per trade)</li>
+                        <li><i class="ph-bold ph-check"></i> Exclusivity by area</li>
                     </ul>
                     
                     <div class="pricing-action">
+                        <div class="pricing-guarantee-line">
+                            <i class="ph ph-shield-check"></i>
+                            If you're not satisfied with the result — you pay nothing. Zero. Not even the first month.
+                        </div>
                         <a href="#apply" class="btn-hero-primary w-100" style="justify-content: center;">I want my free website &rarr;</a>
                         <p class="pricing-guarantees">Unlimited revisions &middot; Approval before publishing &middot; All of Portugal</p>
                     </div>
@@ -581,6 +596,47 @@
                 carouselObserver.observe(carousel);
             });
         });
+
+        // Construction Countdown Logic
+        const countdownEl = document.getElementById('construction-countdown');
+        const countdownBox = document.getElementById('construction-countdown-box');
+        
+        const startCountdown = () => {
+            let count = 1000;
+            const duration = 4000; // Slower drop: 4 seconds
+            const startTime = performance.now();
+            
+            const updateCount = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Ease out quad
+                const easedProgress = 1 - (1 - progress) * (1 - progress);
+                
+                const currentVal = Math.floor(1000 * (1 - easedProgress));
+                countdownEl.innerText = currentVal;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
+                } else {
+                    countdownEl.innerText = "0";
+                    countdownBox.classList.add('is-zero');
+                }
+            };
+            
+            requestAnimationFrame(updateCount);
+        };
+
+        const countdownObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                setTimeout(startCountdown, 2000); // 2 seconds delay at the high price
+                countdownObserver.unobserve(entries[0].target);
+            }
+        }, { threshold: 0.5 });
+
+        if (countdownBox) {
+            countdownObserver.observe(countdownBox);
+        }
     </script>
 </body>
 </html>
