@@ -277,66 +277,109 @@
 
     <section id="pricing" class="section pricing-section-new text-white">
         <div class="container">
+
+            <!-- Section Header -->
             <div class="text-center mb-5" data-aos="fade-up">
-                <h2 class="section-title">The most honest price you will find.</h2>
+                <span class="section-subtitle color-light">PRICING</span>
+                <h2 class="section-title">The most honest price<br>you will find.</h2>
             </div>
-            
-            <div class="pricing-grid">
-                <div class="pricing-visuals" data-aos="fade-right">
-                    <div class="mockup-container">
-                        <div class="mockup-glow"></div>
-                        <img src="assets/templates_construction.png" alt="Website Templates" class="pricing-mockup-img">
-                    </div>
-                    <div class="mockup-caption">Built to get you called</div>
-                </div>
 
-                <div class="pricing-card-new" data-aos="fade-up" data-aos-delay="100">
-                    <div class="pricing-label">PROFESSIONAL VEXASUS SITE</div>
-                    <p class="pricing-card-headline">Your professional website<br>for less than €1 per day.</p>
-
-                    <div class="pricing-hero-price">
-                        <!-- Construction cost countdown -->
-                        <div class="construction-countdown-wrapper">
-                            <span class="countdown-label">Website Construction:</span>
-                            <div class="countdown-display" id="construction-countdown-box">
-                                <span class="currency">€</span><span id="construction-countdown">1000</span>
-                            </div>
-                        </div>
-
-                        <div class="price-hero-number">
-                            <span class="price-coffee-icon"><i class="ph ph-coffee"></i></span>
-                            <span class="price-cents">€0<span class="price-cents-dec">.66</span></span>
-                            <span class="price-per-day">per day</span>
-                        </div>
-
-                        <p class="price-monthly-note">= €20/month &middot; less than a coffee per day</p>
-                        <p class="price-agency-note">A normal agency charges €800 just to start. Here you start for zero.</p>
-                    </div>
-                    
-                    <hr class="pricing-divider">
-                    
-                    <ul class="pricing-features">
-                        <li><i class="ph-bold ph-check"></i> Complete site with work portfolio</li>
-                        <li><i class="ph-bold ph-check"></i> I help you register your domain (~€16/year, paid by you)</li>
-                        <li><i class="ph-bold ph-check"></i> Professional email (general@yourbusiness.pt)</li>
-                        <li><i class="ph-bold ph-check"></i> Contact form with your own management dashboard (CRM)</li>
-                        <li><i class="ph-bold ph-check"></i> Optimized to appear on Google</li>
-                        <li><i class="ph-bold ph-check"></i> WhatsApp support included</li>
-                        <li><i class="ph-bold ph-check"></i> No contracts — cancel anytime</li>
-                        <li><i class="ph-bold ph-check"></i> Exclusivity by area</li>
-                    </ul>
-                    
-                    <div class="pricing-action">
-                        <div class="pricing-guarantee-line">
-                            <i class="ph ph-shield-check"></i>
-                            If you're not satisfied with the result — you pay nothing. Zero. Not even the first month.
-                        </div>
-                        <a href="#apply" class="btn-hero-primary w-100" style="justify-content: center;">I want my free website &rarr;</a>
-                        <p class="pricing-guarantees">Revisions until you approve &middot; Published only with your go-ahead &middot; All of Portugal</p>
-                    </div>
+            <!-- Zone 1: Comparison Table -->
+            <div class="pricing-compare-block" data-aos="fade-up">
+                <p class="pricing-compare-headline">How much does a professional website normally cost?</p>
+                <div class="pricing-compare-table-wrap">
+                    <table class="pricing-compare-table">
+                        <thead>
+                            <tr>
+                                <th class="col-feature"></th>
+                                <th class="col-agency"><i class="ph ph-buildings"></i> Normal Agency</th>
+                                <th class="col-vexasus"><i class="ph ph-lightning"></i> Vexasus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-feature">Website construction</td>
+                                <td class="col-agency"><s>€800 — €2.500</s></td>
+                                <td class="col-vexasus">€0</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">Annual hosting</td>
+                                <td class="col-agency"><s>€200 — €400/year</s></td>
+                                <td class="col-vexasus">€20/month</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">Required contract</td>
+                                <td class="col-agency"><s>Yes, 12 months</s></td>
+                                <td class="col-vexasus">No</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">Delivery time</td>
+                                <td class="col-agency"><s>4 — 8 weeks</s></td>
+                                <td class="col-vexasus">24 hours</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">Revisions</td>
+                                <td class="col-agency"><s>2 — 3 included</s></td>
+                                <td class="col-vexasus">Until you approve</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            
+
+            <!-- Zone 2: Pricing Card -->
+            <div class="pricing-card-new" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="pricing-label">PROFESSIONAL VEXASUS SITE</div>
+                <p class="pricing-card-headline">Your professional website<br>for less than €1 per day.</p>
+
+                <!-- Price display — lead with daily cost -->
+                <div class="pricing-hero-price">
+                    <!-- Construction cost countdown -->
+                    <div class="construction-countdown-wrapper">
+                        <span class="countdown-label">Website Construction:</span>
+                        <div class="countdown-display" id="construction-countdown-box">
+                            <span class="currency">€</span><span id="construction-countdown">1000</span>
+                        </div>
+                    </div>
+
+                    <div class="price-hero-number">
+                        <span class="price-coffee-icon"><i class="ph ph-coffee"></i></span>
+                        <span class="price-cents">€0<span class="price-cents-dec">.66</span></span>
+                        <span class="price-per-day">per day</span>
+                    </div>
+
+                    <p class="price-monthly-note">= €20/month &middot; less than a coffee per day</p>
+                    <p class="price-agency-note">A normal agency charges €800 just to start. Here you start for zero.</p>
+                </div>
+
+                <hr class="pricing-divider">
+
+                <!-- Feature list — 2-col grid -->
+                <ul class="pricing-features">
+                    <li><i class="ph-bold ph-check"></i> Complete site with work portfolio</li>
+                    <li><i class="ph-bold ph-check"></i> I help you register your domain (~€16/year, paid by you)</li>
+                    <li><i class="ph-bold ph-check"></i> Professional email (general@yourbusiness.pt)</li>
+                    <li><i class="ph-bold ph-check"></i> Contact form with your own management dashboard (CRM)</li>
+                    <li><i class="ph-bold ph-check"></i> Optimized to appear on Google</li>
+                    <li><i class="ph-bold ph-check"></i> WhatsApp support included</li>
+                    <li><i class="ph-bold ph-check"></i> No contracts — cancel anytime</li>
+                    <li><i class="ph-bold ph-check"></i> Exclusivity by area</li>
+                </ul>
+
+                <hr class="pricing-divider">
+
+                <!-- Guarantee + CTA -->
+                <div class="pricing-action">
+                    <div class="pricing-guarantee-line">
+                        <i class="ph ph-shield-check"></i>
+                        If you're not satisfied with the result — you pay nothing. Zero. Not even the first month.
+                    </div>
+                    <a href="#apply" class="btn-hero-primary w-100" style="justify-content: center;">I want my free website &rarr;</a>
+                    <p class="pricing-guarantees">Revisions until you approve &middot; Published only with your go-ahead &middot; All of Portugal</p>
+                </div>
+            </div>
+
             <p class="pricing-transparency text-center mx-auto" data-aos="fade-up" data-aos-delay="200">
                 The domain cost (~€16/year) is paid directly to the registrar — so the site is 100% yours, not mine. I help you with the process.
             </p>
