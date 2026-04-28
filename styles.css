@@ -60,6 +60,7 @@ h1, h2, h3, h4 {
 }
 
 .highlight { color: var(--primary-color); }
+.hero-red { color: var(--primary-color); font-weight: 700; }
 
 .badge {
     display: inline-flex;
