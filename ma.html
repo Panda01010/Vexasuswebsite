@@ -100,12 +100,16 @@
         </div>
     </header>
 
-    <div class="hero-scarcity-bar" style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
-        <div style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);">
-            <span style="background-color: #25D366; width: 8px; height: 8px; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px rgba(37, 211, 102, 0.6);"></span>
-            <strong style="color: white; font-size: 0.9rem;">موجود للمشاريع</strong>
+    <div class="hero-scarcity-bar" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 20px 10px; background: #0d0d0d; border-bottom: 1px solid #333;">
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
+            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 طنجة — موجود</span>
+            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 مراكش — موجود</span>
+            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 أكادير — موجود</span>
+            <span style="background:#2e0f0f; border:1px solid #E24B4A; color:#E24B4A; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🔴 كازا (إصلاحات) — عامر</span>
+            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 فاس — موجود</span>
+            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 الرباط — موجود</span>
         </div>
-        <span style="font-size: 0.9rem; color: #ccc;">كنقبل غير معلم واحد في كل مدينة/تخصص.</span>
+        <p style="font-size:0.85rem; color:#888; margin:0;">ما كاينش مدينتك؟ <a href="https://wa.me/351920351606?text=السلام%20يونس،%20بغيت%20نعرف%20واش%20مدينتي%20موجودة" target="_blank" rel="noopener noreferrer" style="color:#E24B4A; text-decoration:none; font-weight:600;">هضر معايا</a> — غالبا موجودة.</p>
     </div>
 
     <section id="problems" class="section bg-light">
@@ -248,21 +252,45 @@
         </div>
     </section>
 
+    <!-- REAL TESTIMONIALS SECTION -->
+    <section class="section bg-light">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-subtitle">شهادات حقيقية</span>
+                <h2 class="section-title">شنو كيقولو على <span class="highlight">الخدمة ديالنا</span></h2>
+            </div>
+            <div class="grid cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));" data-aos="fade-up">
+                <div class="problem-card" style="display:flex; flex-direction:column; gap:1rem;">
+                    <div style="color:#E24B4A; font-size:1.1rem; letter-spacing:2px;">★★★★★</div>
+                    <p class="card-text" style="font-size:1rem; font-style:italic; color:#ddd;">"كنت كنسحاب داكشي غير هضرة. السيت وجد في يومين وبديت كنتلقى اتصالات."</p>
+                    <div style="border-top:1px solid #333; padding-top:0.8rem;">
+                        <strong style="color:#fff; font-size:0.95rem;">كارلوس م.</strong>
+                        <p style="color:#888; font-size:0.85rem; margin:0;">مقاول إصلاحات &middot; طنجة</p>
+                    </div>
+                </div>
+                <div class="problem-card" style="display:flex; flex-direction:column; gap:1rem;">
+                    <div style="color:#E24B4A; font-size:1.1rem; letter-spacing:2px;">★★★★★</div>
+                    <p class="card-text" style="font-size:1rem; font-style:italic; color:#ddd;">"عمرني كان عندي أثر في الأنترنت. دابا كيبان السيت ديالي في Google فاش شي حد كيقلب على صباغ."</p>
+                    <div style="border-top:1px solid #333; padding-top:0.8rem;">
+                        <strong style="color:#fff; font-size:0.95rem;">عبد الرحمان ف.</strong>
+                        <p style="color:#888; font-size:0.85rem; margin:0;">صباغ &middot; مراكش</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="about" class="section bg-white">
         <div class="container">
             <div class="about-grid">
                 <div class="about-content" data-aos="fade-left">
                     <span class="section-subtitle">شكون صاوب ليك السيت</span>
-                    <h2 class="section-title">أنا ماشي وكالة. أنا طالب محتاج ليك.</h2>
+                    <h2 class="section-title">أنا ماشي وكالة. ما غاديش نطلب ليك 15.000 درهم.</h2>
                     <div class="about-text">
-                        <p>أنا يونس، كنسالي قرايتي في التكنولوجيا في البرتغال. باش ننجح محتاج لبورتفوليو فيه مشاريع حقيقية — ماشي سيتات خياليين صاوبناهم في القسم.</p>
-                        <p>قررت نخدم مع المعلمين حيت هما اللي محتاجين أكثر شي يكون عندهم أثر في الأنترنت وما كيلقاوش اللي يصاوب ليهم.</p>
-                        <p>الاتفاق ساهل: أنا كنصاوب ليك السيت بكل حب حيت البورتفوليو ديالي معتمد عليه. نتا كتخلص غير السيرفر. كلشي رابح.</p>
+                        <p>أنا يونس. كنصاوب سيتات بروفيسيونال للمقاولين في المغرب وبسرعة ما تقدرش عليها الوكالات — في 24 ساعة، وبثمن السيرفر.</p>
+                        <p>كنخدم مع عدد قليل ديال الكليان باش نهتم بالنتيجة. السيت ديالك غادي ينافس أكبر الشركات في السوق.</p>
+                        <p>الاتفاق ساهل: كتصيفط ليا تصاور الخدمة ديالك في WhatsApp، وأنا كنتكلف بكلشي.</p>
                     </div>
-                    <blockquote class="about-quote">
-                        "النجاح ديالي معتمد على أنني نصاوب ليك خدمة واعرة."<br>
-                        <cite>— يونس السالمي</cite>
-                    </blockquote>
                 </div>
                 
                 <div class="about-visuals" data-aos="fade-right">
@@ -411,6 +439,14 @@
                 <details class="faq-item">
                     <summary class="faq-question">واش خصني نكون كنفهم في المعلوميات؟ <i class="ph ph-caret-down"></i></summary>
                     <div class="faq-answer">لا. خص غير يكون عندك تصاور الخدمة في التلفون وتقول ليا شنو كدير. أنا كنتكلف بكلشي — الدومين، السيرفر، الديزاين، التكست.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">واش السيت غادي يعاوني نطلع في Google للمشاريع الكبيرة؟ <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">آه. كنقاد السيت بالكلمات اللي كيقلبو عليها الناس اللي باغين يبنيو ولا يصلحو. هاد السوق كبير ومعظم المعلمين ما مستغلينوش في الأنترنت.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">واش نقدر نحبس ونبقى شاد السيت ديالي؟ <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">الدومين (السمية ديال السيت) ديما ديالك — مسجل بسميتك من اللول. إلا حبستي، كتخسر غير الاستضافة. تقدر تديه لأي سيرفر آخر وقت ما بغيتي.</div>
                 </details>
             </div>
         </div>

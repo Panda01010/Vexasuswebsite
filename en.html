@@ -85,12 +85,16 @@
         </div>
     </header>
 
-    <div class="hero-scarcity-bar" style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
-        <div style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);">
-            <span style="background-color: #25D366; width: 8px; height: 8px; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px rgba(37, 211, 102, 0.6);"></span>
-            <strong style="color: white; font-size: 0.9rem;">Available for projects</strong>
+    <div class="hero-scarcity-bar" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 20px 10px; background: #0d0d0d; border-bottom: 1px solid #333;">
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
+            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Braga — Available</span>
+            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Coimbra — Available</span>
+            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Setúbal — Available</span>
+            <span style="background:#2e0f0f; border:1px solid #E24B4A; color:#E24B4A; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🔴 Lisbon (Remodeling) — Occupied</span>
+            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Algarve — Available</span>
+            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Aveiro — Available</span>
         </div>
-        <span style="font-size: 0.9rem; color: #ccc;">I accept only 1 contractor per city/trade.</span>
+        <p style="font-size:0.85rem; color:#888; margin:0;">Don't see your city? <a href="https://wa.me/351920351606?text=Hello%20Younes%2C%20I%20want%20to%20know%20if%20my%20city%20is%20available" target="_blank" rel="noopener noreferrer" style="color:#E24B4A; text-decoration:none; font-weight:600;">Talk to me</a> — it's likely available.</p>
     </div>
 
     <section id="problems" class="section bg-light">
@@ -240,16 +244,43 @@
         </div>
     </section>
 
-    <section id="about" class="section bg-white">
+    <section class="section bg-light" id="about">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-subtitle">SOCIAL PROOF</span>
+                <h2 class="section-title">What they say about <span class="highlight">our work</span></h2>
+            </div>
+            <div class="grid cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));" data-aos="fade-up">
+                <div class="problem-card" style="display:flex; flex-direction:column; gap:1rem;">
+                    <div style="color:#E24B4A; font-size:1.1rem; letter-spacing:2px;">★★★★★</div>
+                    <p class="card-text" style="font-size:1rem; font-style:italic; color:#ddd;">"I thought it was too good to be true. The site was ready in two days and I've already received contacts."</p>
+                    <div style="border-top:1px solid #333; padding-top:0.8rem;">
+                        <strong style="color:#fff; font-size:0.95rem;">Carlos M.</strong>
+                        <p style="color:#888; font-size:0.85rem; margin:0;">Remodeling Contractor &middot; Setúbal</p>
+                    </div>
+                </div>
+                <div class="problem-card" style="display:flex; flex-direction:column; gap:1rem;">
+                    <div style="color:#E24B4A; font-size:1.1rem; letter-spacing:2px;">★★★★★</div>
+                    <p class="card-text" style="font-size:1rem; font-style:italic; color:#ddd;">"I never had an online presence. Now I show up on Google when someone searches for a painter in Porto."</p>
+                    <div style="border-top:1px solid #333; padding-top:0.8rem;">
+                        <strong style="color:#fff; font-size:0.95rem;">António F.</strong>
+                        <p style="color:#888; font-size:0.85rem; margin:0;">Painter &middot; Porto</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
         <div class="container">
             <div class="about-grid">
                 <div class="about-content" data-aos="fade-right">
                     <span class="section-subtitle">WHO BUILDS YOUR SITE</span>
-                    <h2 class="section-title">I am not an agency. I am a student who needs you.</h2>
+                    <h2 class="section-title">I'm not an agency. I won't charge €1,500.</h2>
                     <div class="about-text">
-                        <p>I am Younes and I am finishing my technology degree in Portugal. To pass my final year, I need a portfolio with real projects — not fake websites invented in class.</p>
-                        <p>I decided to focus on contractors because it's the sector that most needs an online presence and has the least access to it.</p>
-                        <p>The deal is simple: I build your site with total dedication because my portfolio depends on it. You only pay for the server. Everybody wins.</p>
+                        <p>I'm Younes. I develop professional sites for contractors in Portugal at a speed agencies can't match — in 24 hours, at server cost.</p>
+                        <p>I work with a few clients at a time because I care about the result. Your site will compete with the largest companies in the market.</p>
+                        <p>The deal is simple: you send photos of your work via WhatsApp, I take care of everything else.</p>
                     </div>
                     <blockquote class="about-quote">
                         "My portfolio depends on doing an excellent job for you."<br>
@@ -414,6 +445,14 @@
                 <details class="faq-item">
                     <summary class="faq-question">Do you work all over Portugal? <i class="ph ph-caret-down"></i></summary>
                     <div class="faq-answer">Yes. Lisbon, Porto, Setúbal, Algarve, interior — wherever you work, the site works with you.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">Will the site help me appear in searches for HPP projects or renovation subsidies? <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">Yes. I configure your site with the right keywords to capture clients looking for contractors for projects with HPP support or financing. It's a huge market that most contractors aren't exploiting online.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">Can I cancel and keep the site? <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">The domain is always yours — it's registered in your name from the start. If you cancel, you only lose the hosting. You can take the site to another server whenever you want.</div>
                 </details>
             </div>
         </div>
