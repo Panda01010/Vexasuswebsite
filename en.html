@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="urgency.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
@@ -80,17 +81,18 @@
         </div>
     </header>
 
-    <div class="hero-scarcity-bar" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 20px 10px; background: #0d0d0d; border-bottom: 1px solid #333;">
-        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
-            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Braga — Available</span>
-            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Coimbra — Available</span>
-            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Setúbal — Available</span>
-            <span style="background:#2e0f0f; border:1px solid #E24B4A; color:#E24B4A; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🔴 Lisbon (Remodeling) — Occupied</span>
-            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Algarve — Available</span>
-            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Aveiro — Available</span>
+    <div class="hero-urgency-bar">
+        <div class="urgency-content">
+            <div class="live-indicator">
+                <span class="live-dot"></span>
+                LIVE
+            </div>
+            <span class="urgency-text">
+                <span class="vagas-badge" id="vagas-count">3</span> slots available this week in Portugal
+            </span>
         </div>
-        <p style="font-size:0.85rem; color:#888; margin:0;">Don't see your city? <a href="https://wa.me/351920351606?text=Hello%20Younes%2C%20I%20want%20to%20know%20if%20my%20city%20is%20available" target="_blank" rel="noopener noreferrer" style="color:#E24B4A; text-decoration:none; font-weight:600;">Talk to me</a> — it's likely available.</p>
     </div>
+
 
     <section id="problems" class="section bg-light">
         <div class="container">
@@ -424,7 +426,7 @@
         <div class="container text-center position-relative z-1" data-aos="zoom-in">
             <h2 class="final-cta-headline">Your competitor already has a site.</h2>
             <h2 class="final-cta-headline-red">Do you?</h2>
-            <p class="final-cta-sub mx-auto">Limited slots per area. I do not work with two contractors of the same type in the same city.</p>
+
             <a href="#apply" class="btn btn-white-cta btn-lg mt-4">I want my free website &rarr;</a>
             <p class="final-cta-meta mt-3">Free construction &middot; €20/month hosting &middot; No contracts &middot; All of Portugal</p>
         </div>
@@ -656,6 +658,28 @@
 
         if (countdownBox) {
             countdownObserver.observe(countdownBox);
+        }
+
+        // Vagas Scarcity Countdown
+        const vagasCountEl = document.getElementById('vagas-count');
+        if (vagasCountEl) {
+            const startVagasCountdown = () => {
+                setTimeout(() => {
+                    vagasCountEl.innerText = '2';
+                    vagasCountEl.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        vagasCountEl.style.transform = 'scale(1)';
+                    }, 300);
+                }, 3000);
+            };
+
+            const vagasObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    startVagasCountdown();
+                    vagasObserver.unobserve(entries[0].target);
+                }
+            }, { threshold: 0.1 });
+            vagasObserver.observe(vagasCountEl);
         }
     </script>
 </body>

@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="urgency.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
@@ -82,26 +83,18 @@
         </div>
     </header>
 
-    <div class="hero-scarcity-bar" style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
-        <div style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);">
-            <span style="background-color: #25D366; width: 8px; height: 8px; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px rgba(37, 211, 102, 0.6);"></span>
-            <strong style="color: white; font-size: 0.9rem;">Disponível para projetos</strong>
+    <div class="hero-urgency-bar">
+        <div class="urgency-content">
+            <div class="live-indicator">
+                <span class="live-dot"></span>
+                LIVE
+            </div>
+            <span class="urgency-text">
+                <span class="vagas-badge" id="vagas-count">3</span> vagas disponíveis esta semana em Portugal
+            </span>
         </div>
-        <span style="font-size: 0.9rem; color: #ccc;">Aceito apenas 1 construtor por cidade/especialidade.</span>
     </div>
 
-    <div style="background: #111; padding: 1.5rem 1rem; text-align: center; border-bottom: 1px solid #222;">
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; max-width: 800px; margin: 0 auto 1rem;">
-            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Porto — Disponível</span>
-            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Braga — Disponível</span>
-            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Coimbra — Disponível</span>
-            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Setúbal — Disponível</span>
-            <span style="background:#2e0f0f; border:1px solid #E24B4A; color:#E24B4A; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🔴 Lisboa (Remodelações) — Ocupado</span>
-            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Algarve — Disponível</span>
-            <span style="background:#0f2e1a; border:1px solid #25D366; color:#25D366; padding:5px 14px; border-radius:20px; font-size:0.82rem; font-weight:600;">🟢 Aveiro — Disponível</span>
-        </div>
-        <p style="font-size:0.85rem; color:#888; margin:0;">Não vês a tua cidade? <a href="https://wa.me/351920351606?text=Ol%C3%A1%20Younes%2C%20quero%20saber%20se%20a%20minha%20cidade%20est%C3%A1%20dispon%C3%ADvel" target="_blank" rel="noopener noreferrer" style="color:#E24B4A; text-decoration:none; font-weight:600;">Fala comigo</a> — provavelmente está disponível.</p>
-    </div>
 
     <section id="problems" class="section bg-light">
         <div class="container">
@@ -434,7 +427,7 @@
         <div class="container text-center position-relative z-1" data-aos="zoom-in">
             <h2 class="final-cta-headline">O teu concorrente já tem site.</h2>
             <h2 class="final-cta-headline-red">E tu?</h2>
-            <p class="final-cta-sub mx-auto">Vagas limitadas por zona. Não trabalho com dois empreiteiros do mesmo tipo na mesma cidade.</p>
+
             <a href="#apply" class="btn btn-white-cta btn-lg mt-4">Quero o meu site grátis &rarr;</a>
             <p class="final-cta-meta mt-3">Construção grátis &middot; €20/mês de alojamento &middot; Sem contratos &middot; Todo Portugal</p>
         </div>
@@ -666,6 +659,28 @@
 
         if (countdownBox) {
             countdownObserver.observe(countdownBox);
+        }
+
+        // Vagas Scarcity Countdown
+        const vagasCountEl = document.getElementById('vagas-count');
+        if (vagasCountEl) {
+            const startVagasCountdown = () => {
+                setTimeout(() => {
+                    vagasCountEl.innerText = '2';
+                    vagasCountEl.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        vagasCountEl.style.transform = 'scale(1)';
+                    }, 300);
+                }, 3000);
+            };
+
+            const vagasObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    startVagasCountdown();
+                    vagasObserver.unobserve(entries[0].target);
+                }
+            }, { threshold: 0.1 });
+            vagasObserver.observe(vagasCountEl);
         }
     </script>
 </body>
