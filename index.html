@@ -709,21 +709,36 @@ src="https://www.facebook.com/tr?id=1512072113600390&ev=PageView&noscript=1"
         }
     </script>
 <script>
-  // هاد السكربت كيصيفط حدث لفيسبوك غير الكليان يقيس الفورمولير
-  document.addEventListener('click', function(event) {
-    const formSection = document.getElementById('apply'); 
+  // الفورمولير جا فـ iframe (من موقع آخر)، داكشي علاش الـ click العادي ما كيتقراش.
+  // هاد الطريقة كتعرف بلي الكليان كليك فـ الفورمولير حيت النافذة (window) كتفقد التركيز (blur) 
+  // ملي الكليان كيكليكي لداخل ديال الـ iframe.
+  
+  let isHoveringForm = false;
+  const formSection = document.getElementById('apply'); 
+  let pixelFired = false;
+
+  if (formSection) {
+    formSection.addEventListener('mouseenter', function() {
+      isHoveringForm = true;
+    });
     
-    if (formSection && formSection.contains(event.target)) {
-      // كنصيفطو حدث InitiateCheckout حيت هو لي كيفهمو فيسبوك كبداية عملية
-      if (typeof fbq === 'function') {
-        fbq('track', 'InitiateCheckout', {
-          content_name: 'Vexasus Form Start',
-          status: 'started'
-        });
-        console.log('FB Pixel: Started filling form');
+    formSection.addEventListener('mouseleave', function() {
+      isHoveringForm = false;
+    });
+
+    window.addEventListener('blur', function() {
+      if (isHoveringForm && !pixelFired) {
+        if (typeof fbq === 'function') {
+          fbq('track', 'InitiateCheckout', {
+            content_name: 'Vexasus Form Start',
+            status: 'started'
+          });
+          console.log('FB Pixel: Started filling form (iframe clicked)');
+          pixelFired = true; // باش ما نصيفطوهاش بزاف دالمرات
+        }
       }
-    }
-  }, { once: true }); // كيتصيفط غير مرة وحدة باش ما يخسرش ليك الحساب
+    });
+  }
 </script>
 </body>
 </html>
