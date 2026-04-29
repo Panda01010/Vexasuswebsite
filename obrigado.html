@@ -319,10 +319,47 @@
             animation: slideUp 0.5s ease 0.9s both;
         }
 
-        /* ---- RESPONSIVE: already mobile-first, but ensure large screens also look good ---- */
         @media (min-width: 600px) {
             .main { padding: 2.5rem 2rem 5rem; }
         }
+
+        /* ---- GAME ---- */
+        .game-wrap { width:100%; margin-bottom:2rem; animation: slideUp 0.5s ease 0.65s both; }
+        .game-badge { display:inline-block; font-size:0.7rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--red); border:1px solid rgba(226,75,74,.3); border-radius:99px; padding:.3rem .8rem; margin-bottom:.75rem; }
+        .game-title { font-size:1.25rem; font-weight:900; margin-bottom:.35rem; }
+        .game-sub { font-size:.85rem; color:var(--muted); margin-bottom:1rem; }
+        .record-bar { display:flex; align-items:center; gap:.75rem; background:rgba(226,75,74,.08); border:1px solid rgba(226,75,74,.2); border-radius:12px; padding:.75rem 1rem; margin-bottom:1.25rem; }
+        .record-bar img { width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid var(--red); }
+        .record-bar-text { font-size:.85rem; color:var(--muted); }
+        .record-bar-text strong { color:var(--text); }
+        .btn-start { width:100%; padding:.9rem; background:var(--red); color:#fff; border:none; border-radius:12px; font-family:var(--font); font-size:1rem; font-weight:700; cursor:pointer; transition:transform .15s,box-shadow .15s; }
+        .btn-start:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(226,75,74,.35); }
+        .game-playing-area { display:none; flex-direction:column; align-items:center; gap:1rem; }
+        .game-timer-ring { position:relative; width:80px; height:80px; margin:0 auto; }
+        .game-timer-num { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:900; color:var(--red); }
+        .tap-btn { width:160px; height:160px; border-radius:50%; background:linear-gradient(135deg,var(--red),#c0392b); color:#fff; border:none; font-family:var(--font); font-size:1.6rem; font-weight:900; cursor:pointer; box-shadow:0 8px 30px rgba(226,75,74,.4); transition:transform .08s,box-shadow .08s; user-select:none; -webkit-user-select:none; touch-action:manipulation; }
+        .tap-btn:active { transform:scale(.93); box-shadow:0 4px 14px rgba(226,75,74,.3); }
+        .tap-count-disp { font-size:2.2rem; font-weight:900; }
+        .tap-count-label { font-size:.78rem; color:var(--muted); margin-top:-.5rem; }
+        .game-result-area { display:none; flex-direction:column; align-items:center; text-align:center; gap:.75rem; }
+        .result-emoji { font-size:3rem; }
+        .result-title { font-size:1.3rem; font-weight:900; }
+        .result-score { font-size:.9rem; color:var(--muted); }
+        .name-input { width:100%; padding:.75rem 1rem; background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:10px; color:var(--text); font-family:var(--font); font-size:.95rem; margin-top:.25rem; outline:none; }
+        .name-input:focus { border-color:rgba(226,75,74,.5); }
+        .btn-save { width:100%; padding:.85rem; background:var(--red); color:#fff; border:none; border-radius:12px; font-family:var(--font); font-size:.95rem; font-weight:700; cursor:pointer; transition:transform .15s; margin-top:.25rem; }
+        .btn-save:hover { transform:translateY(-1px); }
+        .btn-retry { background:rgba(255,255,255,.07); color:var(--text); border:1px solid var(--border); border-radius:12px; padding:.75rem 1.5rem; font-family:var(--font); font-size:.9rem; font-weight:600; cursor:pointer; margin-top:.5rem; transition:background .15s; }
+        .btn-retry:hover { background:rgba(255,255,255,.12); }
+        .leaderboard-wrap { width:100%; background:var(--bg-card); border:1px solid var(--border); border-radius:14px; padding:1rem; margin-top:1.25rem; }
+        .lb-title { font-size:.75rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:.75rem; }
+        .lb-row { display:flex; align-items:center; gap:.75rem; padding:.5rem 0; border-bottom:1px solid rgba(255,255,255,.04); font-size:.88rem; }
+        .lb-row:last-child { border-bottom:none; }
+        .lb-rank { width:22px; font-weight:700; color:var(--muted); text-align:center; }
+        .lb-rank.gold { color:#f59e0b; }
+        .lb-name { flex:1; font-weight:600; }
+        .lb-score { color:var(--red); font-weight:700; }
+        .lb-empty { font-size:.85rem; color:var(--muted); text-align:center; padding:.5rem; }
     </style>
 </head>
 <body>
@@ -373,6 +410,57 @@
             </div>
         </div>
 
+        <!-- TAP GAME -->
+        <div class="game-wrap" id="game-wrap">
+            <div class="game-badge">⚡ Enquanto esperas</div>
+            <h2 class="game-title">Bate o recorde do Younes!</h2>
+            <p class="game-sub">Toca o máximo de vezes em <strong>10 segundos</strong> 🏆</p>
+
+            <div class="record-bar">
+                <img src="assets/younes.png" alt="Younes" onerror="this.style.display='none'">
+                <div class="record-bar-text">Recorde do Younes: <strong id="top-score-display">47 taps</strong></div>
+            </div>
+
+            <!-- Idle -->
+            <div id="state-idle">
+                <button class="btn-start" id="btn-start">🚀 Começar a jogar</button>
+            </div>
+
+            <!-- Playing -->
+            <div class="game-playing-area" id="state-playing">
+                <div class="game-timer-ring">
+                    <svg width="80" height="80" style="position:absolute;top:0;left:0;transform:rotate(-90deg)">
+                        <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="4"/>
+                        <circle id="timer-arc" cx="40" cy="40" r="34" fill="none" stroke="#E24B4A" stroke-width="4"
+                            stroke-dasharray="213.6" stroke-dashoffset="0" stroke-linecap="round"
+                            style="transition:stroke-dashoffset 1s linear"/>
+                    </svg>
+                    <div class="game-timer-num" id="timer-num">10</div>
+                </div>
+                <button class="tap-btn" id="tap-btn">TAP!</button>
+                <div class="tap-count-disp" id="tap-count">0</div>
+                <div class="tap-count-label">taps</div>
+            </div>
+
+            <!-- Result -->
+            <div class="game-result-area" id="state-result">
+                <div class="result-emoji" id="result-emoji">🎉</div>
+                <div class="result-title" id="result-title"></div>
+                <div class="result-score" id="result-score"></div>
+                <div id="name-section" style="width:100%;display:none;flex-direction:column;gap:.5rem">
+                    <input class="name-input" id="name-input" type="text" placeholder="O teu nome para o leaderboard..." maxlength="24">
+                    <button class="btn-save" id="btn-save">🏆 Guardar no leaderboard</button>
+                </div>
+                <button class="btn-retry" id="btn-retry">🔄 Tentar de novo</button>
+            </div>
+
+            <!-- Leaderboard -->
+            <div class="leaderboard-wrap">
+                <div class="lb-title">🏆 Leaderboard</div>
+                <div id="lb-list"><div class="lb-empty">A carregar...</div></div>
+            </div>
+        </div>
+
         <!-- Checklist -->
         <div class="checklist">
             <div class="check-item">
@@ -408,21 +496,21 @@
 
     </main>
 
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
     <script>
-        // 2-minute countdown
+        // ── 2-min countdown ──────────────────────────────────────────────
         (function() {
-            let total = 120; // seconds
+            let total = 120;
             const minEl = document.getElementById('cd-min');
             const secEl = document.getElementById('cd-sec');
-
             const pad = n => String(n).padStart(2, '0');
-
             const tick = setInterval(() => {
                 if (total <= 0) {
                     clearInterval(tick);
-                    minEl.textContent = '00';
-                    secEl.textContent = '00';
-                    // When expired, update the message
+                    minEl.textContent = '00'; secEl.textContent = '00';
                     document.querySelector('.countdown-box').style.borderColor = 'rgba(37,211,102,0.3)';
                     document.querySelector('.countdown-label').innerHTML = '<i class="ph-fill ph-check-circle"></i> &nbsp;Mensagem enviada!';
                     return;
@@ -432,6 +520,131 @@
                 secEl.textContent = pad(total % 60);
             }, 1000);
         })();
+
+        // ── Firebase config — REPLACE WITH YOURS ─────────────────────────
+        const firebaseConfig = {
+            apiKey: "AIzaSyBkOnrU2GW_dmNERzc92KEWyBlgrzWSwXg",
+            authDomain: "vexasus-12d26.firebaseapp.com",
+            projectId: "vexasus-12d26",
+            storageBucket: "vexasus-12d26.firebasestorage.app",
+            messagingSenderId: "452297550073",
+            appId: "1:452297550073:web:b8b638216b90301c0a5a28"
+        };
+
+        let db = null;
+        let firebaseReady = false;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            firebaseReady = true;
+        } catch(e) { console.warn('Firebase not configured yet:', e.message); }
+
+        const YOUNES_SCORE = 47;
+        const YOUNES_ID    = 'younes_founder_record';
+        let topScore       = YOUNES_SCORE;
+        let taps = 0, gameActive = false, timer = null;
+        const ARC_LEN = 213.6;
+
+        // ── Firebase helpers ─────────────────────────────────────────────
+        async function seedYounes() {
+            if (!firebaseReady) return;
+            try {
+                const d = await db.collection('leaderboard').doc(YOUNES_ID).get();
+                if (!d.exists) {
+                    await db.collection('leaderboard').doc(YOUNES_ID).set({ name: '👑 Younes', score: YOUNES_SCORE, ts: firebase.firestore.FieldValue.serverTimestamp(), founder: true });
+                }
+            } catch(e) {}
+        }
+
+        async function loadLeaderboard() {
+            const list = document.getElementById('lb-list');
+            if (!firebaseReady) { list.innerHTML = '<div class="lb-empty">Liga o Firebase para ver o leaderboard 🔥</div>'; return; }
+            try {
+                const snap = await db.collection('leaderboard').orderBy('score','desc').limit(8).get();
+                if (snap.empty) { list.innerHTML = '<div class="lb-empty">Ainda ninguém jogou. Sê o primeiro!</div>'; return; }
+                const medals = ['🥇','🥈','🥉'];
+                list.innerHTML = snap.docs.map((d,i) => {
+                    const data = d.data();
+                    if (i === 0) topScore = data.score;
+                    return `<div class="lb-row">
+                        <div class="lb-rank ${i===0?'gold':''}">${medals[i]||i+1}</div>
+                        <div class="lb-name">${data.name}</div>
+                        <div class="lb-score">${data.score} taps</div>
+                    </div>`;
+                }).join('');
+                document.getElementById('top-score-display').textContent = topScore + ' taps';
+            } catch(e) { list.innerHTML = '<div class="lb-empty">Erro ao carregar. Verifica o Firebase.</div>'; }
+        }
+
+        async function saveScore(name, score) {
+            if (!firebaseReady) return;
+            try {
+                await db.collection('leaderboard').add({ name, score, ts: firebase.firestore.FieldValue.serverTimestamp() });
+            } catch(e) {}
+        }
+
+        // ── Game logic ───────────────────────────────────────────────────
+        function setState(id) {
+            ['state-idle','state-playing','state-result'].forEach(s => {
+                const el = document.getElementById(s);
+                el.style.display = (s === id) ? (id === 'state-idle' ? 'block' : 'flex') : 'none';
+            });
+        }
+
+        function startGame() {
+            taps = 0; gameActive = true;
+            document.getElementById('tap-count').textContent = '0';
+            document.getElementById('timer-num').textContent = '10';
+            document.getElementById('timer-arc').style.strokeDashoffset = '0';
+            setState('state-playing');
+            let sec = 10;
+            timer = setInterval(() => {
+                sec--;
+                document.getElementById('timer-num').textContent = sec;
+                document.getElementById('timer-arc').style.strokeDashoffset = (ARC_LEN * (10 - sec) / 10).toFixed(1);
+                if (sec <= 0) { clearInterval(timer); gameActive = false; endGame(); }
+            }, 1000);
+        }
+
+        function endGame() {
+            setState('state-result');
+            const won = taps > topScore;
+            document.getElementById('result-emoji').textContent = won ? '🎉' : (taps >= YOUNES_SCORE ? '😅' : '😤');
+            document.getElementById('result-title').textContent = won ? 'Novo recorde! Incrível!' : (taps >= YOUNES_SCORE ? 'Bateste o Younes! Entra no leaderboard!' : `Só ${taps} taps... O Younes fez ${topScore}!`);
+            document.getElementById('result-score').textContent = `O teu score: ${taps} taps`;
+            const ns = document.getElementById('name-section');
+            if (taps > YOUNES_SCORE) { ns.style.display = 'flex'; } else { ns.style.display = 'none'; }
+        }
+
+        document.getElementById('btn-start').addEventListener('click', startGame);
+
+        const tapBtn = document.getElementById('tap-btn');
+        let tapping = false;
+        function doTap() {
+            if (!gameActive) return;
+            if (tapping) return; tapping = true; setTimeout(() => tapping = false, 40);
+            taps++;
+            document.getElementById('tap-count').textContent = taps;
+            if (navigator.vibrate) navigator.vibrate(10);
+        }
+        tapBtn.addEventListener('click', doTap);
+        tapBtn.addEventListener('touchstart', (e) => { e.preventDefault(); doTap(); }, { passive: false });
+
+        document.getElementById('btn-retry').addEventListener('click', () => { clearInterval(timer); setState('state-idle'); });
+
+        document.getElementById('btn-save').addEventListener('click', async () => {
+            const name = document.getElementById('name-input').value.trim();
+            if (!name) { document.getElementById('name-input').focus(); return; }
+            const btn = document.getElementById('btn-save');
+            btn.textContent = 'A guardar...'; btn.disabled = true;
+            await saveScore(name, taps);
+            await loadLeaderboard();
+            document.getElementById('name-section').style.display = 'none';
+            document.getElementById('result-title').textContent = '🏆 Guardado no leaderboard!';
+        });
+
+        // Init
+        seedYounes().then(() => loadLeaderboard());
     </script>
 
 </body>
