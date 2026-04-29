@@ -413,12 +413,12 @@
         <!-- TAP GAME -->
         <div class="game-wrap" id="game-wrap">
             <div class="game-badge">⚡ Enquanto esperas</div>
-            <h2 class="game-title">Bate o recorde do Younes!</h2>
+            <h2 class="game-title" id="game-title">Bate o recorde do Younes!</h2>
             <p class="game-sub">Toca o máximo de vezes em <strong>10 segundos</strong> 🏆</p>
 
             <div class="record-bar">
-                <img src="assets/younes.png" alt="Younes" onerror="this.style.display='none'">
-                <div class="record-bar-text">Recorde do Younes: <strong id="top-score-display">47 taps</strong></div>
+                <img id="record-avatar" src="assets/younes.png" alt="Record holder" onerror="this.style.display='none'">
+                <div class="record-bar-text" id="record-bar-text">Recorde do Younes: <strong id="top-score-display">47 taps</strong></div>
             </div>
 
             <!-- Idle -->
@@ -542,6 +542,7 @@
         const YOUNES_SCORE = 47;
         const YOUNES_ID    = 'younes_founder_record';
         let topScore       = YOUNES_SCORE;
+        let topName        = 'Younes';
         let taps = 0, gameActive = false, timer = null;
         const ARC_LEN = 213.6;
 
@@ -565,14 +566,29 @@
                 const medals = ['🥇','🥈','🥉'];
                 list.innerHTML = snap.docs.map((d,i) => {
                     const data = d.data();
-                    if (i === 0) topScore = data.score;
+                    if (i === 0) {
+                        topScore = data.score;
+                        topName  = data.name || 'Younes';
+                    }
                     return `<div class="lb-row">
                         <div class="lb-rank ${i===0?'gold':''}">${medals[i]||i+1}</div>
                         <div class="lb-name">${data.name}</div>
                         <div class="lb-score">${data.score} taps</div>
                     </div>`;
                 }).join('');
-                document.getElementById('top-score-display').textContent = topScore + ' taps';
+                // Update record bar & game title with the current champion
+                const cleanName = topName.replace(/^[\u{1F300}-\u{1FFFF}\s]+/gu, '').trim() || topName;
+                document.getElementById('record-bar-text').innerHTML =
+                    `Recorde de <strong>${cleanName}</strong>: <strong id="top-score-display">${topScore} taps</strong>`;
+                document.getElementById('game-title').textContent = `Bate o recorde de ${cleanName}!`;
+                // Show Younes avatar only while Younes is still champion
+                const avatar = document.getElementById('record-avatar');
+                if (topName.toLowerCase().includes('younes')) {
+                    avatar.src = 'assets/younes.png';
+                    avatar.style.display = '';
+                } else {
+                    avatar.style.display = 'none';
+                }
             } catch(e) { list.innerHTML = '<div class="lb-empty">Erro ao carregar. Verifica o Firebase.</div>'; }
         }
 
@@ -609,11 +625,16 @@
         function endGame() {
             setState('state-result');
             const won = taps > topScore;
-            document.getElementById('result-emoji').textContent = won ? '🎉' : (taps >= YOUNES_SCORE ? '😅' : '😤');
-            document.getElementById('result-title').textContent = won ? 'Novo recorde! Incrível!' : (taps >= YOUNES_SCORE ? 'Bateste o Younes! Entra no leaderboard!' : `Só ${taps} taps... O Younes fez ${topScore}!`);
+            const cleanTop = topName.replace(/^[\u{1F300}-\u{1FFFF}\s]+/gu, '').trim() || topName;
+            document.getElementById('result-emoji').textContent = won ? '🎉' : (taps === topScore ? '😅' : '😤');
+            document.getElementById('result-title').textContent = won
+                ? 'Novo recorde! Incrível!'
+                : (taps === topScore
+                    ? `Empataste com ${cleanTop}! Quase lá!`
+                    : `Só ${taps} taps... ${cleanTop} fez ${topScore}!`);
             document.getElementById('result-score').textContent = `O teu score: ${taps} taps`;
             const ns = document.getElementById('name-section');
-            if (taps > YOUNES_SCORE) { ns.style.display = 'flex'; } else { ns.style.display = 'none'; }
+            if (taps > topScore) { ns.style.display = 'flex'; } else { ns.style.display = 'none'; }
         }
 
         document.getElementById('btn-start').addEventListener('click', startGame);
