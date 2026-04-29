@@ -580,5 +580,22 @@ src="https://www.facebook.com/tr?id=1512072113600390&ev=PageView&noscript=1"
             vagasObserver.observe(vagasCountEl);
         }
     </script>
+<script>
+  // هاد السكربت كيصيفط حدث لفيسبوك غير الكليان يقيس الفورمولير
+  document.addEventListener('click', function(event) {
+    const formSection = document.getElementById('apply'); 
+    
+    if (formSection && formSection.contains(event.target)) {
+      // كنصيفطو حدث InitiateCheckout حيت هو لي كيفهمو فيسبوك كبداية عملية
+      if (typeof fbq === 'function') {
+        fbq('track', 'InitiateCheckout', {
+          content_name: 'Vexasus Form Start',
+          status: 'started'
+        });
+        console.log('FB Pixel: Started filling form');
+      }
+    }
+  }, { once: true }); // كيتصيفط غير مرة وحدة باش ما يخسرش ليك الحساب
+</script>
 </body>
 </html>
