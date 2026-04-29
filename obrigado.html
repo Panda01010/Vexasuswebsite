@@ -337,10 +337,18 @@
         .game-playing-area { display:none; flex-direction:column; align-items:center; gap:1rem; }
         .game-timer-ring { position:relative; width:80px; height:80px; margin:0 auto; }
         .game-timer-num { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:900; color:var(--red); }
-        .tap-btn { width:160px; height:160px; border-radius:50%; background:linear-gradient(135deg,var(--red),#c0392b); color:#fff; border:none; font-family:var(--font); font-size:1.6rem; font-weight:900; cursor:pointer; box-shadow:0 8px 30px rgba(226,75,74,.4); transition:transform .08s,box-shadow .08s; user-select:none; -webkit-user-select:none; touch-action:manipulation; }
+        .tap-btn { width:160px; height:160px; border-radius:50%; background:linear-gradient(135deg,var(--red),#c0392b); color:#fff; border:none; font-family:var(--font); font-size:1.6rem; font-weight:900; cursor:pointer; box-shadow:0 8px 30px rgba(226,75,74,.4); transition:transform .08s,box-shadow .08s, background 0.3s ease; user-select:none; -webkit-user-select:none; touch-action:manipulation; }
         .tap-btn:active { transform:scale(.93); box-shadow:0 4px 14px rgba(226,75,74,.3); }
+        .tap-btn.game-on { background: linear-gradient(135deg, #2ecc71, #27ae60); box-shadow:0 8px 30px rgba(46,204,113,0.4); }
         .tap-count-disp { font-size:2.2rem; font-weight:900; }
         .tap-count-label { font-size:.78rem; color:var(--muted); margin-top:-.5rem; }
+        .game-countdown-area { display:none; flex-direction:column; align-items:center; gap:1rem; padding: 2rem 0; }
+        .countdown-number { font-size: 5rem; font-weight: 900; color: var(--red); animation: pulse 1s infinite; }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
         .game-result-area { display:none; flex-direction:column; align-items:center; text-align:center; gap:.75rem; }
         .result-emoji { font-size:3rem; }
         .result-title { font-size:1.3rem; font-weight:900; }
@@ -424,6 +432,12 @@
             <!-- Idle -->
             <div id="state-idle">
                 <button class="btn-start" id="btn-start">🚀 Começar a jogar</button>
+            </div>
+
+            <!-- Countdown -->
+            <div class="game-countdown-area" id="state-countdown">
+                <div class="countdown-number" id="prep-num">3</div>
+                <p class="game-sub">Prepara-te...</p>
             </div>
 
             <!-- Playing -->
@@ -601,24 +615,57 @@
 
         // ── Game logic ───────────────────────────────────────────────────
         function setState(id) {
-            ['state-idle','state-playing','state-result'].forEach(s => {
+            ['state-idle','state-countdown','state-playing','state-result'].forEach(s => {
                 const el = document.getElementById(s);
+                if (!el) return;
                 el.style.display = (s === id) ? (id === 'state-idle' ? 'block' : 'flex') : 'none';
             });
         }
 
         function startGame() {
+            // Scroll to game
+            document.getElementById('game-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            setState('state-countdown');
+            let count = 3;
+            const prepEl = document.getElementById('prep-num');
+            prepEl.textContent = count;
+            prepEl.style.color = 'var(--red)';
+
+            const prepTimer = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    prepEl.textContent = count;
+                } else if (count === 0) {
+                    prepEl.textContent = 'JÁ!';
+                    prepEl.style.color = '#2ecc71';
+                } else {
+                    clearInterval(prepTimer);
+                    beginActualGame();
+                }
+            }, 1000);
+        }
+
+        function beginActualGame() {
             taps = 0; gameActive = true;
             document.getElementById('tap-count').textContent = '0';
             document.getElementById('timer-num').textContent = '10';
             document.getElementById('timer-arc').style.strokeDashoffset = '0';
+            const btn = document.getElementById('tap-btn');
+            btn.classList.add('game-on');
+            
             setState('state-playing');
             let sec = 10;
             timer = setInterval(() => {
                 sec--;
                 document.getElementById('timer-num').textContent = sec;
                 document.getElementById('timer-arc').style.strokeDashoffset = (ARC_LEN * (10 - sec) / 10).toFixed(1);
-                if (sec <= 0) { clearInterval(timer); gameActive = false; endGame(); }
+                if (sec <= 0) { 
+                    clearInterval(timer); 
+                    gameActive = false; 
+                    btn.classList.remove('game-on');
+                    endGame(); 
+                }
             }, 1000);
         }
 
