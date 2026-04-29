@@ -1975,3 +1975,192 @@ h1, h2, h3, h4 {
         border-radius: 10px;
     }
 }
+
+/* --- Thank You Page Styles --- */
+.obrigado-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 80px;
+    background: radial-gradient(circle at top right, rgba(226, 75, 74, 0.05), transparent),
+                radial-gradient(circle at bottom left, rgba(226, 75, 74, 0.05), transparent);
+}
+
+.obrigado-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4rem 3rem;
+    border-radius: 24px;
+    max-width: 700px;
+    width: 100%;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.obrigado-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+}
+
+.obrigado-icon-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 2.5rem;
+}
+
+.obrigado-icon-main {
+    font-size: 4rem;
+    color: var(--primary-color);
+    position: relative;
+    z-index: 2;
+}
+
+.obrigado-icon-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: ringPulse 2s infinite ease-out;
+}
+
+@keyframes ringPulse {
+    0% { transform: scale(0.8); opacity: 0.8; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+.obrigado-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.ai-notification {
+    background: rgba(226, 75, 74, 0.1);
+    border: 1px solid rgba(226, 75, 74, 0.2);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 2.5rem 0;
+    text-align: left;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    animation: fadeInUp 0.8s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.ai-avatar {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    box-shadow: 0 8px 20px rgba(226, 75, 74, 0.3);
+}
+
+.ai-message {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--text-main);
+}
+
+.ai-typing {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+}
+
+.ai-typing span {
+    width: 6px;
+    height: 6px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+.ai-typing span:nth-child(2) { animation-delay: 0.2s; }
+.ai-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+    0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+.time-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.time-badge i {
+    color: var(--primary-color);
+}
+
+.next-steps-list {
+    text-align: left;
+    margin-bottom: 3rem;
+}
+
+.next-step-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+    color: var(--text-muted);
+    align-items: center;
+}
+
+.next-step-item i {
+    color: #25D366;
+    font-size: 1.2rem;
+}
+
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+    .obrigado-card {
+        padding: 3rem 1.5rem;
+        border-radius: 0;
+        background: transparent;
+        backdrop-filter: none;
+        border: none;
+        box-shadow: none;
+    }
+    
+    .ai-notification {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 1.5rem;
+    }
+    
+    .ai-avatar {
+        margin: 0 auto;
+    }
+}

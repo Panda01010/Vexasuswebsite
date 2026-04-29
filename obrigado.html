@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obrigado | Vexasus</title>
+    <title>Tudo Pronto | Vexasus</title>
     
     <!-- MOCK PIXEL/CONVERSION EVENT -->
     <script>
       console.log("Facebook Pixel: Lead Event Fired");
       console.log("Google Ads: Conversion Event Fired");
-      // fbq('track', 'Lead');
-      // gtag('event', 'conversion', {'send_to': 'AW-CONVERSION_ID'});
     </script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,33 +29,64 @@
     </nav>
 
     <section class="section obrigado-section">
-        <div class="container" data-aos="zoom-in">
-            <i class="ph-fill ph-check-circle obrigado-icon"></i>
-            <h1 class="hero-title-new" style="font-size: 3.5rem;">Recebemos o teu pedido.</h1>
-            <p class="section-description mx-auto mt-3" style="color: #aaa;">Vou contactar-te por WhatsApp em menos de 24 horas para dar início ao teu site.</p>
-            
-            <div class="obrigado-steps">
-                <div class="obrigado-step">
-                    <i class="ph-bold ph-number-circle-one"></i>
-                    <span>Guardamos o teu lugar na tua zona.</span>
+        <div class="container">
+            <div class="obrigado-card" data-aos="fade-up">
+                <div class="obrigado-icon-wrapper">
+                    <div class="obrigado-icon-ring"></div>
+                    <i class="ph-fill ph-check-circle obrigado-icon-main"></i>
                 </div>
-                <div class="obrigado-step">
-                    <i class="ph-bold ph-number-circle-two"></i>
-                    <span>Chamamos-te no WhatsApp.</span>
+
+                <div class="time-badge">
+                    <i class="ph-fill ph-clock"></i>
+                    <span>Verificação em curso</span>
                 </div>
-                <div class="obrigado-step">
-                    <i class="ph-bold ph-number-circle-three"></i>
-                    <span>Começamos a construir o teu site.</span>
+
+                <h1 class="obrigado-title">Tudo pronto!</h1>
+                <p class="section-description mx-auto" style="color: var(--text-muted);">Recebemos o teu pedido com sucesso. O teu lugar na tua zona foi reservado.</p>
+
+                <div class="ai-notification">
+                    <div class="ai-avatar">
+                        <i class="ph-fill ph-robot"></i>
+                    </div>
+                    <div class="ai-message">
+                        <strong>Notificação da nossa IA:</strong><br>
+                        "Vais receber uma mensagem no WhatsApp nos próximos <strong>2 minutos</strong> para confirmarmos os teus dados e qualificar o teu pedido."
+                        <div class="ai-typing">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="next-steps-list">
+                    <div class="next-step-item" data-aos="fade-right" data-aos-delay="200">
+                        <i class="ph-fill ph-check-circle"></i>
+                        <span>Demorará menos de <strong>5 minutos</strong> a responder.</span>
+                    </div>
+                    <div class="next-step-item" data-aos="fade-right" data-aos-delay="300">
+                        <i class="ph-fill ph-check-circle"></i>
+                        <span>Ajudar-nos-ás a definir o design ideal para o teu site.</span>
+                    </div>
+                    <div class="next-step-item" data-aos="fade-right" data-aos-delay="400">
+                        <i class="ph-fill ph-check-circle"></i>
+                        <span>Começamos a construção imediatamente após a qualificação.</span>
+                    </div>
+                </div>
+                
+                <a href="https://wa.me/351920351606?text=Olá,%20acabei%20de%20submeter%20o%20formulário%20para%20ter%20o%20site%20grátis%20da%20Vexasus." class="btn-hero-whatsapp w-100" target="_blank" rel="noopener noreferrer" style="border-radius: 12px; border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.05);">
+                    <i class="ph-bold ph-whatsapp-logo"></i> Se preferires, fala comigo agora
+                </a>
             </div>
-            
-            <a href="https://wa.me/351920351606?text=Olá,%20acabei%20de%20submeter%20o%20formulário%20para%20ter%20o%20site%20grátis%20da%20Vexasus." class="btn-hero-primary mx-auto" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; background-color: #25D366; border-color: #25D366;">
-                <i class="ph-bold ph-whatsapp-logo" style="font-size: 1.2rem;"></i> Falar comigo agora &rarr;
-            </a>
         </div>
     </section>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({ once: true, duration: 600 });</script>
+    <script>
+        AOS.init({ 
+            once: true, 
+            duration: 1000,
+            easing: 'ease-out-cubic'
+        });
+    </script>
 </body>
 </html>
+
