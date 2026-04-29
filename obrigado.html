@@ -674,6 +674,12 @@
             btn.classList.add('game-on');
             
             setState('state-playing');
+            
+            // Center the button on the screen
+            setTimeout(() => {
+                btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+
             let sec = 10;
             timer = setInterval(() => {
                 sec--;
@@ -740,9 +746,11 @@
             
             // Milestone feedback
             const feedback = document.getElementById('game-feedback');
+            const cleanTop = topName.replace(/^[\u{1F300}-\u{1FFFF}\s]+/gu, '').trim() || topName;
+            
             if (taps === 20) { feedback.textContent = 'Boa! Continua! 🔥'; feedback.style.color = '#3498db'; }
             if (taps === 35) { feedback.textContent = 'Acelera!! ⚡'; feedback.style.color = '#f1c40f'; }
-            if (taps === 47) { feedback.textContent = 'BATRESTE O YOUNES! 🚀'; feedback.style.color = '#e67e22'; }
+            if (taps === topScore + 1) { feedback.textContent = `BATRESTE ${cleanTop.toUpperCase()}! 🚀`; feedback.style.color = '#e67e22'; }
             if (taps === 60) { feedback.textContent = 'ESTÁS MALUCO?! 🤯'; feedback.style.color = '#e74c3c'; }
 
             if (navigator.vibrate) navigator.vibrate(10);
