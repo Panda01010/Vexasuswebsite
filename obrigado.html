@@ -340,8 +340,17 @@
         .tap-btn { width:160px; height:160px; border-radius:50%; background:linear-gradient(135deg,var(--red),#c0392b); color:#fff; border:none; font-family:var(--font); font-size:1.6rem; font-weight:900; cursor:pointer; box-shadow:0 8px 30px rgba(226,75,74,.4); transition:transform .08s,box-shadow .08s, background 0.3s ease; user-select:none; -webkit-user-select:none; touch-action:manipulation; }
         .tap-btn:active { transform:scale(.93); box-shadow:0 4px 14px rgba(226,75,74,.3); }
         .tap-btn.game-on { background: linear-gradient(135deg, #2ecc71, #27ae60); box-shadow:0 8px 30px rgba(46,204,113,0.4); }
+        
+        .game-feedback { font-size: 1.1rem; font-weight: 800; color: #2ecc71; min-height: 1.5rem; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s ease; }
+        .game-tps { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; font-weight: 600; }
+
         .tap-count-disp { font-size:2.2rem; font-weight:900; }
         .tap-count-label { font-size:.78rem; color:var(--muted); margin-top:-.5rem; }
+        
+        .rank-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.06); border: 1px solid var(--border); padding: 0.4rem 0.8rem; border-radius: 99px; font-size: 0.8rem; font-weight: 700; margin: 0.5rem 0; }
+        .rank-badge i { color: #f1c40f; }
+        .rank-badge.lenda { background: rgba(241,196,15,0.15); border-color: rgba(241,196,15,0.4); color: #f1c40f; }
+        .rank-badge.pro { background: rgba(52,152,219,0.15); border-color: rgba(52,152,219,0.4); color: #3498db; }
         .game-countdown-area { display:none; flex-direction:column; align-items:center; gap:1rem; padding: 2rem 0; }
         .countdown-number { font-size: 5rem; font-weight: 900; color: var(--red); animation: pulse 1s infinite; }
         @keyframes pulse {
@@ -451,7 +460,9 @@
                     </svg>
                     <div class="game-timer-num" id="timer-num">10</div>
                 </div>
+                <div class="game-feedback" id="game-feedback"></div>
                 <button class="tap-btn" id="tap-btn">TAP!</button>
+                <div class="game-tps" id="game-tps">0.0 TPS</div>
                 <div class="tap-count-disp" id="tap-count">0</div>
                 <div class="tap-count-label">taps</div>
             </div>
@@ -459,6 +470,9 @@
             <!-- Result -->
             <div class="game-result-area" id="state-result">
                 <div class="result-emoji" id="result-emoji">🎉</div>
+                <div class="rank-badge" id="rank-badge">
+                    <i class="ph-fill ph-trophy"></i> Rank: <span id="rank-name">Iniciante</span>
+                </div>
                 <div class="result-title" id="result-title"></div>
                 <div class="result-score" id="result-score"></div>
                 <div id="name-section" style="width:100%;display:none;flex-direction:column;gap:.5rem">
@@ -557,7 +571,8 @@
         const YOUNES_ID    = 'younes_founder_record';
         let topScore       = YOUNES_SCORE;
         let topName        = 'Younes';
-        let taps = 0, gameActive = false, timer = null;
+        let sessionBest    = 0;
+        let taps = 0, gameActive = false, timer = null, startTime = 0;
         const ARC_LEN = 213.6;
 
         // ── Firebase helpers ─────────────────────────────────────────────
@@ -648,9 +663,13 @@
 
         function beginActualGame() {
             taps = 0; gameActive = true;
+            startTime = Date.now();
             document.getElementById('tap-count').textContent = '0';
             document.getElementById('timer-num').textContent = '10';
             document.getElementById('timer-arc').style.strokeDashoffset = '0';
+            document.getElementById('game-feedback').textContent = 'VAI! VAI! VAI!';
+            document.getElementById('game-tps').textContent = '0.0 TPS';
+            
             const btn = document.getElementById('tap-btn');
             btn.classList.add('game-on');
             
@@ -660,6 +679,14 @@
                 sec--;
                 document.getElementById('timer-num').textContent = sec;
                 document.getElementById('timer-arc').style.strokeDashoffset = (ARC_LEN * (10 - sec) / 10).toFixed(1);
+                
+                // Live TPS update
+                const elapsed = (Date.now() - startTime) / 1000;
+                if (elapsed > 0) {
+                    const tps = (taps / elapsed).toFixed(1);
+                    document.getElementById('game-tps').textContent = `${tps} TPS`;
+                }
+
                 if (sec <= 0) { 
                     clearInterval(timer); 
                     gameActive = false; 
@@ -673,13 +700,30 @@
             setState('state-result');
             const won = taps > topScore;
             const cleanTop = topName.replace(/^[\u{1F300}-\u{1FFFF}\s]+/gu, '').trim() || topName;
-            document.getElementById('result-emoji').textContent = won ? '🎉' : (taps === topScore ? '😅' : '😤');
+            
+            // Session best update
+            if (taps > sessionBest) sessionBest = taps;
+
+            // Rank calculation
+            let rank = 'Iniciante 🐢';
+            let rankClass = '';
+            if (taps > 55) { rank = 'Lenda da Vexasus 👑'; rankClass = 'lenda'; }
+            else if (taps > 40) { rank = 'Pro-Tapper ⚡'; rankClass = 'pro'; }
+            else if (taps > 20) { rank = 'Amador 🔨'; }
+            
+            const rankBadge = document.getElementById('rank-badge');
+            rankBadge.className = 'rank-badge ' + rankClass;
+            document.getElementById('rank-name').textContent = rank;
+
+            document.getElementById('result-emoji').textContent = won ? '🎉' : (taps === topScore ? '😅' : (taps > 30 ? '🔥' : '😤'));
             document.getElementById('result-title').textContent = won
-                ? 'Novo recorde! Incrível!'
+                ? 'Novo recorde mundial! 🏆'
                 : (taps === topScore
                     ? `Empataste com ${cleanTop}! Quase lá!`
-                    : `Só ${taps} taps... ${cleanTop} fez ${topScore}!`);
-            document.getElementById('result-score').textContent = `O teu score: ${taps} taps`;
+                    : `Score: ${taps} taps. Melhor do Younes: ${topScore}`);
+            
+            document.getElementById('result-score').innerHTML = `O teu score: <strong>${taps}</strong> | O teu melhor: <strong>${sessionBest}</strong>`;
+            
             const ns = document.getElementById('name-section');
             if (taps > topScore) { ns.style.display = 'flex'; } else { ns.style.display = 'none'; }
         }
@@ -693,6 +737,14 @@
             if (tapping) return; tapping = true; setTimeout(() => tapping = false, 40);
             taps++;
             document.getElementById('tap-count').textContent = taps;
+            
+            // Milestone feedback
+            const feedback = document.getElementById('game-feedback');
+            if (taps === 20) { feedback.textContent = 'Boa! Continua! 🔥'; feedback.style.color = '#3498db'; }
+            if (taps === 35) { feedback.textContent = 'Acelera!! ⚡'; feedback.style.color = '#f1c40f'; }
+            if (taps === 47) { feedback.textContent = 'BATRESTE O YOUNES! 🚀'; feedback.style.color = '#e67e22'; }
+            if (taps === 60) { feedback.textContent = 'ESTÁS MALUCO?! 🤯'; feedback.style.color = '#e74c3c'; }
+
             if (navigator.vibrate) navigator.vibrate(10);
         }
         tapBtn.addEventListener('click', doTap);
