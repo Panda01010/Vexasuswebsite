@@ -720,7 +720,7 @@
                 ? 'Novo recorde mundial! 🏆'
                 : (taps === topScore
                     ? `Empataste com ${cleanTop}! Quase lá!`
-                    : `Score: ${taps} taps. Melhor do Younes: ${topScore}`);
+                    : `Score: ${taps} taps. Melhor de ${cleanTop}: ${topScore}`);
             
             document.getElementById('result-score').innerHTML = `O teu score: <strong>${taps}</strong> | O teu melhor: <strong>${sessionBest}</strong>`;
             
