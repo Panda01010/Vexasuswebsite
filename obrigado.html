@@ -4,89 +4,435 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tudo Pronto | Vexasus</title>
-    
-    <!-- MOCK PIXEL/CONVERSION EVENT -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Pixel Events -->
     <script>
       console.log("Facebook Pixel: Lead Event Fired");
       console.log("Google Ads: Conversion Event Fired");
     </script>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body class="bg-dark text-white text-center">
 
-    <nav class="navbar scrolled">
-        <div class="container navbar-container" style="justify-content: center;">
-            <a href="/" class="logo">
-                <img src="grey logo.png" alt="Vexasus Logo" style="height: 38px; width: auto;">
-            </a>
-        </div>
+    <style>
+        :root {
+            --red: #E24B4A;
+            --red-dark: #C0392B;
+            --bg: #121212;
+            --bg-card: #1a1a1a;
+            --border: rgba(255,255,255,0.08);
+            --text: #F4F5F6;
+            --muted: #9ca3af;
+            --green: #25D366;
+            --font: 'Outfit', system-ui, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ---- NAVBAR ---- */
+        .nav {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid var(--border);
+            background: rgba(18,18,18,0.9);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .nav img { height: 34px; width: auto; }
+
+        /* ---- MAIN ---- */
+        .main {
+            flex: 1;
+            width: 100%;
+            max-width: 520px;
+            padding: 2rem 1.25rem 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* ---- SUCCESS ICON ---- */
+        .icon-wrap {
+            position: relative;
+            width: 88px;
+            height: 88px;
+            margin: 2rem auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-ring {
+            position: absolute;
+            inset: 0;
+            border: 2px solid var(--red);
+            border-radius: 50%;
+            opacity: 0;
+            animation: ringOut 2.4s ease-out 0.5s infinite;
+        }
+        .icon-ring-2 {
+            animation-delay: 1.2s;
+        }
+        @keyframes ringOut {
+            0%   { transform: scale(0.7); opacity: 0.7; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+        .icon-check {
+            font-size: 3.2rem;
+            color: var(--red);
+            position: relative;
+            z-index: 1;
+            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.3); opacity: 0; }
+            to   { transform: scale(1); opacity: 1; }
+        }
+
+        /* ---- HEADING ---- */
+        .heading {
+            font-size: clamp(1.9rem, 7vw, 2.4rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.6rem;
+            animation: slideUp 0.5s ease 0.2s both;
+        }
+        .sub {
+            font-size: 0.95rem;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 360px;
+            animation: slideUp 0.5s ease 0.3s both;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---- COUNTDOWN BOX ---- */
+        .countdown-box {
+            background: linear-gradient(135deg, rgba(226,75,74,0.12), rgba(226,75,74,0.04));
+            border: 1px solid rgba(226,75,74,0.25);
+            border-radius: 16px;
+            padding: 1.4rem 1.5rem;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            animation: slideUp 0.5s ease 0.4s both;
+        }
+        .countdown-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 0.75rem;
+        }
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .countdown-digit {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.55rem 1rem;
+            font-size: 1.7rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            line-height: 1;
+            min-width: 52px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .countdown-colon {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--red);
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.2; }
+        }
+        .countdown-sub {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 0.7rem;
+        }
+
+        /* ---- AI BUBBLE ---- */
+        .ai-bubble {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.2rem 1.25rem;
+            width: 100%;
+            display: flex;
+            gap: 1rem;
+            text-align: left;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            animation: slideUp 0.5s ease 0.5s both;
+        }
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            background: var(--red);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 14px rgba(226,75,74,0.3);
+        }
+        .ai-text {
+            font-size: 0.9rem;
+            line-height: 1.55;
+            color: var(--muted);
+        }
+        .ai-text strong { color: var(--text); }
+        .ai-typing {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+        }
+        .ai-typing span {
+            width: 5px; height: 5px;
+            background: var(--red);
+            border-radius: 50%;
+            animation: dot 1.4s infinite ease-in-out;
+        }
+        .ai-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .ai-typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes dot {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+            40%           { transform: scale(1); opacity: 1; }
+        }
+
+        /* ---- CHECKLIST ---- */
+        .checklist {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            animation: slideUp 0.5s ease 0.6s both;
+        }
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.9rem 1.1rem;
+            text-align: left;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+        .check-item i {
+            color: var(--green);
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .check-item strong { color: var(--text); }
+
+        /* ---- DIVIDER ---- */
+        .divider {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            animation: slideUp 0.5s ease 0.7s both;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+        .divider span {
+            font-size: 0.78rem;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        /* ---- CTA BUTTON ---- */
+        .cta-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 1rem 1.5rem;
+            border-radius: 14px;
+            font-family: var(--font);
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            border: none;
+            animation: slideUp 0.5s ease 0.8s both;
+        }
+        .cta-btn-whatsapp {
+            background: rgba(37,211,102,0.1);
+            color: var(--green);
+            border: 1px solid rgba(37,211,102,0.25);
+        }
+        .cta-btn-whatsapp:hover {
+            background: rgba(37,211,102,0.18);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(37,211,102,0.15);
+        }
+        .cta-btn i { font-size: 1.2rem; }
+
+        .note {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 1rem;
+            line-height: 1.5;
+            animation: slideUp 0.5s ease 0.9s both;
+        }
+
+        /* ---- RESPONSIVE: already mobile-first, but ensure large screens also look good ---- */
+        @media (min-width: 600px) {
+            .main { padding: 2.5rem 2rem 5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav">
+        <a href="/">
+            <img src="grey logo.png" alt="Vexasus Logo">
+        </a>
     </nav>
 
-    <section class="section obrigado-section">
-        <div class="container">
-            <div class="obrigado-card" data-aos="fade-up">
-                <div class="obrigado-icon-wrapper">
-                    <div class="obrigado-icon-ring"></div>
-                    <i class="ph-fill ph-check-circle obrigado-icon-main"></i>
-                </div>
+    <main class="main">
 
-                <div class="time-badge">
-                    <i class="ph-fill ph-clock"></i>
-                    <span>Verificação em curso</span>
-                </div>
+        <!-- Success Icon -->
+        <div class="icon-wrap">
+            <div class="icon-ring"></div>
+            <div class="icon-ring icon-ring-2"></div>
+            <i class="ph-fill ph-check-circle icon-check"></i>
+        </div>
 
-                <h1 class="obrigado-title">Tudo pronto!</h1>
-                <p class="section-description mx-auto" style="color: var(--text-muted);">Recebemos o teu pedido com sucesso. O teu lugar na tua zona foi reservado.</p>
+        <!-- Title -->
+        <h1 class="heading">Tudo pronto! ✅</h1>
+        <p class="sub">O teu pedido foi recebido com sucesso e o teu lugar na tua zona está reservado.</p>
 
-                <div class="ai-notification">
-                    <div class="ai-avatar">
-                        <i class="ph-fill ph-robot"></i>
-                    </div>
-                    <div class="ai-message">
-                        <strong>Notificação da nossa IA:</strong><br>
-                        "Vais receber uma mensagem no WhatsApp nos próximos <strong>2 minutos</strong> para confirmarmos os teus dados e qualificar o teu pedido."
-                        <div class="ai-typing">
-                            <span></span><span></span><span></span>
-                        </div>
-                    </div>
-                </div>
+        <!-- Live Countdown -->
+        <div class="countdown-box">
+            <div class="countdown-label">
+                <i class="ph-fill ph-robot"></i> &nbsp;A nossa IA está a contactar-te
+            </div>
+            <div class="countdown-timer">
+                <div class="countdown-digit" id="cd-min">02</div>
+                <div class="countdown-colon">:</div>
+                <div class="countdown-digit" id="cd-sec">00</div>
+            </div>
+            <p class="countdown-sub">Receberes uma mensagem no WhatsApp neste tempo.</p>
+        </div>
 
-                <div class="next-steps-list">
-                    <div class="next-step-item" data-aos="fade-right" data-aos-delay="200">
-                        <i class="ph-fill ph-check-circle"></i>
-                        <span>Demorará menos de <strong>5 minutos</strong> a responder.</span>
-                    </div>
-                    <div class="next-step-item" data-aos="fade-right" data-aos-delay="300">
-                        <i class="ph-fill ph-check-circle"></i>
-                        <span>Ajudar-nos-ás a definir o design ideal para o teu site.</span>
-                    </div>
-                    <div class="next-step-item" data-aos="fade-right" data-aos-delay="400">
-                        <i class="ph-fill ph-check-circle"></i>
-                        <span>Começamos a construção imediatamente após a qualificação.</span>
-                    </div>
+        <!-- AI Bubble -->
+        <div class="ai-bubble">
+            <div class="ai-avatar">
+                <i class="ph-fill ph-robot"></i>
+            </div>
+            <div class="ai-text">
+                <strong>Notificação da IA Vexasus:</strong><br>
+                Vais receber <strong>3 a 4 perguntas rápidas</strong> para qualificarmos o teu pedido. Demora menos de <strong>5 minutos</strong> a responder.
+                <div class="ai-typing">
+                    <span></span><span></span><span></span>
                 </div>
-                
-                <a href="https://wa.me/351923124786?text=Olá,%20acabei%20de%20submeter%20o%20formulário%20para%20ter%20o%20site%20grátis%20da%20Vexasus." class="btn-hero-whatsapp w-100" target="_blank" rel="noopener noreferrer" style="border-radius: 12px; border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.05);">
-                    <i class="ph-bold ph-whatsapp-logo"></i> Se preferires, fala comigo agora
-                </a>
             </div>
         </div>
-    </section>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <!-- Checklist -->
+        <div class="checklist">
+            <div class="check-item">
+                <i class="ph-fill ph-check-circle"></i>
+                <span>O teu lugar na zona está <strong>reservado</strong></span>
+            </div>
+            <div class="check-item">
+                <i class="ph-fill ph-check-circle"></i>
+                <span>Responde às perguntas da IA em <strong>menos de 5 min</strong></span>
+            </div>
+            <div class="check-item">
+                <i class="ph-fill ph-check-circle"></i>
+                <span>Construção do teu site começa <strong>imediatamente</strong></span>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider">
+            <span>Prefereres falar diretamente?</span>
+        </div>
+
+        <!-- Personal WhatsApp CTA — only visible after form submission -->
+        <a href="https://wa.me/351923124786?text=Olá%20Younes%2C%20acabei%20de%20submeter%20o%20formulário%20da%20Vexasus%20e%20gostaria%20de%20falar%20contigo%20diretamente."
+           class="cta-btn cta-btn-whatsapp"
+           target="_blank"
+           rel="noopener noreferrer"
+           id="personal-wa">
+            <i class="ph-fill ph-whatsapp-logo"></i>
+            Falar diretamente com o Younes
+        </a>
+
+        <p class="note">Este contacto é exclusivo para quem já submeteu o formulário. Respondemos em menos de 10 minutos.</p>
+
+    </main>
+
     <script>
-        AOS.init({ 
-            once: true, 
-            duration: 1000,
-            easing: 'ease-out-cubic'
-        });
+        // 2-minute countdown
+        (function() {
+            let total = 120; // seconds
+            const minEl = document.getElementById('cd-min');
+            const secEl = document.getElementById('cd-sec');
+
+            const pad = n => String(n).padStart(2, '0');
+
+            const tick = setInterval(() => {
+                if (total <= 0) {
+                    clearInterval(tick);
+                    minEl.textContent = '00';
+                    secEl.textContent = '00';
+                    // When expired, update the message
+                    document.querySelector('.countdown-box').style.borderColor = 'rgba(37,211,102,0.3)';
+                    document.querySelector('.countdown-label').innerHTML = '<i class="ph-fill ph-check-circle"></i> &nbsp;Mensagem enviada!';
+                    return;
+                }
+                total--;
+                minEl.textContent = pad(Math.floor(total / 60));
+                secEl.textContent = pad(total % 60);
+            }, 1000);
+        })();
     </script>
+
 </body>
 </html>
-
