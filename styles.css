@@ -2164,3 +2164,76 @@ h1, h2, h3, h4 {
         margin: 0 auto;
     }
 }
+
+/* ── First Client Section ─────────────────────────────── */
+.first-client-section { padding: 5rem 0; }
+
+.first-client-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.first-client-text .section-title {
+    font-size: clamp(1.8rem, 2.5vw, 2.6rem);
+    text-align: left;
+    margin-bottom: 0;
+}
+
+.proof-card {
+    background: #111;
+    border: 1px solid #2a2a2a;
+    border-top: 3px solid #E24B4A;
+    border-radius: 4px;
+    padding: 2.5rem 2rem;
+}
+
+.proof-card-icon {
+    font-size: 2.5rem;
+    color: #E24B4A;
+    margin-bottom: 1rem;
+}
+
+.proof-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.proof-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.proof-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    color: #ccc;
+}
+
+.proof-list li i {
+    color: #E24B4A;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .first-client-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    .first-client-text .section-title {
+        text-align: center;
+    }
+    .first-client-text a {
+        margin: 0 auto;
+        display: block;
+        text-align: center;
+    }
+}
