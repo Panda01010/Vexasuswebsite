@@ -420,27 +420,23 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         <!-- Live Countdown -->
         <div class="countdown-box">
             <div class="countdown-label">
-                <i class="ph-fill ph-robot"></i> &nbsp;A nossa IA está a contactar-te
+                <i class="ph-fill ph-clock"></i> &nbsp;Tempo estimado de resposta
             </div>
             <div class="countdown-timer">
-                <div class="countdown-digit" id="cd-min">02</div>
+                <div class="countdown-digit" id="cd-min">30</div>
                 <div class="countdown-colon">:</div>
                 <div class="countdown-digit" id="cd-sec">00</div>
             </div>
-            <p class="countdown-sub">Receberes uma mensagem no WhatsApp neste tempo.</p>
+            <p class="countdown-sub">Tempo previsto para receberes uma mensagem no WhatsApp.</p>
         </div>
 
-        <!-- AI Bubble -->
+        <!-- Message Bubble -->
         <div class="ai-bubble">
             <div class="ai-avatar">
-                <i class="ph-fill ph-robot"></i>
+                <i class="ph-fill ph-user"></i>
             </div>
-            <div class="ai-text">
-                <strong>Notificação da IA Vexasus:</strong><br>
-                Vais receber <strong>3 a 4 perguntas rápidas</strong> para qualificarmos o teu pedido. Demora menos de <strong>5 minutos</strong> a responder.
-                <div class="ai-typing">
-                    <span></span><span></span><span></span>
-                </div>
+            <div class="ai-text" style="font-size: 1rem; line-height: 1.6;">
+                O Younes vai contactar-te pessoalmente pelo WhatsApp. Normalmente respondo no mesmo dia.
             </div>
         </div>
 
@@ -514,7 +510,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             </div>
             <div class="check-item">
                 <i class="ph-fill ph-check-circle"></i>
-                <span>Responde às perguntas da IA em <strong>menos de 5 min</strong></span>
+                <span>Aguarda a mensagem do Younes no <strong>WhatsApp</strong></span>
             </div>
             <div class="check-item">
                 <i class="ph-fill ph-check-circle"></i>
@@ -546,9 +542,9 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // ── 2-min countdown ──────────────────────────────────────────────
+        // ── 30-min countdown ──────────────────────────────────────────────
         (function() {
-            let total = 120;
+            let total = 1800;
             const minEl = document.getElementById('cd-min');
             const secEl = document.getElementById('cd-sec');
             const pad = n => String(n).padStart(2, '0');
