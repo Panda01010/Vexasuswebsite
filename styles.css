@@ -94,7 +94,7 @@ h1, h2, h3, h4 {
     padding: 0 2rem;
 }
 
-.section { padding: 6rem 0; }
+.section { padding: 4.5rem 0; }
 
 /* Buttons */
 .btn {
@@ -277,8 +277,8 @@ h1, h2, h3, h4 {
 
 /* Hero */
 .hero {
-    padding-top: 10rem;
-    padding-bottom: 5rem;
+    padding-top: 7rem;
+    padding-bottom: 3.5rem;
 }
 
 .hero-grid {
@@ -586,8 +586,8 @@ h1, h2, h3, h4 {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    padding-top: 10rem;
-    padding-bottom: 5rem;
+    padding-top: 7rem;
+    padding-bottom: 3.5rem;
     margin-top: 60px; /* Offset for fixed navbar */
 }
 .hero-overlay {
@@ -682,6 +682,22 @@ h1, h2, h3, h4 {
 .hero-trust i {
     color: #E24B4A;
 }
+/* Hero Image — portrait */
+.hero-image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+    display: block;
+}
+
 .hero-scarcity-bar {
     width: 100%;
     background-color: #E24B4A;
@@ -695,6 +711,9 @@ h1, h2, h3, h4 {
 @media (max-width: 768px) {
     .hero-title-new {
         font-size: 40px;
+    }
+    .hero-image {
+        max-width: 100%;
     }
 }
 
@@ -844,7 +863,7 @@ h1, h2, h3, h4 {
     display: flex;
     justify-content: space-between;
     position: relative;
-    margin-top: 5rem;
+    margin-top: 3rem;
     gap: 2rem;
 }
 
@@ -1501,7 +1520,7 @@ h1, h2, h3, h4 {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    padding: 8rem 0;
+    padding: 5rem 0;
     overflow: hidden;
 }
 
@@ -1577,7 +1596,7 @@ h1, h2, h3, h4 {
 /* Footer Redesign */
 .footer {
     background-color: var(--dark-bg);
-    padding: 5rem 0 2rem 0;
+    padding: 3.5rem 0 2rem 0;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -1852,7 +1871,7 @@ h1, h2, h3, h4 {
 
     /* Section Padding Reduction for Mobile */
     .section {
-        padding: 4rem 0;
+        padding: 3rem 0;
     }
 
     /* Horizontal Scroll / Swipeable Containers for mobile app-like feel */
@@ -2166,7 +2185,7 @@ h1, h2, h3, h4 {
 }
 
 /* ── First Client Section ─────────────────────────────── */
-.first-client-section { padding: 5rem 0; }
+.first-client-section { padding: 3.5rem 0; }
 
 .first-client-grid {
     display: grid;
