@@ -163,10 +163,11 @@
     <!-- Tab Nav -->
     <div class="tab-nav">
         <button class="tab-btn active" onclick="switchTab('ab',this)">📊 A/B Results</button>
-        <button class="tab-btn" onclick="switchTab('analytics',this)">📈 Analytics</button>
+        <button class="tab-btn" onclick="switchTab('ga4',this)">📈 Google Analytics</button>
+        <button class="tab-btn" onclick="switchTab('clarity',this)">🎬 Clarity</button>
     </div>
 
-    <!-- Tab: A/B Results -->
+    <!-- ═══ TAB 1: A/B Results ═══ -->
     <div id="tab-ab" class="tab-pane active">
         <div class="summary-row">
             <div class="sum-item"><span class="sum-label">Total Visitas</span><span class="sum-value" id="sum-visits">–</span></div>
@@ -205,51 +206,35 @@
         <p class="note">Dados em tempo real do Firebase Firestore.<br>Cada visita e conversão é registada automaticamente.</p>
     </div>
 
-    <!-- Tab: Analytics -->
-    <div id="tab-analytics" class="tab-pane">
+    <!-- ═══ TAB 2: Google Analytics ═══ -->
+    <div id="tab-ga4" class="tab-pane">
 
-        <!-- Looker Studio -->
-        <div class="section-lbl">📊 Google Analytics — Looker Studio</div>
-        <div class="ls-frame-wrap" style="display:block">
+        <!-- Permission notice -->
+        <div style="background:rgba(251,188,4,0.08);border:1px solid rgba(251,188,4,0.25);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+            <span style="font-size:1.2rem;">⚠️</span>
+            <div style="flex:1;min-width:200px;">
+                <div style="font-size:0.85rem;font-weight:700;color:#fbbc04;margin-bottom:0.2rem;">Se vês um ecrã de login abaixo</div>
+                <div style="font-size:0.78rem;color:var(--muted);">O report do Looker Studio precisa de ser público. Vai a Looker Studio → Share → Manage access → "Anyone with the link can view"</div>
+            </div>
+            <a href="https://lookerstudio.google.com/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd" target="_blank" style="background:#fbbc04;color:#000;border:none;border-radius:8px;padding:0.5rem 1rem;font-size:0.8rem;font-weight:700;text-decoration:none;white-space:nowrap;">Abrir Looker Studio →</a>
+        </div>
+
+        <!-- Looker Studio embed -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1.5rem;">
+            <div style="padding:0.75rem 1.25rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);">📊 Looker Studio Report — GA4 Live</span>
+                <a href="https://lookerstudio.google.com/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd" target="_blank" style="font-size:0.75rem;color:var(--muted);text-decoration:none;">Abrir em fullscreen ↗</a>
+            </div>
             <iframe
                 src="https://datastudio.google.com/embed/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd/page/EddxF"
-                style="width:100%;height:600px;border:none;display:block;"
+                style="width:100%;height:620px;border:none;display:block;"
                 allowfullscreen
                 sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
             </iframe>
         </div>
 
-        <!-- Clarity -->
-        <div class="section-lbl" style="margin-top:1.5rem;">🎬 Microsoft Clarity</div>
-        <div class="clarity-grid">
-            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/dashboard" target="_blank">
-                <div class="cl-icon">🎬</div>
-                <div class="cl-label">Clarity</div>
-                <div class="cl-title">All Sessions</div>
-                <div class="cl-sub">Dashboard geral</div>
-            </a>
-            <a class="cl-card var-a" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AA" target="_blank">
-                <div class="cl-icon">🔴</div>
-                <div class="cl-label">Clarity · A</div>
-                <div class="cl-title">Gravações A</div>
-                <div class="cl-sub">Variante Inspiração</div>
-            </a>
-            <a class="cl-card var-b" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AB" target="_blank">
-                <div class="cl-icon">🔵</div>
-                <div class="cl-label">Clarity · B</div>
-                <div class="cl-title">Gravações B</div>
-                <div class="cl-sub">Variante Dor</div>
-            </a>
-            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/heatmaps" target="_blank">
-                <div class="cl-icon">🗺️</div>
-                <div class="cl-label">Clarity</div>
-                <div class="cl-title">Heatmaps</div>
-                <div class="cl-sub">Cliques & scroll</div>
-            </a>
-        </div>
-
-        <!-- GA4 direct links -->
-        <div class="section-lbl" style="margin-top:0.5rem;">🔗 Google Analytics — Acesso Rápido</div>
+        <!-- GA4 Quick Links -->
+        <div class="section-lbl">🔗 Acesso Rápido — GA4</div>
         <div class="clarity-grid">
             <a class="cl-card" style="border-color:rgba(251,188,4,0.25)" href="https://analytics.google.com/analytics/web/" target="_blank">
                 <div class="cl-icon">📈</div>
@@ -263,16 +248,93 @@
                 <div class="cl-title">Realtime</div>
                 <div class="cl-sub">Utilizadores agora</div>
             </a>
-            <a class="cl-card" style="border-color:rgba(251,188,4,0.25)" href="https://lookerstudio.google.com" target="_blank">
+            <a class="cl-card" style="border-color:rgba(251,188,4,0.25)" href="https://lookerstudio.google.com/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd" target="_blank">
                 <div class="cl-icon">📊</div>
                 <div class="cl-label">Looker Studio</div>
-                <div class="cl-title">Criar Report</div>
-                <div class="cl-sub">Embed GA4 aqui</div>
+                <div class="cl-title">Editar Report</div>
+                <div class="cl-sub">Adicionar gráficos</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- ═══ TAB 3: Clarity ═══ -->
+    <div id="tab-clarity" class="tab-pane">
+
+        <!-- What Clarity shows -->
+        <div style="background:rgba(0,149,255,0.06);border:1px solid rgba(0,149,255,0.2);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;">
+            <div style="font-size:0.85rem;font-weight:700;color:#0095ff;margin-bottom:0.4rem;">🎬 O que o Clarity mostra</div>
+            <div style="font-size:0.8rem;color:var(--muted);line-height:1.8;">
+                ✅ Gravações de sessão — vê exactamente o que cada utilizador fez<br>
+                ✅ Mapas de calor — onde clicam e onde param de ler<br>
+                ✅ Rage clicks — onde ficam frustrados<br>
+                ✅ Filtros por variante A ou B
+            </div>
+        </div>
+
+        <!-- All Sessions -->
+        <div class="section-lbl">📋 Todas as Sessões</div>
+        <div class="clarity-grid" style="grid-template-columns:1fr 1fr;margin-bottom:1.5rem;">
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/dashboard" target="_blank">
+                <div class="cl-icon">🏠</div>
+                <div class="cl-label">Clarity</div>
+                <div class="cl-title">Dashboard Geral</div>
+                <div class="cl-sub">Visão geral de todas as métricas</div>
+            </a>
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/heatmaps" target="_blank">
+                <div class="cl-icon">🗺️</div>
+                <div class="cl-label">Clarity</div>
+                <div class="cl-title">Heatmaps</div>
+                <div class="cl-sub">Onde clicam & onde param de ler</div>
+            </a>
+        </div>
+
+        <!-- Recordings by variant -->
+        <div class="section-lbl">🎬 Gravações por Variante</div>
+        <div class="clarity-grid" style="grid-template-columns:1fr 1fr;margin-bottom:1.5rem;">
+            <a class="cl-card var-a" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AA" target="_blank">
+                <div class="cl-icon">🔴</div>
+                <div class="cl-label">Variante A — Inspiração</div>
+                <div class="cl-title">Gravações do index.html</div>
+                <div class="cl-sub">Vê sessões de utilizadores da página A</div>
+            </a>
+            <a class="cl-card var-b" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AB" target="_blank">
+                <div class="cl-icon">🔵</div>
+                <div class="cl-label">Variante B — Dor</div>
+                <div class="cl-title">Gravações do index-b.html</div>
+                <div class="cl-sub">Vê sessões de utilizadores da página B</div>
+            </a>
+        </div>
+
+        <!-- Filter by section -->
+        <div class="section-lbl">🔍 Ver quem saiu em cada secção</div>
+        <div class="clarity-grid" style="margin-bottom:1.5rem;">
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=last_section%3A3_problems" target="_blank">
+                <div class="cl-icon">🚪</div>
+                <div class="cl-label">Saiu em</div>
+                <div class="cl-title">Problemas</div>
+                <div class="cl-sub">Secção 3</div>
+            </a>
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=last_section%3A7_pricing" target="_blank">
+                <div class="cl-icon">🚪</div>
+                <div class="cl-label">Saiu em</div>
+                <div class="cl-title">Preço</div>
+                <div class="cl-sub">Secção 7</div>
+            </a>
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=last_section%3A9_apply_form" target="_blank">
+                <div class="cl-icon">📝</div>
+                <div class="cl-label">Chegou ao</div>
+                <div class="cl-title">Formulário</div>
+                <div class="cl-sub">Secção 9 — os mais quentes</div>
+            </a>
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=last_section%3A8_faq" target="_blank">
+                <div class="cl-icon">🚪</div>
+                <div class="cl-label">Saiu em</div>
+                <div class="cl-title">FAQ</div>
+                <div class="cl-sub">Secção 8</div>
             </a>
         </div>
     </div>
 </div>
-
 
 <!-- Delete confirm modal -->
 <div id="modal-overlay">
