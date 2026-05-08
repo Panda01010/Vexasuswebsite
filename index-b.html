@@ -1159,7 +1159,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         document.getElementById('nf-btn-loading').style.display = 'inline-flex';
         btn.disabled = true;
         var payload = {
-            firstName: document.getElementById('nf-name').value.trim(),
+            fullName: document.getElementById('nf-name').value.trim(),
             phone: '+' + selectedDial + document.getElementById('nf-phone').value.trim().replace(/\s/g,''),
             workType: document.getElementById('nf-work-type').value,
             zone: document.getElementById('nf-zone').value,
