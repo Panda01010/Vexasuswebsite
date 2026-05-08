@@ -91,28 +91,42 @@
         .btn-confirm-del { background:var(--red); color:#fff; border:none; border-radius:10px; padding:0.75rem 1.5rem; font-family:var(--font); font-size:0.9rem; font-weight:700; cursor:pointer; }
         .btn-cancel { background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:10px; padding:0.75rem 1.5rem; font-family:var(--font); font-size:0.9rem; font-weight:600; cursor:pointer; }
 
-        /* Analytics Hub */
-        .section-divider { display:flex; align-items:center; gap:0.75rem; margin:2rem 0 1.25rem; }
-        .section-divider::before, .section-divider::after { content:''; flex:1; height:1px; background:var(--border); }
-        .section-divider span { font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); white-space:nowrap; }
-        .analytics-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:1.5rem; }
-        @media(max-width:700px){ .analytics-grid { grid-template-columns:1fr 1fr; } }
-        @media(max-width:420px){ .analytics-grid { grid-template-columns:1fr; } }
-        .an-card { display:flex; flex-direction:column; gap:0.6rem; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.2rem 1.1rem; text-decoration:none; color:var(--text); transition:border-color 0.2s, transform 0.15s; cursor:pointer; }
-        .an-card:hover { transform:translateY(-2px); }
-        .an-card.ga4 { border-color:rgba(251,188,4,0.2); }
-        .an-card.ga4:hover { border-color:rgba(251,188,4,0.5); }
-        .an-card.clarity { border-color:rgba(0,149,255,0.2); }
-        .an-card.clarity:hover { border-color:rgba(0,149,255,0.5); }
-        .an-card.clarity-a { border-color:rgba(226,75,74,0.2); }
-        .an-card.clarity-a:hover { border-color:rgba(226,75,74,0.5); }
-        .an-card.clarity-b { border-color:rgba(52,152,219,0.2); }
-        .an-card.clarity-b:hover { border-color:rgba(52,152,219,0.5); }
-        .an-icon { font-size:1.6rem; line-height:1; }
-        .an-label { font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
-        .an-title { font-size:0.92rem; font-weight:700; line-height:1.3; }
-        .an-desc { font-size:0.75rem; color:var(--muted); line-height:1.4; }
-        .an-arrow { font-size:0.75rem; color:var(--muted); margin-top:auto; }
+        /* Tabs */
+        .tab-nav { display:flex; gap:0.5rem; margin-bottom:1.75rem; border-bottom:1px solid var(--border); padding-bottom:0; }
+        .tab-btn { background:none; border:none; color:var(--muted); font-family:var(--font); font-size:0.9rem; font-weight:700; padding:0.6rem 1rem; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.2s; }
+        .tab-btn:hover { color:var(--text); }
+        .tab-btn.active { color:var(--text); border-bottom-color:var(--red); }
+        .tab-pane { display:none; }
+        .tab-pane.active { display:block; }
+        /* Looker Studio */
+        .ls-setup { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:2rem; margin-bottom:1.5rem; }
+        .ls-setup h3 { font-size:1rem; font-weight:700; margin-bottom:0.5rem; }
+        .ls-setup ol { color:var(--muted); font-size:0.85rem; line-height:2; padding-left:1.25rem; margin:1rem 0; }
+        .ls-setup ol a { color:#fbbc04; text-decoration:none; }
+        .ls-setup ol a:hover { text-decoration:underline; }
+        .ls-input-row { display:flex; gap:0.75rem; margin-top:1rem; flex-wrap:wrap; }
+        .ls-url-input { flex:1; min-width:200px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:10px; padding:0.75rem 1rem; color:var(--text); font-family:var(--font); font-size:0.85rem; outline:none; }
+        .ls-url-input:focus { border-color:rgba(251,188,4,0.5); }
+        .ls-save-btn { background:#fbbc04; color:#000; border:none; border-radius:10px; padding:0.75rem 1.5rem; font-family:var(--font); font-size:0.85rem; font-weight:700; cursor:pointer; white-space:nowrap; }
+        .ls-frame-wrap { position:relative; background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden; margin-bottom:1.5rem; }
+        .ls-frame-wrap iframe { width:100%; height:600px; border:none; display:block; }
+        .ls-change-btn { position:absolute; top:0.75rem; right:0.75rem; background:rgba(0,0,0,0.6); border:1px solid var(--border); color:var(--muted); border-radius:8px; padding:0.4rem 0.85rem; font-family:var(--font); font-size:0.75rem; cursor:pointer; backdrop-filter:blur(4px); }
+        .ls-change-btn:hover { color:var(--text); }
+        /* Clarity cards */
+        .clarity-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:1.5rem; }
+        @media(max-width:700px){ .clarity-grid { grid-template-columns:1fr 1fr; } }
+        .cl-card { display:flex; flex-direction:column; gap:0.5rem; background:var(--card); border:1px solid rgba(0,149,255,0.2); border-radius:14px; padding:1.1rem; text-decoration:none; color:var(--text); transition:border-color 0.2s, transform 0.15s; }
+        .cl-card:hover { border-color:rgba(0,149,255,0.5); transform:translateY(-2px); }
+        .cl-card.var-a { border-color:rgba(226,75,74,0.25); }
+        .cl-card.var-a:hover { border-color:rgba(226,75,74,0.6); }
+        .cl-card.var-b { border-color:rgba(52,152,219,0.25); }
+        .cl-card.var-b:hover { border-color:rgba(52,152,219,0.6); }
+        .cl-icon { font-size:1.4rem; }
+        .cl-label { font-size:0.68rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
+        .cl-title { font-size:0.88rem; font-weight:700; }
+        .cl-sub { font-size:0.72rem; color:var(--muted); }
+        /* Section label */
+        .section-lbl { font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:0.85rem; }
     </style>
 </head>
 <body>
@@ -133,12 +147,11 @@
     <p id="pw-error">Password incorreta.</p>
 </div>
 
-<!-- Dashboard -->
 <div id="dash">
     <div class="dash-header">
         <div>
-            <h1>A/B Test Dashboard</h1>
-            <p class="subtitle">Vexasus · Live Firebase · <span id="last-updated">–</span></p>
+            <h1>Vexasus Dashboard</h1>
+            <p class="subtitle">Live Firebase · <span id="last-updated">–</span></p>
         </div>
         <div class="header-btns">
             <button class="btn-refresh" onclick="loadData()">⟳ Refresh</button>
@@ -147,105 +160,130 @@
         </div>
     </div>
 
-    <div class="summary-row">
-        <div class="sum-item"><span class="sum-label">Total Visitas</span><span class="sum-value" id="sum-visits">–</span></div>
-        <div class="sum-item"><span class="sum-label">Total Conversões</span><span class="sum-value" id="sum-conv">–</span></div>
-        <div class="sum-item"><span class="sum-label">Taxa Global</span><span class="sum-value" id="sum-rate">–</span></div>
-        <div class="sum-item"><span class="sum-label">A ganhar</span><span class="sum-value" id="sum-winner" style="color:var(--green)">–</span></div>
+    <!-- Tab Nav -->
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('ab',this)">📊 A/B Results</button>
+        <button class="tab-btn" onclick="switchTab('analytics',this)">📈 Analytics</button>
     </div>
 
-    <div class="cards-row">
-        <div class="ab-card" id="card-a">
-            <div class="variant-label">Variante A</div>
-            <div class="variant-name">Inspiração · index.html</div>
-            <div class="stat-row"><span class="stat-label">Visitas</span><span class="stat-value" id="a-visits">–</span></div>
-            <div class="stat-row"><span class="stat-label">Conversões</span><span class="stat-value" id="a-conv">–</span></div>
-            <div class="rate-big neutral" id="a-rate">–%</div>
-            <div class="rate-sub">taxa de conversão</div>
-            <div class="progress-wrap">
-                <div class="progress-label"><span>Conv. rate</span><span id="a-rate-label">–</span></div>
-                <div class="progress-bar"><div class="progress-fill" id="a-bar" style="width:0%"></div></div>
+    <!-- Tab: A/B Results -->
+    <div id="tab-ab" class="tab-pane active">
+        <div class="summary-row">
+            <div class="sum-item"><span class="sum-label">Total Visitas</span><span class="sum-value" id="sum-visits">–</span></div>
+            <div class="sum-item"><span class="sum-label">Total Conversões</span><span class="sum-value" id="sum-conv">–</span></div>
+            <div class="sum-item"><span class="sum-label">Taxa Global</span><span class="sum-value" id="sum-rate">–</span></div>
+            <div class="sum-item"><span class="sum-label">A ganhar</span><span class="sum-value" id="sum-winner" style="color:var(--green)">–</span></div>
+        </div>
+        <div class="cards-row">
+            <div class="ab-card" id="card-a">
+                <div class="variant-label">Variante A</div>
+                <div class="variant-name">Inspiração · index.html</div>
+                <div class="stat-row"><span class="stat-label">Visitas</span><span class="stat-value" id="a-visits">–</span></div>
+                <div class="stat-row"><span class="stat-label">Conversões</span><span class="stat-value" id="a-conv">–</span></div>
+                <div class="rate-big neutral" id="a-rate">–%</div>
+                <div class="rate-sub">taxa de conversão</div>
+                <div class="progress-wrap">
+                    <div class="progress-label"><span>Conv. rate</span><span id="a-rate-label">–</span></div>
+                    <div class="progress-bar"><div class="progress-fill" id="a-bar" style="width:0%"></div></div>
+                </div>
+            </div>
+            <div class="ab-card" id="card-b">
+                <div class="variant-label">Variante B</div>
+                <div class="variant-name">Dor · index-b.html</div>
+                <div class="stat-row"><span class="stat-label">Visitas</span><span class="stat-value" id="b-visits">–</span></div>
+                <div class="stat-row"><span class="stat-label">Conversões</span><span class="stat-value" id="b-conv">–</span></div>
+                <div class="rate-big neutral" id="b-rate">–%</div>
+                <div class="rate-sub">taxa de conversão</div>
+                <div class="progress-wrap">
+                    <div class="progress-label"><span>Conv. rate</span><span id="b-rate-label">–</span></div>
+                    <div class="progress-bar"><div class="progress-fill green" id="b-bar" style="width:0%"></div></div>
+                </div>
             </div>
         </div>
-        <div class="ab-card" id="card-b">
-            <div class="variant-label">Variante B</div>
-            <div class="variant-name">Dor · index-b.html</div>
-            <div class="stat-row"><span class="stat-label">Visitas</span><span class="stat-value" id="b-visits">–</span></div>
-            <div class="stat-row"><span class="stat-label">Conversões</span><span class="stat-value" id="b-conv">–</span></div>
-            <div class="rate-big neutral" id="b-rate">–%</div>
-            <div class="rate-sub">taxa de conversão</div>
-            <div class="progress-wrap">
-                <div class="progress-label"><span>Conv. rate</span><span id="b-rate-label">–</span></div>
-                <div class="progress-bar"><div class="progress-fill green" id="b-bar" style="width:0%"></div></div>
-            </div>
-        </div>
+        <div class="log-title">📋 Últimos 20 eventos</div>
+        <div id="log-wrap" class="loading">A carregar...</div>
+        <p class="note">Dados em tempo real do Firebase Firestore.<br>Cada visita e conversão é registada automaticamente.</p>
     </div>
 
-    <div class="log-title">📋 Últimos 20 eventos</div>
-    <div id="log-wrap" class="loading">A carregar...</div>
-    <p class="note">Dados em tempo real do Firebase Firestore.<br>Cada visita e conversão é registada automaticamente.</p>
+    <!-- Tab: Analytics -->
+    <div id="tab-analytics" class="tab-pane">
 
-    <!-- Analytics Hub -->
-    <div class="section-divider"><span>📊 Analytics Hub</span></div>
+        <!-- Looker Studio -->
+        <div class="section-lbl">📊 Google Analytics — Looker Studio</div>
+        <div id="ls-setup-card" class="ls-setup">
+            <h3>📈 Embeds GA4 diretamente aqui</h3>
+            <p style="color:var(--muted);font-size:0.85rem;margin-top:0.25rem;">Usa o Looker Studio (grátis) para criar um report público que carrega aqui dentro. Leva 3 minutos.</p>
+            <ol>
+                <li>Vai a <a href="https://lookerstudio.google.com" target="_blank">lookerstudio.google.com</a> e clica <strong>Create → Report</strong></li>
+                <li>Liga a tua propriedade GA4 <strong>G-03ZLV6SQXF</strong></li>
+                <li>Adiciona os gráficos que queres</li>
+                <li>Clica <strong>Share → Embed report</strong> e copia o URL do iframe</li>
+                <li>Cola aqui em baixo e clica Guardar</li>
+            </ol>
+            <div class="ls-input-row">
+                <input class="ls-url-input" id="ls-url-input" type="text" placeholder="https://lookerstudio.google.com/embed/reporting/...">
+                <button class="ls-save-btn" onclick="saveLookerUrl()">💾 Guardar & Embed</button>
+            </div>
+        </div>
+        <div id="ls-frame-card" class="ls-frame-wrap" style="display:none">
+            <iframe id="ls-iframe" allowfullscreen></iframe>
+            <button class="ls-change-btn" onclick="resetLookerUrl()">✏️ Alterar URL</button>
+        </div>
 
-    <div class="analytics-grid">
+        <!-- Clarity -->
+        <div class="section-lbl" style="margin-top:1.5rem;">🎬 Microsoft Clarity</div>
+        <div class="clarity-grid">
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/dashboard" target="_blank">
+                <div class="cl-icon">🎬</div>
+                <div class="cl-label">Clarity</div>
+                <div class="cl-title">All Sessions</div>
+                <div class="cl-sub">Dashboard geral</div>
+            </a>
+            <a class="cl-card var-a" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AA" target="_blank">
+                <div class="cl-icon">🔴</div>
+                <div class="cl-label">Clarity · A</div>
+                <div class="cl-title">Gravações A</div>
+                <div class="cl-sub">Variante Inspiração</div>
+            </a>
+            <a class="cl-card var-b" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AB" target="_blank">
+                <div class="cl-icon">🔵</div>
+                <div class="cl-label">Clarity · B</div>
+                <div class="cl-title">Gravações B</div>
+                <div class="cl-sub">Variante Dor</div>
+            </a>
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/heatmaps" target="_blank">
+                <div class="cl-icon">🗺️</div>
+                <div class="cl-label">Clarity</div>
+                <div class="cl-title">Heatmaps</div>
+                <div class="cl-sub">Cliques & scroll</div>
+            </a>
+        </div>
 
-        <!-- GA4 Overview -->
-        <a class="an-card ga4" href="https://analytics.google.com/analytics/web/" target="_blank" rel="noopener">
-            <div class="an-icon">📈</div>
-            <div class="an-label">Google Analytics</div>
-            <div class="an-title">Overview & Traffic</div>
-            <div class="an-desc">Visitas, sessões, fontes de tráfego, dispositivos</div>
-            <div class="an-arrow">Abrir GA4 →</div>
-        </a>
-
-        <!-- GA4 Realtime -->
-        <a class="an-card ga4" href="https://analytics.google.com/analytics/web/#/realtime" target="_blank" rel="noopener">
-            <div class="an-icon">🔴</div>
-            <div class="an-label">Google Analytics</div>
-            <div class="an-title">Realtime</div>
-            <div class="an-desc">Utilizadores ativos agora mesmo no site</div>
-            <div class="an-arrow">Ver live →</div>
-        </a>
-
-        <!-- Clarity All -->
-        <a class="an-card clarity" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/dashboard" target="_blank" rel="noopener">
-            <div class="an-icon">🎬</div>
-            <div class="an-label">Microsoft Clarity</div>
-            <div class="an-title">Todas as Sessões</div>
-            <div class="an-desc">Dashboard geral com heatmaps e gravações</div>
-            <div class="an-arrow">Abrir Clarity →</div>
-        </a>
-
-        <!-- Clarity Variant A -->
-        <a class="an-card clarity-a" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AA" target="_blank" rel="noopener">
-            <div class="an-icon">🔴</div>
-            <div class="an-label">Clarity · Variante A</div>
-            <div class="an-title">Gravações — Inspiração</div>
-            <div class="an-desc">index.html · Só sessões do Variant A</div>
-            <div class="an-arrow">Ver gravações A →</div>
-        </a>
-
-        <!-- Clarity Variant B -->
-        <a class="an-card clarity-b" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AB" target="_blank" rel="noopener">
-            <div class="an-icon">🔵</div>
-            <div class="an-label">Clarity · Variante B</div>
-            <div class="an-title">Gravações — Dor</div>
-            <div class="an-desc">index-b.html · Só sessões do Variant B</div>
-            <div class="an-arrow">Ver gravações B →</div>
-        </a>
-
-        <!-- Clarity Heatmaps -->
-        <a class="an-card clarity" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/heatmaps" target="_blank" rel="noopener">
-            <div class="an-icon">🗺️</div>
-            <div class="an-label">Clarity · Heatmaps</div>
-            <div class="an-title">Mapas de Cliques</div>
-            <div class="an-desc">Onde é que as pessoas clicam e param de ler</div>
-            <div class="an-arrow">Ver heatmaps →</div>
-        </a>
-
+        <!-- GA4 direct links -->
+        <div class="section-lbl" style="margin-top:0.5rem;">🔗 Google Analytics — Acesso Rápido</div>
+        <div class="clarity-grid">
+            <a class="cl-card" style="border-color:rgba(251,188,4,0.25)" href="https://analytics.google.com/analytics/web/" target="_blank">
+                <div class="cl-icon">📈</div>
+                <div class="cl-label">GA4</div>
+                <div class="cl-title">Overview</div>
+                <div class="cl-sub">Tráfego & páginas</div>
+            </a>
+            <a class="cl-card" style="border-color:rgba(251,188,4,0.25)" href="https://analytics.google.com/analytics/web/#/realtime" target="_blank">
+                <div class="cl-icon">🔴</div>
+                <div class="cl-label">GA4</div>
+                <div class="cl-title">Realtime</div>
+                <div class="cl-sub">Utilizadores agora</div>
+            </a>
+            <a class="cl-card" style="border-color:rgba(251,188,4,0.25)" href="https://lookerstudio.google.com" target="_blank">
+                <div class="cl-icon">📊</div>
+                <div class="cl-label">Looker Studio</div>
+                <div class="cl-title">Criar Report</div>
+                <div class="cl-sub">Embed GA4 aqui</div>
+            </a>
+        </div>
     </div>
 </div>
+
 
 <!-- Delete confirm modal -->
 <div id="modal-overlay">
@@ -290,6 +328,38 @@
         document.getElementById('dash').style.display = 'block';
         initFirebase();
         loadData();
+        initLooker();
+    }
+
+    function switchTab(id, btn) {
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-' + id).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    const LS_KEY = 'vx_looker_url';
+    function initLooker() {
+        const saved = localStorage.getItem(LS_KEY);
+        if (saved) {
+            document.getElementById('ls-iframe').src = saved;
+            document.getElementById('ls-setup-card').style.display = 'none';
+            document.getElementById('ls-frame-card').style.display = 'block';
+        }
+    }
+    function saveLookerUrl() {
+        const url = document.getElementById('ls-url-input').value.trim();
+        if (!url) return;
+        localStorage.setItem(LS_KEY, url);
+        document.getElementById('ls-iframe').src = url;
+        document.getElementById('ls-setup-card').style.display = 'none';
+        document.getElementById('ls-frame-card').style.display = 'block';
+    }
+    function resetLookerUrl() {
+        localStorage.removeItem(LS_KEY);
+        document.getElementById('ls-iframe').src = '';
+        document.getElementById('ls-frame-card').style.display = 'none';
+        document.getElementById('ls-setup-card').style.display = 'block';
     }
 
     function logout() {
