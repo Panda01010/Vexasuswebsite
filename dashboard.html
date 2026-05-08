@@ -9,35 +9,37 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --red: #E24B4A;
-            --bg: #0d0d0d;
-            --card: #161616;
-            --border: rgba(255,255,255,0.08);
-            --text: #F4F5F6;
-            --muted: #9ca3af;
-            --green: #2ecc71;
-            --font: 'Outfit', sans-serif;
+            --red: #E24B4A; --bg: #0d0d0d; --card: #161616;
+            --border: rgba(255,255,255,0.08); --text: #F4F5F6;
+            --muted: #9ca3af; --green: #2ecc71; --font: 'Outfit', sans-serif;
         }
         * { margin:0; padding:0; box-sizing:border-box; }
         body { font-family:var(--font); background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:2rem 1.25rem 4rem; -webkit-font-smoothing:antialiased; }
 
-        /* ── Lock Screen ── */
+        /* Lock */
         #lock { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:80vh; gap:1.5rem; text-align:center; }
         #lock h1 { font-size:1.5rem; font-weight:900; }
         #lock p { color:var(--muted); font-size:0.9rem; }
-        #pw-input { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:0.85rem 1.25rem; color:var(--text); font-family:var(--font); font-size:1rem; width:260px; outline:none; text-align:center; }
+        #pw-input { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:0.85rem 1.25rem; color:var(--text); font-family:var(--font); font-size:1rem; width:260px; outline:none; text-align:center; letter-spacing:0.05em; }
         #pw-input:focus { border-color:rgba(226,75,74,0.5); }
-        #pw-btn { background:var(--red); color:#fff; border:none; border-radius:10px; padding:0.85rem 2rem; font-family:var(--font); font-size:1rem; font-weight:700; cursor:pointer; transition:opacity 0.2s; }
+        #pw-btn { background:var(--red); color:#fff; border:none; border-radius:10px; padding:0.85rem 2rem; font-family:var(--font); font-size:1rem; font-weight:700; cursor:pointer; transition:opacity 0.2s; width:260px; }
         #pw-btn:hover { opacity:0.85; }
         #pw-error { color:var(--red); font-size:0.85rem; display:none; }
+        .remember-row { display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; color:var(--muted); cursor:pointer; }
+        .remember-row input { accent-color:var(--red); cursor:pointer; }
 
-        /* ── Dashboard ── */
+        /* Dashboard */
         #dash { display:none; width:100%; max-width:900px; }
-        .dash-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem; }
+        .dash-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:2rem; flex-wrap:wrap; gap:1rem; }
         .dash-header h1 { font-size:1.5rem; font-weight:900; }
         .dash-header .subtitle { font-size:0.85rem; color:var(--muted); margin-top:0.25rem; }
+        .header-btns { display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap; }
         .btn-refresh { background:var(--card); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:0.6rem 1.25rem; font-family:var(--font); font-size:0.85rem; font-weight:700; cursor:pointer; transition:border-color 0.2s; }
         .btn-refresh:hover { border-color:var(--red); }
+        .btn-delete { background:rgba(226,75,74,0.08); border:1px solid rgba(226,75,74,0.25); color:var(--red); border-radius:8px; padding:0.6rem 1.25rem; font-family:var(--font); font-size:0.85rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
+        .btn-delete:hover { background:rgba(226,75,74,0.18); border-color:var(--red); }
+        .btn-logout { background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:8px; padding:0.6rem 1.25rem; font-family:var(--font); font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+        .btn-logout:hover { border-color:var(--muted); color:var(--text); }
 
         /* Cards */
         .cards-row { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.5rem; }
@@ -54,21 +56,19 @@
         .rate-big.good { color:var(--green); }
         .rate-big.neutral { color:#f1c40f; }
         .rate-sub { font-size:0.8rem; color:var(--muted); }
-
-        /* Progress bar */
         .progress-wrap { margin-top:1rem; }
         .progress-label { display:flex; justify-content:space-between; font-size:0.78rem; color:var(--muted); margin-bottom:0.4rem; }
         .progress-bar { height:6px; background:rgba(255,255,255,0.07); border-radius:99px; overflow:hidden; }
         .progress-fill { height:100%; background:var(--red); border-radius:99px; transition:width 0.8s ease; }
         .progress-fill.green { background:var(--green); }
 
-        /* Summary row */
+        /* Summary */
         .summary-row { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem 1.5rem; display:flex; gap:2.5rem; flex-wrap:wrap; margin-bottom:1.5rem; }
         .sum-item { display:flex; flex-direction:column; gap:0.25rem; }
         .sum-label { font-size:0.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; }
         .sum-value { font-size:1.25rem; font-weight:700; }
 
-        /* Recent log */
+        /* Log */
         .log-title { font-size:0.78rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:0.75rem; }
         .log-table { width:100%; border-collapse:collapse; }
         .log-table th { font-size:0.75rem; font-weight:700; color:var(--muted); text-align:left; padding:0.5rem 0.75rem; border-bottom:1px solid var(--border); }
@@ -78,14 +78,23 @@
         .badge-b { background:rgba(52,152,219,0.15); color:#3498db; }
         .badge-conv { background:rgba(46,204,113,0.15); color:var(--green); }
         .badge-visit { background:rgba(255,255,255,0.07); color:var(--muted); }
-
         .loading { color:var(--muted); font-size:0.9rem; text-align:center; padding:2rem; }
         .note { font-size:0.78rem; color:var(--muted); margin-top:1.5rem; text-align:center; line-height:1.6; }
+
+        /* Delete confirm modal */
+        #modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:999; align-items:center; justify-content:center; }
+        #modal-overlay.show { display:flex; }
+        #modal-box { background:#1a1a1a; border:1px solid rgba(226,75,74,0.3); border-radius:16px; padding:2rem 2rem; max-width:380px; width:90%; text-align:center; }
+        #modal-box h3 { font-size:1.2rem; font-weight:900; margin-bottom:0.75rem; }
+        #modal-box p { color:var(--muted); font-size:0.9rem; line-height:1.6; margin-bottom:1.5rem; }
+        .modal-btns { display:flex; gap:0.75rem; justify-content:center; }
+        .btn-confirm-del { background:var(--red); color:#fff; border:none; border-radius:10px; padding:0.75rem 1.5rem; font-family:var(--font); font-size:0.9rem; font-weight:700; cursor:pointer; }
+        .btn-cancel { background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:10px; padding:0.75rem 1.5rem; font-family:var(--font); font-size:0.9rem; font-weight:600; cursor:pointer; }
     </style>
 </head>
 <body>
 
-<!-- ── Lock Screen ── -->
+<!-- Lock Screen -->
 <div id="lock">
     <div>
         <div style="font-size:2.5rem; margin-bottom:0.5rem;">🔒</div>
@@ -93,29 +102,36 @@
         <p>A/B Test Results · Private</p>
     </div>
     <input type="password" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')unlock()">
+    <label class="remember-row">
+        <input type="checkbox" id="remember-me" checked>
+        Lembrar neste browser
+    </label>
     <button id="pw-btn" onclick="unlock()">Entrar</button>
     <p id="pw-error">Password incorreta.</p>
 </div>
 
-<!-- ── Dashboard ── -->
+<!-- Dashboard -->
 <div id="dash">
     <div class="dash-header">
         <div>
             <h1>A/B Test Dashboard</h1>
-            <p class="subtitle">Vexasus · Live data from Firebase · <span id="last-updated">–</span></p>
+            <p class="subtitle">Vexasus · Live Firebase · <span id="last-updated">–</span></p>
         </div>
-        <button class="btn-refresh" onclick="loadData()">⟳ Refresh</button>
+        <div class="header-btns">
+            <button class="btn-refresh" onclick="loadData()">⟳ Refresh</button>
+            <button class="btn-delete" onclick="confirmDelete()">🗑 Apagar dados</button>
+            <button class="btn-logout" onclick="logout()">Sair</button>
+        </div>
     </div>
 
-    <div class="summary-row" id="summary-row">
+    <div class="summary-row">
         <div class="sum-item"><span class="sum-label">Total Visitas</span><span class="sum-value" id="sum-visits">–</span></div>
         <div class="sum-item"><span class="sum-label">Total Conversões</span><span class="sum-value" id="sum-conv">–</span></div>
         <div class="sum-item"><span class="sum-label">Taxa Global</span><span class="sum-value" id="sum-rate">–</span></div>
-        <div class="sum-item"><span class="sum-label">Variante a ganhar</span><span class="sum-value" id="sum-winner" style="color:var(--green)">–</span></div>
+        <div class="sum-item"><span class="sum-label">A ganhar</span><span class="sum-value" id="sum-winner" style="color:var(--green)">–</span></div>
     </div>
 
     <div class="cards-row">
-        <!-- Variant A -->
         <div class="ab-card" id="card-a">
             <div class="variant-label">Variante A</div>
             <div class="variant-name">Inspiração · index.html</div>
@@ -128,7 +144,6 @@
                 <div class="progress-bar"><div class="progress-fill" id="a-bar" style="width:0%"></div></div>
             </div>
         </div>
-        <!-- Variant B -->
         <div class="ab-card" id="card-b">
             <div class="variant-label">Variante B</div>
             <div class="variant-name">Dor · index-b.html</div>
@@ -143,28 +158,59 @@
         </div>
     </div>
 
-    <!-- Recent events log -->
     <div class="log-title">📋 Últimos 20 eventos</div>
     <div id="log-wrap" class="loading">A carregar...</div>
+    <p class="note">Dados em tempo real do Firebase Firestore.<br>Cada visita e conversão é registada automaticamente.</p>
+</div>
 
-    <p class="note">Os dados são em tempo real do Firebase Firestore.<br>Cada visita e conversão é registada automaticamente.</p>
+<!-- Delete confirm modal -->
+<div id="modal-overlay">
+    <div id="modal-box">
+        <h3>⚠️ Apagar todos os dados?</h3>
+        <p>Isto vai eliminar todos os registos de visitas e conversões do Firebase.<br>O contador volta a zero. Esta ação não pode ser desfeita.</p>
+        <div class="modal-btns">
+            <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+            <button class="btn-confirm-del" onclick="deleteAllData()">Sim, apagar tudo</button>
+        </div>
+    </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
 <script>
-    const PASSWORD = 'vexasus2026'; // Change this to your preferred password
+    const PASSWORD     = 'Vex@sus01!';
+    const SESSION_KEY  = 'vx_dash_auth';
+
+    // Auto-login if remembered
+    window.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem(SESSION_KEY) === '1') {
+            showDash();
+        }
+    });
 
     function unlock() {
         const val = document.getElementById('pw-input').value;
         if (val === PASSWORD) {
-            document.getElementById('lock').style.display = 'none';
-            document.getElementById('dash').style.display = 'block';
-            initFirebase();
-            loadData();
+            if (document.getElementById('remember-me').checked) {
+                localStorage.setItem(SESSION_KEY, '1');
+            }
+            showDash();
         } else {
             document.getElementById('pw-error').style.display = 'block';
+            document.getElementById('pw-input').style.borderColor = 'rgba(226,75,74,0.6)';
         }
+    }
+
+    function showDash() {
+        document.getElementById('lock').style.display = 'none';
+        document.getElementById('dash').style.display = 'block';
+        initFirebase();
+        loadData();
+    }
+
+    function logout() {
+        localStorage.removeItem(SESSION_KEY);
+        location.reload();
     }
 
     let db;
@@ -185,69 +231,82 @@
     async function loadData() {
         document.getElementById('log-wrap').innerHTML = '<p class="loading">A carregar...</p>';
         try {
-            const snap = await db.collection('ab_tracking').orderBy('ts', 'desc').limit(500).get();
-            const docs = snap.docs.map(d => d.data());
+            const snap = await db.collection('ab_tracking').orderBy('ts','desc').limit(500).get();
+            const docs = snap.docs.map(d => ({id: d.id, ...d.data()}));
 
-            // Count by variant + type
             let aVisits=0, aConv=0, bVisits=0, bConv=0;
             docs.forEach(d => {
-                if (d.variant === 'A') { if (d.type === 'visit') aVisits++; else if (d.type === 'conversion') aConv++; }
-                if (d.variant === 'B') { if (d.type === 'visit') bVisits++; else if (d.type === 'conversion') bConv++; }
+                if (d.variant==='A') { d.type==='visit' ? aVisits++ : d.type==='conversion' ? aConv++ : null; }
+                if (d.variant==='B') { d.type==='visit' ? bVisits++ : d.type==='conversion' ? bConv++ : null; }
             });
 
-            const aRate = aVisits > 0 ? (aConv / aVisits * 100) : 0;
-            const bRate = bVisits > 0 ? (bConv / bVisits * 100) : 0;
+            const aRate = aVisits > 0 ? (aConv/aVisits*100) : 0;
+            const bRate = bVisits > 0 ? (bConv/bVisits*100) : 0;
             const maxRate = Math.max(aRate, bRate, 1);
             const winner = aRate > bRate ? 'A (Inspiração)' : bRate > aRate ? 'B (Dor)' : 'Empate';
 
-            // Update stats
             document.getElementById('a-visits').textContent = aVisits;
-            document.getElementById('a-conv').textContent = aConv;
-            document.getElementById('a-rate').textContent = aRate.toFixed(1) + '%';
-            document.getElementById('a-rate-label').textContent = aRate.toFixed(1) + '%';
-            document.getElementById('a-bar').style.width = (aRate / maxRate * 100) + '%';
+            document.getElementById('a-conv').textContent   = aConv;
+            document.getElementById('a-rate').textContent   = aRate.toFixed(1)+'%';
+            document.getElementById('a-rate-label').textContent = aRate.toFixed(1)+'%';
+            document.getElementById('a-bar').style.width   = (aRate/maxRate*100)+'%';
 
             document.getElementById('b-visits').textContent = bVisits;
-            document.getElementById('b-conv').textContent = bConv;
-            document.getElementById('b-rate').textContent = bRate.toFixed(1) + '%';
-            document.getElementById('b-rate-label').textContent = bRate.toFixed(1) + '%';
-            document.getElementById('b-bar').style.width = (bRate / maxRate * 100) + '%';
+            document.getElementById('b-conv').textContent   = bConv;
+            document.getElementById('b-rate').textContent   = bRate.toFixed(1)+'%';
+            document.getElementById('b-rate-label').textContent = bRate.toFixed(1)+'%';
+            document.getElementById('b-bar').style.width   = (bRate/maxRate*100)+'%';
 
-            // Winner highlight
             document.getElementById('card-a').classList.toggle('winner', aRate > bRate && aVisits > 0);
             document.getElementById('card-b').classList.toggle('winner', bRate > aRate && bVisits > 0);
-            if (aRate > bRate) { document.getElementById('a-rate').className = 'rate-big good'; }
-            if (bRate > aRate) { document.getElementById('b-rate').className = 'rate-big good'; }
+            document.getElementById('a-rate').className = aRate > bRate ? 'rate-big good' : 'rate-big neutral';
+            document.getElementById('b-rate').className = bRate > aRate ? 'rate-big good' : 'rate-big neutral';
 
-            // Summary
-            const totVisits = aVisits + bVisits;
-            const totConv = aConv + bConv;
-            document.getElementById('sum-visits').textContent = totVisits;
-            document.getElementById('sum-conv').textContent = totConv;
-            document.getElementById('sum-rate').textContent = totVisits > 0 ? (totConv/totVisits*100).toFixed(1)+'%' : '–';
-            document.getElementById('sum-winner').textContent = totConv > 0 ? winner : 'Dados insuficientes';
+            const totV = aVisits+bVisits, totC = aConv+bConv;
+            document.getElementById('sum-visits').textContent = totV;
+            document.getElementById('sum-conv').textContent   = totC;
+            document.getElementById('sum-rate').textContent   = totV>0 ? (totC/totV*100).toFixed(1)+'%' : '–';
+            document.getElementById('sum-winner').textContent = totC>0 ? winner : 'Dados insuficientes';
             document.getElementById('last-updated').textContent = new Date().toLocaleTimeString('pt-PT');
 
-            // Recent log (last 20)
-            const recent = docs.slice(0, 20);
-            if (recent.length === 0) {
-                document.getElementById('log-wrap').innerHTML = '<p class="loading">Nenhum evento ainda. Visita as páginas para gerar dados.</p>';
-                return;
-            }
+            const recent = docs.slice(0,20);
+            if (!recent.length) { document.getElementById('log-wrap').innerHTML='<p class="loading">Nenhum evento ainda.</p>'; return; }
             let html = '<table class="log-table"><thead><tr><th>Variante</th><th>Tipo</th><th>Data/Hora</th></tr></thead><tbody>';
             recent.forEach(d => {
-                const ts = d.ts ? new Date(d.ts.seconds ? d.ts.seconds * 1000 : d.ts).toLocaleString('pt-PT') : '–';
-                const vBadge = d.variant === 'A' ? 'badge-a' : d.variant === 'B' ? 'badge-b' : '';
-                const tBadge = d.type === 'conversion' ? 'badge-conv' : 'badge-visit';
-                const tLabel = d.type === 'conversion' ? '✅ Conversão' : '👁 Visita';
-                html += `<tr><td><span class="badge-v ${vBadge}">${d.variant}</span></td><td><span class="badge-v ${tBadge}">${tLabel}</span></td><td>${ts}</td></tr>`;
+                const ts = d.ts ? new Date(d.ts.seconds ? d.ts.seconds*1000 : d.ts).toLocaleString('pt-PT') : '–';
+                const vB = d.variant==='A'?'badge-a':d.variant==='B'?'badge-b':'';
+                const tB = d.type==='conversion'?'badge-conv':'badge-visit';
+                const tL = d.type==='conversion'?'✅ Conversão':'👁 Visita';
+                html += `<tr><td><span class="badge-v ${vB}">${d.variant}</span></td><td><span class="badge-v ${tB}">${tL}</span></td><td>${ts}</td></tr>`;
             });
             html += '</tbody></table>';
             document.getElementById('log-wrap').innerHTML = html;
-
         } catch(e) {
-            document.getElementById('log-wrap').innerHTML = '<p class="loading" style="color:#e74c3c;">Erro ao carregar Firebase: ' + e.message + '</p>';
+            document.getElementById('log-wrap').innerHTML = '<p class="loading" style="color:#e74c3c;">Erro: '+e.message+'</p>';
         }
+    }
+
+    // ── Delete all data ──────────────────────────────────────────
+    function confirmDelete() { document.getElementById('modal-overlay').classList.add('show'); }
+    function closeModal()    { document.getElementById('modal-overlay').classList.remove('show'); }
+
+    async function deleteAllData() {
+        const btn = document.querySelector('.btn-confirm-del');
+        btn.textContent = 'A apagar...'; btn.disabled = true;
+        try {
+            let snap = await db.collection('ab_tracking').limit(400).get();
+            while (!snap.empty) {
+                const batch = db.batch();
+                snap.docs.forEach(d => batch.delete(d.ref));
+                await batch.commit();
+                snap = await db.collection('ab_tracking').limit(400).get();
+            }
+            closeModal();
+            loadData();
+        } catch(e) {
+            alert('Erro ao apagar: ' + e.message);
+        }
+        btn.textContent = 'Sim, apagar tudo'; btn.disabled = false;
     }
 </script>
 </body>
