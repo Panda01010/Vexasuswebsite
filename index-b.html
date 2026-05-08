@@ -1131,9 +1131,12 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
     });
     selector.addEventListener('click', function(e){ e.stopPropagation(); dropdown.classList.toggle('open'); });
     document.addEventListener('click', function(){ dropdown.classList.remove('open'); });
+    var ipDetected = false;
     function applyCountry(code) {
+        if (ipDetected) return;
         var country = COUNTRIES.find(function(c){ return c.code === code; });
-        if (!country) return false;
+        if (!country) return;
+        ipDetected = true;
         selectedDial = country.dial;
         flagDisplay.textContent = country.flag;
         dialDisplay.textContent = '+' + country.dial;
@@ -1142,19 +1145,18 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         if (dropdown.querySelectorAll('.nf-flag-option')[idx]) {
             dropdown.querySelectorAll('.nf-flag-option')[idx].classList.add('active');
         }
-        return true;
     }
-    fetch('https://ipwho.is/')
+    fetch('https://ipinfo.io/json')
         .then(function(r){ return r.json(); })
-        .then(function(d){ if (!applyCountry(d.country_code)) throw new Error('no match'); })
+        .then(function(d){ applyCountry(d.country); })
         .catch(function(){
-            fetch('https://ipapi.co/json/')
+            fetch('https://ipwho.is/')
                 .then(function(r){ return r.json(); })
-                .then(function(d){ if (!applyCountry(d.country_code)) throw new Error('no match'); })
+                .then(function(d){ if (d.success) applyCountry(d.country_code); })
                 .catch(function(){
-                    fetch('https://freeipapi.com/api/json')
+                    fetch('https://ipapi.co/json/')
                         .then(function(r){ return r.json(); })
-                        .then(function(d){ applyCountry(d.countryCode); })
+                        .then(function(d){ applyCountry(d.country_code); })
                         .catch(function(){});
                 });
         });
