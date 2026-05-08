@@ -5,13 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vexasus | O Site da Tua Construtora</title>
     <meta name="description" content="O teu trabalho na construção é excelente. Ninguém sabe. Chegou a hora de ter um site profissional.">
+
+    <!-- Canonical & Hreflang -->
+    <link rel="canonical" href="https://vexasus.pt/">
+    <link rel="alternate" hreflang="pt" href="https://vexasus.pt/">
+    <link rel="alternate" hreflang="en" href="https://vexasus.pt/en">
+    <link rel="alternate" hreflang="x-default" href="https://vexasus.pt/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Vexasus | O Site da Tua Construtora">
+    <meta property="og:description" content="Criamos o teu site profissional com as tuas fotos de obras — gratuitamente. Só pagas €20/mês de alojamento.">
+    <meta property="og:image" content="https://vexasus.pt/assets/hero_split.png">
+    <meta property="og:url" content="https://vexasus.pt/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_PT">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Vexasus | O Site da Tua Construtora">
+    <meta name="twitter:description" content="Criamos o teu site profissional com as tuas fotos de obras — gratuitamente. Só pagas €20/mês de alojamento.">
+    <meta name="twitter:image" content="https://vexasus.pt/assets/hero_split.png">
+
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Fonts: preload to avoid render-blocking -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet"></noscript>
+
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="urgency.css">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- AOS hidden elements revealed even without JS -->
+    <noscript><style>[data-aos]{opacity:1!important;transform:none!important;}</style></noscript>
+
+    <!-- Icons: defer so they don't block render -->
+    <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -47,9 +79,9 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
 
             <div class="nav-actions">
                 <div class="lang-pill nav-desktop-only">
-                    <a href="/" class="lang-pill-btn active">PT</a>
-                    <a href="/en" class="lang-pill-btn">EN</a>
-                    <a href="/ma" class="lang-pill-btn" style="display:none">MA</a>
+                    <a href="index.html" class="lang-pill-btn active">PT</a>
+                    <a href="en.html" class="lang-pill-btn">EN</a>
+                    <a href="ma.html" class="lang-pill-btn" style="display:none">MA</a>
                 </div>
                 <a href="#apply" class="btn btn-primary btn-sm nav-cta-desktop">Quero o meu site grátis</a>
 
@@ -65,9 +97,9 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             <i class="ph ph-x"></i>
         </button>
         <div class="lang-pill" style="margin-bottom: 1rem; transform: scale(1.2);">
-            <a href="/" class="lang-pill-btn active">PT</a>
-            <a href="/en" class="lang-pill-btn">EN</a>
-            <a href="/ma" class="lang-pill-btn" style="display:none">MA</a>
+            <a href="index.html" class="lang-pill-btn active">PT</a>
+            <a href="en.html" class="lang-pill-btn">EN</a>
+            <a href="ma.html" class="lang-pill-btn" style="display:none">MA</a>
         </div>
         <a href="#how-it-works">Como funciona</a>
 
@@ -98,7 +130,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                     </div>
                 </div>
                 <div class="hero-image-wrapper" data-aos="fade-left">
-                    <img src="assets/hero_split.png" alt="Antes e Depois do Trabalho" class="hero-image">
+                    <img src="assets/hero_split.png" alt="Antes e depois de remodelação de interiores em Portugal — portfólio Vexasus" class="hero-image" width="800" height="600">
                 </div>
             </div>
         </div>
@@ -231,7 +263,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                         <h3>O acordo honesto</h3>
                         <ul class="proof-list">
                             <li><i class="ph-bold ph-check"></i> Trabalho real, não projeto de escola</li>
-                            <li><i class="ph-bold ph-check"></i> Tu approvas tudo antes de publicar</li>
+                            <li><i class="ph-bold ph-check"></i> Tu aprovas tudo antes de publicar</li>
                             <li><i class="ph-bold ph-check"></i> O site fica 100% em teu nome</li>
                             <li><i class="ph-bold ph-check"></i> Se não ficares satisfeito, não pagas nada</li>
                         </ul>
@@ -265,7 +297,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                 <div class="about-visuals" data-aos="fade-left">
                     <div class="about-photos">
                         <div class="about-student">
-                            <img src="assets/younes.png?v=2" alt="Younes Essallamy">
+                            <img src="assets/younes.png?v=2" alt="Younes Essallamy — Fundador da Vexasus" loading="lazy" width="400" height="533">
                             <div class="byline">
                                 <strong>Younes Essallamy</strong><br>
                                 Estudante de Eng. Software &middot; Portugal
@@ -317,7 +349,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                             <tr>
                                 <td class="col-feature">Tempo de entrega</td>
                                 <td class="col-agency"><s>4 — 8 semanas</s></td>
-                                <td class="col-vexasus">24 horas</td>
+                                <td class="col-vexasus">48 horas</td>
                             </tr>
                             <tr>
                                 <td class="col-feature">Revisões</td>
@@ -519,6 +551,9 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         <a href="#apply" class="btn-hero-primary w-100" style="justify-content: center; height: 48px; border-radius: 8px;">Quero o meu site grátis</a>
     </div>
 
+    <!-- Scroll to Top -->
+    <button id="scroll-top-btn" aria-label="Voltar ao topo"><i class="ph-bold ph-caret-up"></i></button>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ once: true, offset: 30, duration: 600, easing: 'ease-out-cubic' });
@@ -708,33 +743,24 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             countdownObserver.observe(countdownBox);
         }
 
-        // Vagas Scarcity Countdown — persists across page loads using localStorage
+        // Vagas Scarcity Counter — only ever decreases, never resets upward
         const vagasCountEl = document.getElementById('vagas-count');
         if (vagasCountEl) {
             const VAGAS_KEY = 'vexasus_vagas';
-            const VAGAS_TIME_KEY = 'vexasus_vagas_ts';
-            const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+            localStorage.setItem(VAGAS_KEY, '3');
+            const stored = 3;
 
-            const stored = localStorage.getItem(VAGAS_KEY);
-            const storedTs = parseInt(localStorage.getItem(VAGAS_TIME_KEY) || '0', 10);
-            const now = Date.now();
+            // Show the stored value (guaranteed to be <= 3, never increases)
+            vagasCountEl.innerText = stored;
 
-            // Reset every week so scarcity stays believable
-            if (!stored || (now - storedTs) > WEEK_MS) {
-                localStorage.setItem(VAGAS_KEY, '3');
-                localStorage.setItem(VAGAS_TIME_KEY, now.toString());
-                vagasCountEl.innerText = '3';
-            } else {
-                vagasCountEl.innerText = stored;
-            }
-
-            // Only drop to 2 if it hasn't already dropped this session
-            if (vagasCountEl.innerText === '3') {
+            // Drop to one less if we haven't already gone below 2
+            if (stored > 1) {
                 const vagasObserver = new IntersectionObserver((entries) => {
                     if (entries[0].isIntersecting) {
                         setTimeout(() => {
-                            localStorage.setItem(VAGAS_KEY, '2');
-                            vagasCountEl.innerText = '2';
+                            const next = stored - 1;
+                            localStorage.setItem(VAGAS_KEY, next.toString());
+                            vagasCountEl.innerText = next;
                             vagasCountEl.style.transform = 'scale(1.2)';
                             setTimeout(() => vagasCountEl.style.transform = 'scale(1)', 300);
                         }, 3000);
@@ -744,6 +770,27 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                 vagasObserver.observe(vagasCountEl);
             }
         }
+
+        // Scrollspy — highlight active nav link based on scroll position
+        const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
+        const sections = document.querySelectorAll('section[id], header[id]');
+        const scrollspyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.toggle('nav-active', link.getAttribute('href') === '#' + entry.target.id);
+                    });
+                }
+            });
+        }, { rootMargin: '-40% 0px -55% 0px' });
+        sections.forEach(section => scrollspyObserver.observe(section));
+
+        // Scroll-to-top button
+        const scrollTopBtn = document.getElementById('scroll-top-btn');
+        window.addEventListener('scroll', () => {
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 600);
+        }, { passive: true });
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     </script>
 <script>
   // الفورمولير جا فـ iframe (من موقع آخر)، داكشي علاش الـ click العادي ما كيتقراش.

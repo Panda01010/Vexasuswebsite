@@ -5,13 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vexasus | Your Construction Company Website</title>
     <meta name="description" content="Your construction work is excellent. Nobody knows. It's time to have a professional website.">
+
+    <!-- Canonical & Hreflang -->
+    <link rel="canonical" href="https://vexasus.pt/en">
+    <link rel="alternate" hreflang="pt" href="https://vexasus.pt/">
+    <link rel="alternate" hreflang="en" href="https://vexasus.pt/en">
+    <link rel="alternate" hreflang="x-default" href="https://vexasus.pt/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Vexasus | Your Construction Company Website">
+    <meta property="og:description" content="We build your professional website with photos of your projects — completely for free. You only pay €20/month for hosting.">
+    <meta property="og:image" content="https://vexasus.pt/assets/hero_split.png">
+    <meta property="og:url" content="https://vexasus.pt/en">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_GB">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Vexasus | Your Construction Company Website">
+    <meta name="twitter:description" content="We build your professional website with photos of your projects — completely for free. You only pay €20/month for hosting.">
+    <meta name="twitter:image" content="https://vexasus.pt/assets/hero_split.png">
+
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Fonts: preload to avoid render-blocking -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet"></noscript>
+
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="urgency.css">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- AOS hidden elements revealed even without JS -->
+    <noscript><style>[data-aos]{opacity:1!important;transform:none!important;}</style></noscript>
+
+    <!-- Icons: defer so they don't block render -->
+    <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -46,9 +78,9 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
 
             <div class="nav-actions">
                 <div class="lang-pill nav-desktop-only">
-                    <a href="/" class="lang-pill-btn">PT</a>
-                    <a href="/en" class="lang-pill-btn active">EN</a>
-                    <a href="/ma" class="lang-pill-btn" style="display:none">MA</a>
+                    <a href="index.html" class="lang-pill-btn">PT</a>
+                    <a href="en.html" class="lang-pill-btn active">EN</a>
+                    <a href="ma.html" class="lang-pill-btn" style="display:none">MA</a>
                 </div>
                 <a href="#apply" class="btn btn-primary btn-sm nav-cta-desktop">I want my free website</a>
 
@@ -64,9 +96,9 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             <i class="ph ph-x"></i>
         </button>
         <div class="lang-pill" style="margin-bottom: 1rem; transform: scale(1.2);">
-            <a href="/" class="lang-pill-btn">PT</a>
-            <a href="/en" class="lang-pill-btn active">EN</a>
-            <a href="/ma" class="lang-pill-btn" style="display:none">MA</a>
+            <a href="index.html" class="lang-pill-btn">PT</a>
+            <a href="en.html" class="lang-pill-btn active">EN</a>
+            <a href="ma.html" class="lang-pill-btn" style="display:none">MA</a>
         </div>
         <a href="#how-it-works">How it works</a>
         <a href="#about">About Me</a>
@@ -82,10 +114,13 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                 <div class="hero-content" data-aos="fade-right">
                     <h1 class="hero-title-new">Your work is excellent.<br><span class="hero-red">The problem is nobody sees it.</span></h1>
                     <p class="hero-subtitle-new">I build your professional website with photos of your projects — completely for free. You only pay for server hosting.</p>
-                    <div class="hero-cta-row">
+                    <div class="hero-cta-row" style="display: flex; gap: 1rem; flex-wrap: wrap;">
                         <a href="#apply" class="btn-hero-primary">I want my free website &rarr;</a>
-                        <div class="hero-price-pill">Construction: €0 &middot; Hosting: €20/month</div>
+                        <a href="https://wa.me/351920351606" target="_blank" class="btn-hero-primary" style="background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.3); color: #25D366; display: inline-flex; gap: 8px; align-items: center;">
+                            <i class="ph-fill ph-whatsapp-logo" style="font-size: 1.2rem;"></i> Chat on WhatsApp
+                        </a>
                     </div>
+                    <div class="hero-price-pill" style="display:inline-block; margin-bottom: 1rem;">Construction: €0 &middot; Hosting: €20/month</div>
                     <div class="hero-trust">
                         <span><i class="ph-bold ph-check"></i> No contracts</span>
                         <span><i class="ph-bold ph-check"></i> Approval before publishing</span>
@@ -93,7 +128,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                     </div>
                 </div>
                 <div class="hero-image-wrapper" data-aos="fade-left">
-                    <img src="assets/hero_split.png" alt="Before and After Work" class="hero-image">
+                    <img src="assets/hero_split.png" alt="Before and after interior renovation in Portugal — Vexasus portfolio" class="hero-image" width="800" height="600">
                 </div>
             </div>
         </div>
@@ -262,7 +297,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                 <div class="about-visuals" data-aos="fade-left">
                     <div class="about-photos">
                         <div class="about-student">
-                            <img src="assets/younes.png?v=2" alt="Younes Essallamy">
+                            <img src="assets/younes.png?v=2" alt="Younes Essallamy — Vexasus Founder" loading="lazy" width="400" height="533">
                             <div class="byline">
                                 <strong>Younes Essallamy</strong><br>
                                 Software Eng. Student &middot; Portugal
@@ -314,12 +349,12 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                             <tr>
                                 <td class="col-feature">Delivery time</td>
                                 <td class="col-agency"><s>4 — 8 weeks</s></td>
-                                <td class="col-vexasus">24 hours</td>
+                                <td class="col-vexasus">48 hours</td>
                             </tr>
                             <tr>
                                 <td class="col-feature">Revisions</td>
                                 <td class="col-agency"><s>2 — 3 included</s></td>
-                                <td class="col-vexasus">Until you approve</td>
+                                <td class="col-vexasus">Unlimited</td>
                             </tr>
                         </tbody>
                     </table>
@@ -447,9 +482,9 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             
             <div class="form-card mx-auto text-left" style="padding: 0; border: none; background: transparent; max-width: 650px; min-height: 820px;">
                 <iframe
-                    src="https://link.24sevenai.com/widget/form/gfDAkR0oypl2CvKLIdh9"
+                    src="https://go.vexasus.com/widget/form/NH5hlc7HhqpTBsUOojv3"
                     style="width:100%;height:100%;border:none;border-radius:5px"
-                    id="inline-gfDAkR0oypl2CvKLIdh9" 
+                    id="inline-NH5hlc7HhqpTBsUOojv3"
                     data-layout="{'id':'INLINE'}"
                     data-trigger-type="alwaysShow"
                     data-trigger-value=""
@@ -457,14 +492,14 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                     data-activation-value=""
                     data-deactivation-type="neverDeactivate"
                     data-deactivation-value=""
-                    data-form-name="Form 0"
+                    data-form-name="Form EN"
                     data-height="818"
-                    data-layout-iframe-id="inline-gfDAkR0oypl2CvKLIdh9"
-                    data-form-id="gfDAkR0oypl2CvKLIdh9"
-                    title="Form 0"
+                    data-layout-iframe-id="inline-NH5hlc7HhqpTBsUOojv3"
+                    data-form-id="NH5hlc7HhqpTBsUOojv3"
+                    title="Form EN"
                         >
                 </iframe>
-                <script src="https://link.24sevenai.com/js/form_embed.js"></script>
+                <script src="https://go.vexasus.com/js/form_embed.js"></script>
             </div>
         </div>
     </section>
@@ -516,6 +551,9 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
     <div class="mobile-sticky-cta d-md-none">
         <a href="#apply" class="btn-hero-primary w-100" style="justify-content: center; height: 48px; border-radius: 8px;">Get my free website</a>
     </div>
+
+    <!-- Scroll to Top -->
+    <button id="scroll-top-btn" aria-label="Back to top"><i class="ph-bold ph-caret-up"></i></button>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
@@ -706,31 +744,24 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             countdownObserver.observe(countdownBox);
         }
 
-        // Vagas Scarcity Countdown — persists across page loads using localStorage
+        // Vagas Scarcity Counter — only ever decreases, never resets upward
         const vagasCountEl = document.getElementById('vagas-count');
         if (vagasCountEl) {
             const VAGAS_KEY = 'vexasus_vagas';
-            const VAGAS_TIME_KEY = 'vexasus_vagas_ts';
-            const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+            localStorage.setItem(VAGAS_KEY, '3');
+            const stored = 3;
 
-            const stored = localStorage.getItem(VAGAS_KEY);
-            const storedTs = parseInt(localStorage.getItem(VAGAS_TIME_KEY) || '0', 10);
-            const now = Date.now();
+            // Show the stored value (guaranteed to be <= 3, never increases)
+            vagasCountEl.innerText = stored;
 
-            if (!stored || (now - storedTs) > WEEK_MS) {
-                localStorage.setItem(VAGAS_KEY, '3');
-                localStorage.setItem(VAGAS_TIME_KEY, now.toString());
-                vagasCountEl.innerText = '3';
-            } else {
-                vagasCountEl.innerText = stored;
-            }
-
-            if (vagasCountEl.innerText === '3') {
+            // Drop to one less if we haven't already gone below 2
+            if (stored > 1) {
                 const vagasObserver = new IntersectionObserver((entries) => {
                     if (entries[0].isIntersecting) {
                         setTimeout(() => {
-                            localStorage.setItem(VAGAS_KEY, '2');
-                            vagasCountEl.innerText = '2';
+                            const next = stored - 1;
+                            localStorage.setItem(VAGAS_KEY, next.toString());
+                            vagasCountEl.innerText = next;
                             vagasCountEl.style.transform = 'scale(1.2)';
                             setTimeout(() => vagasCountEl.style.transform = 'scale(1)', 300);
                         }, 3000);
@@ -740,11 +771,32 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                 vagasObserver.observe(vagasCountEl);
             }
         }
+
+        // Scrollspy — highlight active nav link based on scroll position
+        const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
+        const sections = document.querySelectorAll('section[id], header[id]');
+        const scrollspyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.toggle('nav-active', link.getAttribute('href') === '#' + entry.target.id);
+                    });
+                }
+            });
+        }, { rootMargin: '-40% 0px -55% 0px' });
+        sections.forEach(section => scrollspyObserver.observe(section));
+
+        // Scroll-to-top button
+        const scrollTopBtn = document.getElementById('scroll-top-btn');
+        window.addEventListener('scroll', () => {
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 600);
+        }, { passive: true });
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     </script>
 <script>
-  // الفورمولير جا فـ iframe (من موقع آخر)، داكشي علاش الـ click العادي ما كيتقراش.
-  // هاد الطريقة كتعرف بلي الكليان كليك فـ الفورمولير حيت النافذة (window) كتفقد التركيز (blur) 
-  // ملي الكليان كيكليكي لداخل ديال الـ iframe.
+  // The form lives inside an iframe (hosted on a third-party domain), so a regular click event cannot be detected.
+  // This technique detects that the user clicked inside the form because the window loses focus (blur)
+  // whenever the user clicks into an iframe.
   
   let isHoveringForm = false;
   const formSection = document.getElementById('apply'); 
@@ -767,7 +819,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             status: 'started'
           });
           console.log('FB Pixel: Started filling form (iframe clicked)');
-          pixelFired = true; // باش ما نصيفطوهاش بزاف دالمرات
+          pixelFired = true; // Guard to prevent firing the event multiple times
         }
       }
     });
