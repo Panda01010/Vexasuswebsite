@@ -90,6 +90,29 @@
         .modal-btns { display:flex; gap:0.75rem; justify-content:center; }
         .btn-confirm-del { background:var(--red); color:#fff; border:none; border-radius:10px; padding:0.75rem 1.5rem; font-family:var(--font); font-size:0.9rem; font-weight:700; cursor:pointer; }
         .btn-cancel { background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:10px; padding:0.75rem 1.5rem; font-family:var(--font); font-size:0.9rem; font-weight:600; cursor:pointer; }
+
+        /* Analytics Hub */
+        .section-divider { display:flex; align-items:center; gap:0.75rem; margin:2rem 0 1.25rem; }
+        .section-divider::before, .section-divider::after { content:''; flex:1; height:1px; background:var(--border); }
+        .section-divider span { font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); white-space:nowrap; }
+        .analytics-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:1.5rem; }
+        @media(max-width:700px){ .analytics-grid { grid-template-columns:1fr 1fr; } }
+        @media(max-width:420px){ .analytics-grid { grid-template-columns:1fr; } }
+        .an-card { display:flex; flex-direction:column; gap:0.6rem; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.2rem 1.1rem; text-decoration:none; color:var(--text); transition:border-color 0.2s, transform 0.15s; cursor:pointer; }
+        .an-card:hover { transform:translateY(-2px); }
+        .an-card.ga4 { border-color:rgba(251,188,4,0.2); }
+        .an-card.ga4:hover { border-color:rgba(251,188,4,0.5); }
+        .an-card.clarity { border-color:rgba(0,149,255,0.2); }
+        .an-card.clarity:hover { border-color:rgba(0,149,255,0.5); }
+        .an-card.clarity-a { border-color:rgba(226,75,74,0.2); }
+        .an-card.clarity-a:hover { border-color:rgba(226,75,74,0.5); }
+        .an-card.clarity-b { border-color:rgba(52,152,219,0.2); }
+        .an-card.clarity-b:hover { border-color:rgba(52,152,219,0.5); }
+        .an-icon { font-size:1.6rem; line-height:1; }
+        .an-label { font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
+        .an-title { font-size:0.92rem; font-weight:700; line-height:1.3; }
+        .an-desc { font-size:0.75rem; color:var(--muted); line-height:1.4; }
+        .an-arrow { font-size:0.75rem; color:var(--muted); margin-top:auto; }
     </style>
 </head>
 <body>
@@ -161,6 +184,67 @@
     <div class="log-title">📋 Últimos 20 eventos</div>
     <div id="log-wrap" class="loading">A carregar...</div>
     <p class="note">Dados em tempo real do Firebase Firestore.<br>Cada visita e conversão é registada automaticamente.</p>
+
+    <!-- Analytics Hub -->
+    <div class="section-divider"><span>📊 Analytics Hub</span></div>
+
+    <div class="analytics-grid">
+
+        <!-- GA4 Overview -->
+        <a class="an-card ga4" href="https://analytics.google.com/analytics/web/" target="_blank" rel="noopener">
+            <div class="an-icon">📈</div>
+            <div class="an-label">Google Analytics</div>
+            <div class="an-title">Overview & Traffic</div>
+            <div class="an-desc">Visitas, sessões, fontes de tráfego, dispositivos</div>
+            <div class="an-arrow">Abrir GA4 →</div>
+        </a>
+
+        <!-- GA4 Realtime -->
+        <a class="an-card ga4" href="https://analytics.google.com/analytics/web/#/realtime" target="_blank" rel="noopener">
+            <div class="an-icon">🔴</div>
+            <div class="an-label">Google Analytics</div>
+            <div class="an-title">Realtime</div>
+            <div class="an-desc">Utilizadores ativos agora mesmo no site</div>
+            <div class="an-arrow">Ver live →</div>
+        </a>
+
+        <!-- Clarity All -->
+        <a class="an-card clarity" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/dashboard" target="_blank" rel="noopener">
+            <div class="an-icon">🎬</div>
+            <div class="an-label">Microsoft Clarity</div>
+            <div class="an-title">Todas as Sessões</div>
+            <div class="an-desc">Dashboard geral com heatmaps e gravações</div>
+            <div class="an-arrow">Abrir Clarity →</div>
+        </a>
+
+        <!-- Clarity Variant A -->
+        <a class="an-card clarity-a" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AA" target="_blank" rel="noopener">
+            <div class="an-icon">🔴</div>
+            <div class="an-label">Clarity · Variante A</div>
+            <div class="an-title">Gravações — Inspiração</div>
+            <div class="an-desc">index.html · Só sessões do Variant A</div>
+            <div class="an-arrow">Ver gravações A →</div>
+        </a>
+
+        <!-- Clarity Variant B -->
+        <a class="an-card clarity-b" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AB" target="_blank" rel="noopener">
+            <div class="an-icon">🔵</div>
+            <div class="an-label">Clarity · Variante B</div>
+            <div class="an-title">Gravações — Dor</div>
+            <div class="an-desc">index-b.html · Só sessões do Variant B</div>
+            <div class="an-arrow">Ver gravações B →</div>
+        </a>
+
+        <!-- Clarity Heatmaps -->
+        <a class="an-card clarity" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/heatmaps" target="_blank" rel="noopener">
+            <div class="an-icon">🗺️</div>
+            <div class="an-label">Clarity · Heatmaps</div>
+            <div class="an-title">Mapas de Cliques</div>
+            <div class="an-desc">Onde é que as pessoas clicam e param de ler</div>
+            <div class="an-arrow">Ver heatmaps →</div>
+        </a>
+
+    </div>
 </div>
 
 <!-- Delete confirm modal -->
