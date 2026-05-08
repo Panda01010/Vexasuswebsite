@@ -578,6 +578,13 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             firebase.initializeApp(firebaseConfig);
             db = firebase.firestore();
             firebaseReady = true;
+            // ── A/B Conversion Tracking ──────────────────────────────────
+            const abVariant = localStorage.getItem('vx_ab') || 'unknown';
+            db.collection('ab_tracking').add({
+                variant: abVariant,
+                type: 'conversion',
+                ts: firebase.firestore.FieldValue.serverTimestamp()
+            }).catch(()=>{});
         } catch(e) { console.warn('Firebase not configured yet:', e.message); }
 
         const YOUNES_SCORE = 47;

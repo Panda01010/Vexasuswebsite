@@ -838,5 +838,16 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
     });
   }
 </script>
+<!-- A/B visit tracking (Variant B) -->
+<script>
+(function(){
+    // Ensure anyone landing directly on index-b is tagged as B
+    localStorage.setItem('vx_ab', 'B');
+    fetch('https://firestore.googleapis.com/v1/projects/vexasus-12d26/databases/(default)/documents/ab_tracking',{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ fields:{ variant:{stringValue:'B'}, type:{stringValue:'visit'}, ts:{timestampValue:new Date().toISOString()} } })
+    }).catch(function(){});
+})();
+</script>
 </body>
 </html>

@@ -4,6 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- A/B Split: 50/50 — Variant A stays, Variant B redirects to index-b.html -->
+    <script>
+    (function(){
+        var v = localStorage.getItem('vx_ab');
+        if (!v) { v = Math.random() < 0.5 ? 'B' : 'A'; localStorage.setItem('vx_ab', v); }
+        if (v === 'B') window.location.replace('index-b.html');
+    })();
+    </script>
     <title>Vexasus | O Site da Tua Construtora</title>
     <meta name="description" content="O teu trabalho na construção é excelente. Ninguém sabe. Chegou a hora de ter um site profissional.">
 
@@ -824,6 +832,16 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
       }
     });
   }
+</script>
+<!-- A/B visit tracking (Variant A) -->
+<script>
+(function(){
+    var variant = localStorage.getItem('vx_ab') || 'A';
+    fetch('https://firestore.googleapis.com/v1/projects/vexasus-12d26/databases/(default)/documents/ab_tracking',{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ fields:{ variant:{stringValue:variant}, type:{stringValue:'visit'}, ts:{timestampValue:new Date().toISOString()} } })
+    }).catch(function(){});
+})();
 </script>
 </body>
 </html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vexasus · Dashboard A/B</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #E24B4A;
+            --bg: #0d0d0d;
+            --card: #161616;
+            --border: rgba(255,255,255,0.08);
+            --text: #F4F5F6;
+            --muted: #9ca3af;
+            --green: #2ecc71;
+            --font: 'Outfit', sans-serif;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:var(--font); background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:2rem 1.25rem 4rem; -webkit-font-smoothing:antialiased; }
+
+        /* ── Lock Screen ── */
+        #lock { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:80vh; gap:1.5rem; text-align:center; }
+        #lock h1 { font-size:1.5rem; font-weight:900; }
+        #lock p { color:var(--muted); font-size:0.9rem; }
+        #pw-input { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:0.85rem 1.25rem; color:var(--text); font-family:var(--font); font-size:1rem; width:260px; outline:none; text-align:center; }
+        #pw-input:focus { border-color:rgba(226,75,74,0.5); }
+        #pw-btn { background:var(--red); color:#fff; border:none; border-radius:10px; padding:0.85rem 2rem; font-family:var(--font); font-size:1rem; font-weight:700; cursor:pointer; transition:opacity 0.2s; }
+        #pw-btn:hover { opacity:0.85; }
+        #pw-error { color:var(--red); font-size:0.85rem; display:none; }
+
+        /* ── Dashboard ── */
+        #dash { display:none; width:100%; max-width:900px; }
+        .dash-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem; }
+        .dash-header h1 { font-size:1.5rem; font-weight:900; }
+        .dash-header .subtitle { font-size:0.85rem; color:var(--muted); margin-top:0.25rem; }
+        .btn-refresh { background:var(--card); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:0.6rem 1.25rem; font-family:var(--font); font-size:0.85rem; font-weight:700; cursor:pointer; transition:border-color 0.2s; }
+        .btn-refresh:hover { border-color:var(--red); }
+
+        /* Cards */
+        .cards-row { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.5rem; }
+        @media(max-width:580px){ .cards-row { grid-template-columns:1fr; } }
+        .ab-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.75rem 1.5rem; position:relative; overflow:hidden; }
+        .ab-card.winner { border-color:rgba(46,204,113,0.4); }
+        .ab-card.winner::before { content:'✅ WINNER'; position:absolute; top:1rem; right:1rem; font-size:0.7rem; font-weight:700; color:var(--green); background:rgba(46,204,113,0.1); border:1px solid rgba(46,204,113,0.3); border-radius:99px; padding:0.25rem 0.65rem; }
+        .variant-label { font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--red); margin-bottom:0.6rem; }
+        .variant-name { font-size:1.05rem; font-weight:700; color:var(--text); margin-bottom:1.25rem; }
+        .stat-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.85rem; }
+        .stat-label { font-size:0.85rem; color:var(--muted); }
+        .stat-value { font-size:1.1rem; font-weight:700; }
+        .rate-big { font-size:2.8rem; font-weight:900; margin:0.5rem 0; }
+        .rate-big.good { color:var(--green); }
+        .rate-big.neutral { color:#f1c40f; }
+        .rate-sub { font-size:0.8rem; color:var(--muted); }
+
+        /* Progress bar */
+        .progress-wrap { margin-top:1rem; }
+        .progress-label { display:flex; justify-content:space-between; font-size:0.78rem; color:var(--muted); margin-bottom:0.4rem; }
+        .progress-bar { height:6px; background:rgba(255,255,255,0.07); border-radius:99px; overflow:hidden; }
+        .progress-fill { height:100%; background:var(--red); border-radius:99px; transition:width 0.8s ease; }
+        .progress-fill.green { background:var(--green); }
+
+        /* Summary row */
+        .summary-row { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem 1.5rem; display:flex; gap:2.5rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+        .sum-item { display:flex; flex-direction:column; gap:0.25rem; }
+        .sum-label { font-size:0.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; }
+        .sum-value { font-size:1.25rem; font-weight:700; }
+
+        /* Recent log */
+        .log-title { font-size:0.78rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:0.75rem; }
+        .log-table { width:100%; border-collapse:collapse; }
+        .log-table th { font-size:0.75rem; font-weight:700; color:var(--muted); text-align:left; padding:0.5rem 0.75rem; border-bottom:1px solid var(--border); }
+        .log-table td { font-size:0.85rem; padding:0.6rem 0.75rem; border-bottom:1px solid rgba(255,255,255,0.03); }
+        .badge-v { display:inline-block; padding:0.2rem 0.6rem; border-radius:99px; font-size:0.72rem; font-weight:700; }
+        .badge-a { background:rgba(226,75,74,0.15); color:var(--red); }
+        .badge-b { background:rgba(52,152,219,0.15); color:#3498db; }
+        .badge-conv { background:rgba(46,204,113,0.15); color:var(--green); }
+        .badge-visit { background:rgba(255,255,255,0.07); color:var(--muted); }
+
+        .loading { color:var(--muted); font-size:0.9rem; text-align:center; padding:2rem; }
+        .note { font-size:0.78rem; color:var(--muted); margin-top:1.5rem; text-align:center; line-height:1.6; }
+    </style>
+</head>
+<body>
+
+<!-- ── Lock Screen ── -->
+<div id="lock">
+    <div>
+        <div style="font-size:2.5rem; margin-bottom:0.5rem;">🔒</div>
+        <h1>Vexasus Dashboard</h1>
+        <p>A/B Test Results · Private</p>
+    </div>
+    <input type="password" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')unlock()">
+    <button id="pw-btn" onclick="unlock()">Entrar</button>
+    <p id="pw-error">Password incorreta.</p>
+</div>
+
+<!-- ── Dashboard ── -->
+<div id="dash">
+    <div class="dash-header">
+        <div>
+            <h1>A/B Test Dashboard</h1>
+            <p class="subtitle">Vexasus · Live data from Firebase · <span id="last-updated">–</span></p>
+        </div>
+        <button class="btn-refresh" onclick="loadData()">⟳ Refresh</button>
+    </div>
+
+    <div class="summary-row" id="summary-row">
+        <div class="sum-item"><span class="sum-label">Total Visitas</span><span class="sum-value" id="sum-visits">–</span></div>
+        <div class="sum-item"><span class="sum-label">Total Conversões</span><span class="sum-value" id="sum-conv">–</span></div>
+        <div class="sum-item"><span class="sum-label">Taxa Global</span><span class="sum-value" id="sum-rate">–</span></div>
+        <div class="sum-item"><span class="sum-label">Variante a ganhar</span><span class="sum-value" id="sum-winner" style="color:var(--green)">–</span></div>
+    </div>
+
+    <div class="cards-row">
+        <!-- Variant A -->
+        <div class="ab-card" id="card-a">
+            <div class="variant-label">Variante A</div>
+            <div class="variant-name">Inspiração · index.html</div>
+            <div class="stat-row"><span class="stat-label">Visitas</span><span class="stat-value" id="a-visits">–</span></div>
+            <div class="stat-row"><span class="stat-label">Conversões</span><span class="stat-value" id="a-conv">–</span></div>
+            <div class="rate-big neutral" id="a-rate">–%</div>
+            <div class="rate-sub">taxa de conversão</div>
+            <div class="progress-wrap">
+                <div class="progress-label"><span>Conv. rate</span><span id="a-rate-label">–</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="a-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <!-- Variant B -->
+        <div class="ab-card" id="card-b">
+            <div class="variant-label">Variante B</div>
+            <div class="variant-name">Dor · index-b.html</div>
+            <div class="stat-row"><span class="stat-label">Visitas</span><span class="stat-value" id="b-visits">–</span></div>
+            <div class="stat-row"><span class="stat-label">Conversões</span><span class="stat-value" id="b-conv">–</span></div>
+            <div class="rate-big neutral" id="b-rate">–%</div>
+            <div class="rate-sub">taxa de conversão</div>
+            <div class="progress-wrap">
+                <div class="progress-label"><span>Conv. rate</span><span id="b-rate-label">–</span></div>
+                <div class="progress-bar"><div class="progress-fill green" id="b-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent events log -->
+    <div class="log-title">📋 Últimos 20 eventos</div>
+    <div id="log-wrap" class="loading">A carregar...</div>
+
+    <p class="note">Os dados são em tempo real do Firebase Firestore.<br>Cada visita e conversão é registada automaticamente.</p>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+<script>
+    const PASSWORD = 'vexasus2026'; // Change this to your preferred password
+
+    function unlock() {
+        const val = document.getElementById('pw-input').value;
+        if (val === PASSWORD) {
+            document.getElementById('lock').style.display = 'none';
+            document.getElementById('dash').style.display = 'block';
+            initFirebase();
+            loadData();
+        } else {
+            document.getElementById('pw-error').style.display = 'block';
+        }
+    }
+
+    let db;
+    function initFirebase() {
+        try {
+            firebase.initializeApp({
+                apiKey: "AIzaSyBkOnrU2GW_dmNERzc92KEWyBlgrzWSwXg",
+                authDomain: "vexasus-12d26.firebaseapp.com",
+                projectId: "vexasus-12d26",
+                storageBucket: "vexasus-12d26.firebasestorage.app",
+                messagingSenderId: "452297550073",
+                appId: "1:452297550073:web:b8b638216b90301c0a5a28"
+            });
+        } catch(e) {}
+        db = firebase.firestore();
+    }
+
+    async function loadData() {
+        document.getElementById('log-wrap').innerHTML = '<p class="loading">A carregar...</p>';
+        try {
+            const snap = await db.collection('ab_tracking').orderBy('ts', 'desc').limit(500).get();
+            const docs = snap.docs.map(d => d.data());
+
+            // Count by variant + type
+            let aVisits=0, aConv=0, bVisits=0, bConv=0;
+            docs.forEach(d => {
+                if (d.variant === 'A') { if (d.type === 'visit') aVisits++; else if (d.type === 'conversion') aConv++; }
+                if (d.variant === 'B') { if (d.type === 'visit') bVisits++; else if (d.type === 'conversion') bConv++; }
+            });
+
+            const aRate = aVisits > 0 ? (aConv / aVisits * 100) : 0;
+            const bRate = bVisits > 0 ? (bConv / bVisits * 100) : 0;
+            const maxRate = Math.max(aRate, bRate, 1);
+            const winner = aRate > bRate ? 'A (Inspiração)' : bRate > aRate ? 'B (Dor)' : 'Empate';
+
+            // Update stats
+            document.getElementById('a-visits').textContent = aVisits;
+            document.getElementById('a-conv').textContent = aConv;
+            document.getElementById('a-rate').textContent = aRate.toFixed(1) + '%';
+            document.getElementById('a-rate-label').textContent = aRate.toFixed(1) + '%';
+            document.getElementById('a-bar').style.width = (aRate / maxRate * 100) + '%';
+
+            document.getElementById('b-visits').textContent = bVisits;
+            document.getElementById('b-conv').textContent = bConv;
+            document.getElementById('b-rate').textContent = bRate.toFixed(1) + '%';
+            document.getElementById('b-rate-label').textContent = bRate.toFixed(1) + '%';
+            document.getElementById('b-bar').style.width = (bRate / maxRate * 100) + '%';
+
+            // Winner highlight
+            document.getElementById('card-a').classList.toggle('winner', aRate > bRate && aVisits > 0);
+            document.getElementById('card-b').classList.toggle('winner', bRate > aRate && bVisits > 0);
+            if (aRate > bRate) { document.getElementById('a-rate').className = 'rate-big good'; }
+            if (bRate > aRate) { document.getElementById('b-rate').className = 'rate-big good'; }
+
+            // Summary
+            const totVisits = aVisits + bVisits;
+            const totConv = aConv + bConv;
+            document.getElementById('sum-visits').textContent = totVisits;
+            document.getElementById('sum-conv').textContent = totConv;
+            document.getElementById('sum-rate').textContent = totVisits > 0 ? (totConv/totVisits*100).toFixed(1)+'%' : '–';
+            document.getElementById('sum-winner').textContent = totConv > 0 ? winner : 'Dados insuficientes';
+            document.getElementById('last-updated').textContent = new Date().toLocaleTimeString('pt-PT');
+
+            // Recent log (last 20)
+            const recent = docs.slice(0, 20);
+            if (recent.length === 0) {
+                document.getElementById('log-wrap').innerHTML = '<p class="loading">Nenhum evento ainda. Visita as páginas para gerar dados.</p>';
+                return;
+            }
+            let html = '<table class="log-table"><thead><tr><th>Variante</th><th>Tipo</th><th>Data/Hora</th></tr></thead><tbody>';
+            recent.forEach(d => {
+                const ts = d.ts ? new Date(d.ts.seconds ? d.ts.seconds * 1000 : d.ts).toLocaleString('pt-PT') : '–';
+                const vBadge = d.variant === 'A' ? 'badge-a' : d.variant === 'B' ? 'badge-b' : '';
+                const tBadge = d.type === 'conversion' ? 'badge-conv' : 'badge-visit';
+                const tLabel = d.type === 'conversion' ? '✅ Conversão' : '👁 Visita';
+                html += `<tr><td><span class="badge-v ${vBadge}">${d.variant}</span></td><td><span class="badge-v ${tBadge}">${tLabel}</span></td><td>${ts}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('log-wrap').innerHTML = html;
+
+        } catch(e) {
+            document.getElementById('log-wrap').innerHTML = '<p class="loading" style="color:#e74c3c;">Erro ao carregar Firebase: ' + e.message + '</p>';
+        }
+    }
+</script>
+</body>
+</html>
