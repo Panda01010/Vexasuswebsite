@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /obrigado
+Disallow: /ma
+
+Sitemap: https://vexasus.pt/sitemap.xml

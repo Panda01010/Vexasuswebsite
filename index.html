@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vexasus | O Site da Tua Construtora</title>
+    <meta name="description" content="O teu trabalho na construção é excelente. Ninguém sabe. Chegou a hora de ter um site profissional.">
+
+    <!-- Canonical & Hreflang -->
+    <link rel="canonical" href="https://vexasus.pt/">
+    <link rel="alternate" hreflang="pt" href="https://vexasus.pt/">
+    <link rel="alternate" hreflang="en" href="https://vexasus.pt/en">
+    <link rel="alternate" hreflang="x-default" href="https://vexasus.pt/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Vexasus | O Site da Tua Construtora">
+    <meta property="og:description" content="Criamos o teu site profissional com as tuas fotos de obras — gratuitamente. Só pagas €20/mês de alojamento.">
+    <meta property="og:image" content="https://vexasus.pt/assets/hero_split.png">
+    <meta property="og:url" content="https://vexasus.pt/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_PT">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Vexasus | O Site da Tua Construtora">
+    <meta name="twitter:description" content="Criamos o teu site profissional com as tuas fotos de obras — gratuitamente. Só pagas €20/mês de alojamento.">
+    <meta name="twitter:image" content="https://vexasus.pt/assets/hero_split.png">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Fonts: preload to avoid render-blocking -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet"></noscript>
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="urgency.css">
+
+    <!-- AOS hidden elements revealed even without JS -->
+    <noscript><style>[data-aos]{opacity:1!important;transform:none!important;}</style></noscript>
+
+    <!-- Icons: defer so they don't block render -->
+    <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4407855016155017');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="/" class="logo">
+                <img src="grey logo.png" alt="Vexasus Logo">
+            </a>
+            
+            <div class="nav-menu">
+                <a href="#how-it-works">Como funciona</a>
+                <a href="#about">Quem Sou</a>
+                <a href="#pricing">Preço</a>
+                <a href="#faq">FAQ</a>
+            </div>
+
+
+            <div class="nav-actions">
+                <div class="lang-pill nav-desktop-only">
+                    <a href="index.html" class="lang-pill-btn active">PT</a>
+                    <a href="en.html" class="lang-pill-btn">EN</a>
+                    <a href="ma.html" class="lang-pill-btn" style="display:none">MA</a>
+                </div>
+                <a href="#apply" class="btn btn-primary btn-sm nav-cta-desktop">Quero o meu site grátis</a>
+
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="ph ph-list"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-nav-overlay" id="mobileNav">
+        <button class="mobile-nav-close" id="mobileClose">
+            <i class="ph ph-x"></i>
+        </button>
+        <div class="lang-pill" style="margin-bottom: 1rem; transform: scale(1.2);">
+            <a href="index.html" class="lang-pill-btn active">PT</a>
+            <a href="en.html" class="lang-pill-btn">EN</a>
+            <a href="ma.html" class="lang-pill-btn" style="display:none">MA</a>
+        </div>
+        <a href="#how-it-works">Como funciona</a>
+
+        <a href="#about">Quem Sou</a>
+        <a href="#pricing">Preço</a>
+        <a href="#faq">FAQ</a>
+        <a href="#apply" class="btn btn-primary">Quero o meu site grátis</a>
+    </div>
+
+    <header class="hero section hero-bg">
+        <div class="hero-overlay"></div>
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="hero-grid">
+                <div class="hero-content" data-aos="fade-right">
+                    <h1 class="hero-title-new">O teu trabalho é excelente.<br><span class="hero-red">O problema é que ninguém o vê.</span></h1>
+                    <p class="hero-subtitle-new">Cada mês sem site é um orçamento que vai para a concorrência. Criamos o teu site profissional com as tuas fotos de obras — completamente de graça. Só pagas o servidor.</p>
+                    <div class="hero-cta-row" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="#apply" class="btn-hero-primary">Quero o meu site grátis &rarr;</a>
+                        <a href="https://wa.me/351920351606" target="_blank" class="btn-hero-primary" style="background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.3); color: #25D366; display: inline-flex; gap: 8px; align-items: center;">
+                            <i class="ph-fill ph-whatsapp-logo" style="font-size: 1.2rem;"></i> Falar no WhatsApp
+                        </a>
+                    </div>
+                    <div class="hero-price-pill" style="display:inline-block; margin-bottom: 1rem;">Construção: €0 &middot; Alojamento: €20/mês</div>
+                    <div class="hero-trust">
+                        <span><i class="ph-bold ph-check"></i> Sem contratos</span>
+                        <span><i class="ph-bold ph-check"></i> Aprovação antes de publicar</span>
+                        <span><i class="ph-bold ph-check"></i> Todo Portugal</span>
+                    </div>
+                </div>
+                <div class="hero-image-wrapper" data-aos="fade-left">
+                    <img src="assets/hero_split.png" alt="Antes e depois de remodelação de interiores em Portugal — portfólio Vexasus" class="hero-image" width="800" height="600">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="hero-urgency-bar">
+        <div class="urgency-content">
+            <div class="live-indicator">
+                <span class="live-dot"></span>
+                LIVE
+            </div>
+            <span class="urgency-text">
+                <span class="vagas-badge" id="vagas-count">3</span> vagas disponíveis esta semana em Portugal
+            </span>
+        </div>
+    </div>
+
+
+
+    <!-- Honest Intro Section -->
+    <section class="honest-intro-section">
+        <div class="container">
+            <div class="honest-intro-card" data-aos="fade-up">
+                <div class="honest-intro-icon"><i class="ph-fill ph-hand-heart"></i></div>
+                <div class="honest-intro-body">
+                    <p class="honest-intro-lead">Talvez ainda não acredites que precisas de um site.</p>
+                    <p>E tudo bem. Muitos empreiteiros pensam o mesmo. Mas deixa-me ser direto:</p>
+                    <p>O teu cliente de hoje pode ainda te ligar por recomendação. Mas o filho dele — que vai reformar a casa daqui a 5 anos — vai ao Google. Não liga a ninguém antes de ver fotos, trabalhos anteriores e uma presença online que transmita confiança. Se não estás lá, não existes para ele.</p>
+                    <p>Sabes o que mais pesa? <strong>O Google favorece sites com mais tempo online.</strong> Um domínio que existe há 3 anos aparece acima de um criado ontem. Cada mês que passes sem site, estás a deixar essa vantagem gratuita para a concorrência.</p>
+                    <p>O site que vais receber é <strong>totalmente otimizado para o Google</strong> desde o primeiro dia. E no futuro, quando quiseres, podes adicionar automações, pipeline de clientes, follow-ups automáticos — eu ajudo-te com isso quando chegar a altura, sem problemas. Mas primeiro, precisa de existir o alicerce.</p>
+                    <p style="margin-bottom: 0;"><strong>€20 por mês. Menos do que um café por dia.</strong> Daqui a 3 anos, ou tens um site que trabalha por ti — ou ainda ests a explicar ao teu filho porque nunca o criaste.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="problems" class="section bg-light">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-subtitle">O PROBLEMA</span>
+                <h2 class="section-title">Porque é que perdes<br>orçamentos para <span class="highlight">outros?</span></h2>
+                <p class="section-description mx-auto">Não é pelo preço ou qualidade. É porque a concorrência transmite mais confiança online.</p>
+            </div>
+            
+            <div class="grid cards-grid">
+                <div class="problem-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="ph ph-google-logo" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
+                    <h3 class="card-title">O Google não sabe que existes</h3>
+                    <p class="card-text">Quando um cliente procura 'empreiteiro em [cidade]', o teu nome não aparece. O teu concorrente sim — e fica com o trabalho.</p>
+                </div>
+                <div class="problem-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="ph ph-magnifying-glass" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
+                    <h3 class="card-title">A nova geração pesquisa antes de ligar</h3>
+                    <p class="card-text">Os clientes mais novos (e os filhos dos clientes antigos) vão ao Google procurar provas do teu trabalho. Sem site, não existes para eles.</p>
+                </div>
+                <div class="problem-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="ph ph-detective" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
+                    <h3 class="card-title">Perdes o trabalho antes da primeira chamada</h3>
+                    <p class="card-text">O cliente recebe o teu número por recomendação. Antes de ligar, pesquisa o teu nome no Google. Não encontra nada. Liga ao que aparece abaixo. A decisão foi feita sem tu saberes.</p>
+                </div>
+                <div class="problem-card" data-aos="fade-up" data-aos-delay="400">
+                    <i class="ph ph-images" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
+                    <h3 class="card-title">O teu portfólio só existe na tua cabeça</h3>
+                    <p class="card-text">Fizeste obras incríveis. Mas os únicos que sabem são os clientes antigos. Cada cliente novo começa do zero em termos de confiança — como se nunca tivesses feito nada antes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="how-it-works" class="section">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-subtitle">COMO FUNCIONA</span>
+                <h2 class="section-title">Simples como enviar <span class="highlight">um WhatsApp.</span></h2>
+            </div>
+            
+            <div class="timeline-layout">
+                <div class="timeline-step" data-aos="fade-up" data-aos-delay="100">
+                    <div class="timeline-number">01</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Pedido recebido</h3>
+                        <p class="timeline-text">Trabalho sozinho e respondo pessoalmente a cada pedido. Vês o meu rosto e o meu nome nesta página — és tu que ficas a saber com quem estás a falar. Normalmente respondo no mesmo dia.</p>
+                    </div>
+                </div>
+                <div class="timeline-step" data-aos="fade-up" data-aos-delay="200">
+                    <div class="timeline-number">02</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">O teu site pronto em 24h</h3>
+                        <p class="timeline-text">Estudei 5 anos para conseguir construir um site de alta qualidade em apenas 1 dia. O teu site vai competir com as maiores empresas do mercado.</p>
+                        <p class="timeline-text" style="font-size: 0.85rem; opacity: 0.7; margin-top: 0.5rem;">* A contar a partir do momento em que recebo as tuas fotos e informações.</p>
+                    </div>
+                </div>
+                <div class="timeline-step" data-aos="fade-up" data-aos-delay="300">
+                    <div class="timeline-number">03</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Tu aprovas antes de publicar</h3>
+                        <p class="timeline-text">Mostro-te o site antes de ficar online. Se algo não estiver certo, corrijo no momento. Só publico quando estiver 100% perfeito.</p>
+                    </div>
+                </div>
+                <div class="timeline-step" data-aos="fade-up" data-aos-delay="400">
+                    <div class="timeline-number">04</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Online. A trabalhar para ti.</h3>
+                        <p class="timeline-text">O teu site fica no ar. Cada vez que um cliente procura empreiteiro na tua zona, o teu nome pode aparecer. Por €20/mês.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-light first-client-section">
+        <div class="container">
+            <div class="first-client-grid" data-aos="fade-up">
+                <div class="first-client-text">
+                    <span class="section-subtitle">PORTFÓLIO</span>
+                    <h2 class="section-title">O primeiro caso de estudo
+                    <br>vai ser o <span class="highlight">teu negócio.</span></h2>
+                    <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 1rem; max-width: 480px;">
+                        Ainda estou a construir o portfólio. Por isso o acordo é simples: faço o teu site com tudo o que tenho,
+                        tu tens um site profissional, e eu fico com o caso real para mostrar.
+                        Sem histórias inventadas.
+                    </p>
+                    <a href="#apply" class="btn-hero-primary" style="margin-top: 2rem; display: inline-flex;">Quero ser o primeiro &rarr;</a>
+                </div>
+                <div class="first-client-proof" data-aos="fade-left" data-aos-delay="100">
+                    <div class="proof-card">
+                        <div class="proof-card-icon"><i class="ph ph-handshake"></i></div>
+                        <h3>O acordo honesto</h3>
+                        <ul class="proof-list">
+                            <li><i class="ph-bold ph-check"></i> Trabalho real, não projeto de escola</li>
+                            <li><i class="ph-bold ph-check"></i> Tu aprovas tudo antes de publicar</li>
+                            <li><i class="ph-bold ph-check"></i> O site fica 100% em teu nome</li>
+                            <li><i class="ph-bold ph-check"></i> Se não ficares satisfeito, não pagas nada</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section bg-white">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content" data-aos="fade-right">
+                    <span class="section-subtitle">QUEM FAZ O TEU SITE</span>
+                    <h2 class="section-title">Não sou uma agência. E este é o negócio mais honesto que vais encontrar.</h2>
+                    <div class="about-text">
+                        <p>Sou o Younes e estou a terminar o meu curso de tecnologia em Portugal. 
+                        Podia inventar sites falsos para o meu portfólio — toda a gente faz isso. 
+                        Decidi não fazer.</p>
+                        <p>Quero construir algo real, para um negócio real, para uma pessoa real. 
+                        O teu negócio merece melhor do que um projeto inventado numa aula.</p>
+                        <p>O acordo é simples e justo: eu dou-te o meu melhor trabalho porque quero 
+                        um portfólio que me orgulhe. Tu ficas com um site profissional pelo preço 
+                        do servidor. Nenhum de nós sai a perder.</p>
+                    </div>
+                    <p style="font-size: 1rem; color: #888; font-style: italic; margin-top: 1.5rem; border-left: 3px solid #E24B4A; padding-left: 1rem;">
+                        Podia ter inventado sites falsos. Escolhi fazer isto da forma certa.
+                    </p>
+                </div>
+                
+                <div class="about-visuals" data-aos="fade-left">
+                    <div class="about-photos">
+                        <div class="about-student">
+                            <img src="assets/younes.png?v=2" alt="Younes Essallamy — Fundador da Vexasus" loading="lazy" width="400" height="533">
+                            <div class="byline">
+                                <strong>Younes Essallamy</strong><br>
+                                Estudante de Eng. Software &middot; Portugal
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="section pricing-section-new text-white">
+        <div class="container">
+
+            <!-- Section Header -->
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-subtitle color-light">PREÇO</span>
+                <h2 class="section-title">O preço mais honesto<br>que vais encontrar.</h2>
+            </div>
+
+            <!-- Zone 1: Comparison Table -->
+            <div class="pricing-compare-block" data-aos="fade-up">
+                <p class="pricing-compare-headline">Quanto custa normalmente um site profissional?</p>
+                <div class="pricing-compare-table-wrap">
+                    <table class="pricing-compare-table">
+                        <thead>
+                            <tr>
+                                <th class="col-feature"></th>
+                                <th class="col-agency"><i class="ph ph-buildings"></i> Agência Normal</th>
+                                <th class="col-vexasus"><i class="ph ph-lightning"></i> Vexasus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-feature">Construção do site</td>
+                                <td class="col-agency"><s>€800 — €2.500</s></td>
+                                <td class="col-vexasus">€0</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">Alojamento anual</td>
+                                <td class="col-agency"><s>€200 — €400/ano</s></td>
+                                <td class="col-vexasus">€20/mês</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">Contrato obrigatório</td>
+                                <td class="col-agency"><s>Sim, 12 meses</s></td>
+                                <td class="col-vexasus">Não</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">Tempo de entrega</td>
+                                <td class="col-agency"><s>4 — 8 semanas</s></td>
+                                <td class="col-vexasus">48 horas</td>
+                            </tr>
+                            <tr>
+                                <td class="col-feature">Revisões</td>
+                                <td class="col-agency"><s>2 — 3 incluídas</s></td>
+                                <td class="col-vexasus">Ilimitadas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Zone 2: Pricing Card -->
+            <div class="pricing-card-new" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="pricing-label">SITE PROFISSIONAL VEXASUS</div>
+                <p class="pricing-card-headline">O teu site profissional<br>por menos de €1 por dia.</p>
+
+                <!-- Price display — lead with daily cost -->
+                <div class="pricing-hero-price">
+                    <!-- Construction cost countdown -->
+                    <div class="construction-countdown-wrapper">
+                        <span class="countdown-label">Construção do site:</span>
+                        <div class="countdown-display" id="construction-countdown-box">
+                            <span class="currency">€</span><span id="construction-countdown">1000</span>
+                        </div>
+                    </div>
+
+                    <div class="price-hero-number">
+                        <span class="price-coffee-icon"><i class="ph ph-coffee"></i></span>
+                        <span class="price-cents">€0<span class="price-cents-dec">,66</span></span>
+                        <span class="price-per-day">por dia</span>
+                    </div>
+
+                    <p class="price-monthly-note">= €20/mês &middot; menos do que um café por dia</p>
+                    <p class="price-agency-note">Uma agência normal cobra €800 só para começar. Aqui começas por zero.</p>
+                    <p style="font-style: italic; color: #888; font-size: 0.9rem; margin-top: 0.8rem;">Uma obra ganha paga 8 anos de alojamento.</p>
+                </div>
+
+                <hr class="pricing-divider">
+
+                <!-- Feature list — 2-col grid -->
+                <ul class="pricing-features">
+                    <li><i class="ph-bold ph-check"></i> Site completo com portfólio de obras</li>
+                    <li><i class="ph-bold ph-check"></i> Ajudo a registar o teu domínio (~€16/ano, pago por ti)</li>
+                    <li><i class="ph-bold ph-check"></i> Email profissional (geral@tuanegocio.pt)</li>
+                    <li><i class="ph-bold ph-check"></i> Formulário de contacto com gestão no teu próprio painel (CRM)</li>
+                    <li><i class="ph-bold ph-check"></i> Otimizado para aparecer no Google</li>
+                    <li><i class="ph-bold ph-check"></i> Suporte via WhatsApp incluído</li>
+                    <li><i class="ph-bold ph-check"></i> Sem contratos — cancelas quando quiseres</li>
+                    <li><i class="ph-bold ph-check"></i> Exclusividade por zona</li>
+                </ul>
+
+                <hr class="pricing-divider">
+
+                <!-- Guarantee + CTA -->
+                <div class="pricing-action">
+                    <div class="pricing-guarantee-line">
+                        <i class="ph ph-shield-check"></i>
+                        Se não ficares satisfeito com o resultado — não pagas nada. Zero. Nem o primeiro mês.
+                    </div>
+                    <a href="#apply" class="btn-hero-primary w-100" style="justify-content: center;">Quero o meu site grátis &rarr;</a>
+                    <p class="pricing-guarantees">Revisões até aprovares &middot; Aprovação antes de publicar &middot; Todo Portugal</p>
+                </div>
+            </div>
+
+            <p class="pricing-transparency text-center mx-auto" data-aos="fade-up" data-aos-delay="200">
+                O custo do domínio (~€16/ano) é pago diretamente ao registador — para que o site seja 100% teu, não meu. Eu ajudo-te com o processo.
+            </p>
+        </div>
+    </section>
+
+    <section id="faq" class="section faq-section text-white">
+        <div class="container" data-aos="fade-up">
+            <h2 class="section-title text-center mb-5">Perguntas Frequentes</h2>
+            
+            <div class="faq-accordion mx-auto">
+                <details class="faq-item">
+                    <summary class="faq-question">Porque é que o site é de graça? Qual é o truque? <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">Não há truque. Sou um estudante de tecnologia que precisa de projetos reais para o portfólio. O teu negócio é o meu projeto — fico com o caso de estudo para mostrar aos professores, tu ficas com o site. A única coisa que pagas é o alojamento do servidor: €20/mês.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">Como funciona o pagamento? <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">Pagas diretamente através da tua conta segura. O cartão é debitado automaticamente €20 por mês. Podes cancelar a qualquer momento — sem telefonemas, sem complicações.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">O que acontece se quiser cancelar? <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">Cancelas a qualquer momento sem penalizações. O site fica offline. Sem contratos de longa duração, sem multas, sem complicações. Se um dia quiseres voltar, o site ainda estará guardado nos meus servidores.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">O site vai aparecer no Google? <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">Configuro SEO básico para a tua zona e tipo de obra. Não prometo o primeiro lugar — isso leva tempo e depende da concorrência. Mas vais aparecer. Hoje não apareces de todo.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">E se não gostar do resultado? <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">Mostro-te o site antes de publicar. Corrijo tudo até ficares satisfeito. Só publico com a tua aprovação explícita.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">Preciso de saber informática? <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">Não. Só precisas de ter fotos das tuas obras no telemóvel e dizer-me o que fazes. Eu trato de tudo o resto — domínio, servidor, design, textos.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">Trabalhas em todo Portugal? <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">Sim. Lisboa, Porto, Setúbal, Algarve, interior — onde tu trabalhares, o site trabalha contigo.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">O site vai ajudar-me a aparecer nas pesquisas de obras HPP ou subsídios de remodelação? <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">Sim. Configuro o teu site com as palavras-chave certas para captar clientes que estão à procura de empreiteiros para obras com apoio HPP ou financiamento. É um mercado enorme que a maioria dos empreiteiros não está a aproveitar online.</div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">Posso cancelar e ficar com o site? <i class="ph ph-caret-down"></i></summary>
+                    <div class="faq-answer">O domínio é sempre teu — está registado em teu nome desde o início. Se cancelares, perdes apenas o alojamento. Podes levar o site para outro servidor quando quiseres.</div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section id="apply" class="section form-section bg-form">
+        <div class="container text-center" data-aos="fade-up">
+            <h2 class="section-title" style="color: #111;">Pede o teu site agora.</h2>
+            <p style="color: #444; font-size: 1.1rem; margin-top: 0.5rem; margin-bottom: 0;">O Younes responde pessoalmente. Sem bots. Sem automatismos.</p>
+            
+            <div class="ai-premium-banner" data-aos="fade-up">
+                <i class="ph-fill ph-user ai-premium-icon"></i>
+                <div class="ai-premium-content">
+                    <h3>Sou o Younes. Trabalho sozinho e trato de tudo pessoalmente.</h3>
+                    <p>Não és um número numa fila.<br>És o meu próximo projeto.<br><br>Respondo no mesmo dia.</p>
+                </div>
+            </div>
+            
+            <div class="form-card mx-auto text-left" style="padding: 0; border: none; background: transparent; max-width: 650px; min-height: 820px;">
+                <iframe
+                    src="https://link.24sevenai.com/widget/form/gfDAkR0oypl2CvKLIdh9"
+                    style="width:100%;height:100%;border:none;border-radius:5px"
+                    id="inline-gfDAkR0oypl2CvKLIdh9" 
+                    data-layout="{'id':'INLINE'}"
+                    data-trigger-type="alwaysShow"
+                    data-trigger-value=""
+                    data-activation-type="alwaysActivated"
+                    data-activation-value=""
+                    data-deactivation-type="neverDeactivate"
+                    data-deactivation-value=""
+                    data-form-name="Form 0"
+                    data-height="818"
+                    data-layout-iframe-id="inline-gfDAkR0oypl2CvKLIdh9"
+                    data-form-id="gfDAkR0oypl2CvKLIdh9"
+                    title="Form 0"
+                        >
+                </iframe>
+                <script src="https://link.24sevenai.com/js/form_embed.js"></script>
+            </div>
+        </div>
+    </section>
+
+    <section class="section final-cta-section text-white">
+        <div class="final-cta-overlay"></div>
+        <div class="container text-center position-relative z-1" data-aos="zoom-in">
+            <h2 class="final-cta-headline">Um dia vais arrepender-te de não ter começado hoje.</h2>
+            <h2 class="final-cta-headline-red">A oportunidade é agora.</h2>
+
+            <a href="#apply" class="btn btn-white-cta btn-lg mt-4">Quero o meu site grátis &rarr;</a>
+            <p class="final-cta-meta mt-3">€20/mês (menos de um café/dia) &middot; Sem contratos &middot; Todo Portugal</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo mb-3">
+                        <img src="grey logo.png" alt="Vexasus Logo" style="height: 32px; width: auto;">
+                    </div>
+                    <p class="footer-tagline">Sites profissionais para quem constrói Portugal.</p>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Links Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#how-it-works">Como funciona</a></li>
+                        <li><a href="#pricing">O meu acordo</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#apply">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Contacto</h4>
+                    <p class="footer-contact"><i class="ph-fill ph-whatsapp-logo"></i> +351 920 351 606</p>
+                    <p class="footer-contact"><i class="ph-fill ph-envelope"></i> geral@vexasus.pt</p>
+                    <p class="footer-meta mt-3">Respondo em menos de 24 horas.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Vexasus &middot; Younes Essallamy &middot; Estudante de Tecnologia em Portugal</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <div class="mobile-sticky-cta d-md-none">
+        <a href="#apply" class="btn-hero-primary w-100" style="justify-content: center; height: 48px; border-radius: 8px;">Quero o meu site grátis</a>
+    </div>
+
+    <!-- Scroll to Top -->
+    <button id="scroll-top-btn" aria-label="Voltar ao topo"><i class="ph-bold ph-caret-up"></i></button>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 30, duration: 600, easing: 'ease-out-cubic' });
+        
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const mobileClose = document.getElementById('mobileClose');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-overlay a');
+
+        mobileToggle.addEventListener('click', () => {
+            mobileNav.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        const closeMenu = () => {
+            mobileNav.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+
+        mobileClose.addEventListener('click', closeMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                e.preventDefault();
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Before/After Slider Logic
+        const baSlider = document.getElementById('ba-slider');
+        const baWrapper = document.getElementById('ba-wrapper');
+        const baHandle = document.getElementById('ba-handle');
+        let isSliding = false;
+
+        if (baSlider) {
+            const slide = (e) => {
+                if (!isSliding) return;
+                let rect = baSlider.getBoundingClientRect();
+                let x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+                let position = ((x - rect.left) / rect.width) * 100;
+                position = Math.max(0, Math.min(100, position));
+                baWrapper.style.width = position + '%';
+                baHandle.style.left = position + '%';
+            };
+
+            baSlider.addEventListener('mousedown', () => isSliding = true);
+            baSlider.addEventListener('touchstart', () => isSliding = true);
+            window.addEventListener('mouseup', () => isSliding = false);
+            window.addEventListener('touchend', () => isSliding = false);
+            window.addEventListener('mousemove', slide);
+            window.addEventListener('touchmove', slide);
+        }
+        // Mobile Auto-scroll Carousels with Blur & Jiggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousels = document.querySelectorAll('.cards-grid, .portfolio-grid');
+            carousels.forEach(carousel => {
+                if (window.innerWidth > 768) return;
+
+                const items = carousel.querySelectorAll('.problem-card, .card, .portfolio-item');
+                if (!items.length) return;
+
+                let isInteracting = false;
+                let scrollInterval;
+                
+                // Faster scroll (2s) for trades since they only have 1 word. Slower (5s) for text-heavy cards.
+                const isTrades = carousel.closest('#trades') !== null;
+                const readingTimeMs = isTrades ? 2000 : 5000;
+
+                // Intersection Observer for Blur + Jiggle effect on individual cards
+                const cardObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Add jiggle/blur animation class
+                            entry.target.classList.remove('card-focus-anim');
+                            void entry.target.offsetWidth; // Trigger reflow to restart animation
+                            entry.target.classList.add('card-focus-anim');
+                            
+                            setTimeout(() => entry.target.classList.remove('card-focus-anim'), 800);
+                        }
+                    });
+                }, { threshold: 0.85, root: carousel }); // Trigger when 85% of card is visible inside carousel
+                
+                items.forEach(item => cardObserver.observe(item));
+
+                // Create Dots Container
+                const dotsContainer = document.createElement('div');
+                dotsContainer.className = 'carousel-dots';
+                items.forEach((_, i) => {
+                    const dot = document.createElement('div');
+                    dot.className = `carousel-dot ${i === 0 ? 'active' : ''}`;
+                    dotsContainer.appendChild(dot);
+                });
+                carousel.parentNode.insertBefore(dotsContainer, carousel.nextSibling);
+                const dots = dotsContainer.querySelectorAll('.carousel-dot');
+
+                const updateDots = () => {
+                    const scrollRatio = carousel.scrollLeft / (carousel.scrollWidth - carousel.clientWidth);
+                    let activeIndex = Math.round(scrollRatio * (items.length - 1));
+                    if (activeIndex < 0) activeIndex = 0;
+                    if (activeIndex >= items.length) activeIndex = items.length - 1;
+                    
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === activeIndex);
+                    });
+                };
+
+                carousel.addEventListener('touchstart', () => isInteracting = true, {passive: true});
+                carousel.addEventListener('touchend', () => setTimeout(() => isInteracting = false, 3000), {passive: true});
+                carousel.addEventListener('scroll', () => {
+                    isInteracting = true;
+                    updateDots();
+                    clearTimeout(carousel.scrollTimeout);
+                    carousel.scrollTimeout = setTimeout(() => isInteracting = false, 3000);
+                }, {passive: true});
+                
+                const startScroll = () => {
+                    scrollInterval = setInterval(() => {
+                        if (isInteracting) return;
+                        
+                        const itemWidth = items[0].offsetWidth;
+                        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+                        
+                        let nextScroll = carousel.scrollLeft + itemWidth;
+                        if (nextScroll > maxScroll + 5) nextScroll = 0;
+                        
+                        carousel.scrollTo({ left: nextScroll, behavior: 'smooth' });
+                    }, readingTimeMs);
+                };
+
+                // Observer for the whole carousel to start/stop the auto-scroll timer
+                const carouselObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) startScroll();
+                    else clearInterval(scrollInterval);
+                }, { threshold: 0.2 });
+                
+                carouselObserver.observe(carousel);
+            });
+        });
+
+        // Construction Countdown Logic
+        const countdownEl = document.getElementById('construction-countdown');
+        const countdownBox = document.getElementById('construction-countdown-box');
+        
+        const startCountdown = () => {
+            let count = 1000;
+            const duration = 4000; // Slower drop: 4 seconds
+            const startTime = performance.now();
+            
+            const updateCount = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Ease out quad
+                const easedProgress = 1 - (1 - progress) * (1 - progress);
+                
+                const currentVal = Math.floor(1000 * (1 - easedProgress));
+                countdownEl.innerText = currentVal;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
+                } else {
+                    countdownEl.innerText = "0";
+                    countdownBox.classList.add('is-zero');
+                }
+            };
+            
+            requestAnimationFrame(updateCount);
+        };
+
+        const countdownObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                setTimeout(startCountdown, 2000); // 2 seconds delay at the high price
+                countdownObserver.unobserve(entries[0].target);
+            }
+        }, { threshold: 0.5 });
+
+        if (countdownBox) {
+            countdownObserver.observe(countdownBox);
+        }
+
+        // Vagas Scarcity Counter — only ever decreases, never resets upward
+        const vagasCountEl = document.getElementById('vagas-count');
+        if (vagasCountEl) {
+            const VAGAS_KEY = 'vexasus_vagas';
+            const stored = parseInt(localStorage.getItem(VAGAS_KEY) || '3', 10);
+
+            // Show the stored value (guaranteed to be <= 3, never increases)
+            vagasCountEl.innerText = stored;
+
+            // Drop to one less if we haven't already gone below 2
+            if (stored > 1) {
+                const vagasObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        setTimeout(() => {
+                            const next = stored - 1;
+                            localStorage.setItem(VAGAS_KEY, next.toString());
+                            vagasCountEl.innerText = next;
+                            vagasCountEl.style.transform = 'scale(1.2)';
+                            setTimeout(() => vagasCountEl.style.transform = 'scale(1)', 300);
+                        }, 3000);
+                        vagasObserver.unobserve(entries[0].target);
+                    }
+                }, { threshold: 0.1 });
+                vagasObserver.observe(vagasCountEl);
+            }
+        }
+
+        // Scrollspy — highlight active nav link based on scroll position
+        const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
+        const sections = document.querySelectorAll('section[id], header[id]');
+        const scrollspyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.toggle('nav-active', link.getAttribute('href') === '#' + entry.target.id);
+                    });
+                }
+            });
+        }, { rootMargin: '-40% 0px -55% 0px' });
+        sections.forEach(section => scrollspyObserver.observe(section));
+
+        // Scroll-to-top button
+        const scrollTopBtn = document.getElementById('scroll-top-btn');
+        window.addEventListener('scroll', () => {
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 600);
+        }, { passive: true });
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    </script>
+<script>
+  // الفورمولير جا فـ iframe (من موقع آخر)، داكشي علاش الـ click العادي ما كيتقراش.
+  // هاد الطريقة كتعرف بلي الكليان كليك فـ الفورمولير حيت النافذة (window) كتفقد التركيز (blur) 
+  // ملي الكليان كيكليكي لداخل ديال الـ iframe.
+  
+  let isHoveringForm = false;
+  const formSection = document.getElementById('apply'); 
+  let pixelFired = false;
+
+  if (formSection) {
+    formSection.addEventListener('mouseenter', function() {
+      isHoveringForm = true;
+    });
+    
+    formSection.addEventListener('mouseleave', function() {
+      isHoveringForm = false;
+    });
+
+    window.addEventListener('blur', function() {
+      if (isHoveringForm && !pixelFired) {
+        if (typeof fbq === 'function') {
+          fbq('track', 'InitiateCheckout', {
+            content_name: 'Vexasus Form Start',
+            status: 'started'
+          });
+          console.log('FB Pixel: Started filling form (iframe clicked)');
+          pixelFired = true; // باش ما نصيفطوهاش بزاف دالمرات
+        }
+      }
+    });
+  }
+</script>
+</body>
+</html>
