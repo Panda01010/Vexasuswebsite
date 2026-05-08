@@ -1131,18 +1131,33 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
     });
     selector.addEventListener('click', function(e){ e.stopPropagation(); dropdown.classList.toggle('open'); });
     document.addEventListener('click', function(){ dropdown.classList.remove('open'); });
-    fetch('https://ipapi.co/json/')
+    function applyCountry(code) {
+        var country = COUNTRIES.find(function(c){ return c.code === code; });
+        if (!country) return false;
+        selectedDial = country.dial;
+        flagDisplay.textContent = country.flag;
+        dialDisplay.textContent = '+' + country.dial;
+        dropdown.querySelectorAll('.nf-flag-option').forEach(function(o){ o.classList.remove('active'); });
+        var idx = COUNTRIES.indexOf(country);
+        if (dropdown.querySelectorAll('.nf-flag-option')[idx]) {
+            dropdown.querySelectorAll('.nf-flag-option')[idx].classList.add('active');
+        }
+        return true;
+    }
+    fetch('https://ipwho.is/')
         .then(function(r){ return r.json(); })
-        .then(function(d){
-            var country = COUNTRIES.find(function(c){ return c.code === d.country_code; });
-            if (country) {
-                selectedDial = country.dial;
-                flagDisplay.textContent = country.flag;
-                dialDisplay.textContent = '+' + country.dial;
-                dropdown.querySelectorAll('.nf-flag-option').forEach(function(o){ o.classList.remove('active'); });
-                dropdown.querySelectorAll('.nf-flag-option')[COUNTRIES.indexOf(country)].classList.add('active');
-            }
-        }).catch(function(){});
+        .then(function(d){ if (!applyCountry(d.country_code)) throw new Error('no match'); })
+        .catch(function(){
+            fetch('https://ipapi.co/json/')
+                .then(function(r){ return r.json(); })
+                .then(function(d){ if (!applyCountry(d.country_code)) throw new Error('no match'); })
+                .catch(function(){
+                    fetch('https://freeipapi.com/api/json')
+                        .then(function(r){ return r.json(); })
+                        .then(function(d){ applyCountry(d.countryCode); })
+                        .catch(function(){});
+                });
+        });
     document.getElementById('vexasus-lead-form').addEventListener('submit', function(e){
         e.preventDefault();
         var phone = document.getElementById('nf-phone').value.trim().replace(/\s/g,'');
