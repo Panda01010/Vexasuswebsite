@@ -332,14 +332,28 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                 <!-- ============================ -->
                 <div class="testimonial-glass-card mx-auto" data-aos="fade-up">
 
-                    <!-- Left Column: Video -->
+                    <!-- Left Column: Custom Video Player -->
                     <div class="testimonial-video-col">
-                        <div class="testimonial-video-frame">
-                            <!-- preload="none" ensures no speed impact -->
-                            <video controls preload="none" poster="assets/magda.jpg" style="width: 100%; max-height: 600px; object-fit: contain; display: block; border-radius: 12px;">
-                                <source src="https://assets.cdn.filesafe.space/DKLObRiP0GBmgYDPAdXA/media/69fe1a8be4086e455f72560b.mov">
+                        <div class="testimonial-video-frame" id="vt-player-1">
+                            <!-- Thumbnail overlay shown before play -->
+                            <div class="vt-poster" id="vt-poster-1">
+                                <img id="vt-thumb-1" src="" alt="Magda Gaspar - Testemunho" class="vt-thumb-img">
+                                <button class="vt-play-btn" id="vt-play-1" aria-label="Reproduzir vídeo">
+                                    <svg viewBox="0 0 24 24" fill="white" width="28" height="28"><path d="M8 5v14l11-7z"/></svg>
+                                </button>
+                            </div>
+                            <!-- Actual video, hidden until play clicked -->
+                            <video id="vt-video-1" controls preload="none"
+                                style="display:none; width:100%; height:100%; object-fit:cover; border-radius:12px;">
+                                <source src="https://assets.cdn.filesafe.space/DKLObRiP0GBmgYDPAdXA/media/69fe1a8be4086e455f72560b.mov" type="video/mp4">
                                 O teu navegador não suporta o formato de vídeo.
                             </video>
+                            <!-- Hidden local video used only to generate thumbnail -->
+                            <video id="vt-src-1" src="assets/testimonial1.mp4" preload="metadata"
+                                style="display:none; position:absolute;"
+                                crossorigin="anonymous"
+                                muted playsinline></video>
+                            <canvas id="vt-canvas-1" style="display:none;"></canvas>
                         </div>
                     </div>
 
@@ -884,6 +898,55 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             scrollTopBtn.classList.toggle('visible', window.scrollY > 600);
         }, { passive: true });
         scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // ---- Custom Video Player: Thumbnail + Fade-in ----
+        (function initVideoPlayer(id) {
+            const poster  = document.getElementById('vt-poster-' + id);
+            const playBtn = document.getElementById('vt-play-' + id);
+            const video   = document.getElementById('vt-video-' + id);
+            const srcVid  = document.getElementById('vt-src-' + id);
+            const canvas  = document.getElementById('vt-canvas-' + id);
+            const thumb   = document.getElementById('vt-thumb-' + id);
+            if (!poster || !video || !srcVid) return;
+
+            const CACHE_KEY = 'vt_thumb_' + id;
+
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) {
+                thumb.src = cached;
+            } else {
+                srcVid.addEventListener('loadedmetadata', function() {
+                    srcVid.currentTime = 1.5;
+                });
+                srcVid.addEventListener('seeked', function() {
+                    canvas.width  = srcVid.videoWidth  || 360;
+                    canvas.height = srcVid.videoHeight || 640;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(srcVid, 0, 0, canvas.width, canvas.height);
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+                    thumb.src = dataUrl;
+                    try { localStorage.setItem(CACHE_KEY, dataUrl); } catch(e) {}
+                    srcVid.src = '';
+                }, { once: true });
+                srcVid.load();
+            }
+
+            playBtn.addEventListener('click', function() {
+                poster.classList.add('vt-hiding');
+                video.style.display = 'block';
+                video.classList.add('vt-video-visible');
+                video.play().catch(function(){});
+                poster.addEventListener('animationend', function() {
+                    poster.style.display = 'none';
+                }, { once: true });
+            });
+
+            poster.addEventListener('click', function(e) {
+                if (e.target !== playBtn && !playBtn.contains(e.target)) {
+                    playBtn.click();
+                }
+            });
+        })(1);
     </script>
 <script>
   // الفورمولير جا فـ iframe (من موقع آخر)، داكشي علاش الـ click العادي ما كيتقراش.
