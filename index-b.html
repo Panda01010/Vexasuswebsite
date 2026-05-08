@@ -317,37 +317,46 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
     <!-- Video Testimonial Section (Split Layout) -->
     <section id="testimonial" class="section testimonial-split-section" style="background-color: #ffffff; padding-top: 6rem; padding-bottom: 6rem; color: #111;">
         <div class="container">
-            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4rem; justify-content: center;">
-                
-                <!-- Left Column: Video -->
-                <div style="flex: 1 1 300px; max-width: 380px;" data-aos="fade-right">
-                    <div class="video-testimonial-wrapper" style="border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.15); border: 1px solid rgba(0,0,0,0.05); background: #111; position: relative;">
-                        <!-- preload="none" ensures no speed impact -->
-                        <video controls preload="none" style="width: 100%; display: block; aspect-ratio: 9/16; object-fit: cover; background: #000;">
-                            <source src="assets/testimonial1.mp4" type="video/mp4">
-                            O teu navegador não suporta o formato de vídeo.
-                        </video>
-                    </div>
-                </div>
-                
-                <!-- Right Column: Content -->
-                <div style="flex: 1 1 450px; text-align: left;" data-aos="fade-left">
-                    <h2 style="font-size: 2.4rem; font-weight: 800; line-height: 1.2; color: #111; margin-bottom: 1.5rem; letter-spacing: -0.02em;">O que os profissionais da construção dizem sobre nós</h2>
+            <div class="testimonials-list">
+                <!-- ============================ -->
+                <!-- TESTIMONIAL 1 -->
+                <!-- ============================ -->
+                <div class="testimonial-item" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4rem; justify-content: center; margin-bottom: 4rem;">
                     
-                    <div style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
-                        <p style="font-size: 1.25rem; font-style: italic; color: #333; line-height: 1.6; margin-bottom: 0;">
-                            "Gostei muito do trabalho que fizeram, foi um trabalho espetacular. Recomendo sem dúvida!"
-                        </p>
+                    <!-- Left Column: Video -->
+                    <div style="flex: 1 1 300px; max-width: 380px;" data-aos="fade-right">
+                        <div class="video-testimonial-wrapper" style="border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.15); border: 1px solid rgba(0,0,0,0.05); background: transparent; position: relative;">
+                            <!-- preload="none" ensures no speed impact. No forced aspect ratio so the video plays in its native size. -->
+                            <video controls preload="none" style="width: 100%; height: auto; display: block; border-radius: 16px;">
+                                <source src="assets/testimonial1.mp4" type="video/mp4">
+                                O teu navegador não suporta o formato de vídeo.
+                            </video>
+                        </div>
                     </div>
+                    
+                    <!-- Right Column: Content -->
+                    <div style="flex: 1 1 450px; text-align: left;" data-aos="fade-left">
+                        <h2 style="font-size: 2.4rem; font-weight: 800; line-height: 1.2; color: #111; margin-bottom: 1.5rem; letter-spacing: -0.02em;">O que os profissionais da construção dizem sobre nós</h2>
+                        
+                        <div style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                            <p style="font-size: 1.25rem; font-style: italic; color: #333; line-height: 1.6; margin-bottom: 0;">
+                                "Gostei muito do trabalho que fizeram, foi um trabalho espetacular. Recomendo sem dúvida!"
+                            </p>
+                        </div>
 
-                    <div style="margin-bottom: 2rem;">
-                        <div style="font-size: 1.2rem; font-weight: 700; color: #111;">Magda Gaspar</div>
-                        <div style="color: #666; font-size: 1rem; margin-bottom: 0.8rem;">Gestão e Mediação de Obras (House 360)</div>
-                        <a href="https://www.house360abrantes.pt" target="_blank" style="color: var(--primary-color); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.2s; font-size: 1.05rem;">
-                            <i class="ph ph-arrow-square-out"></i> Ver o projeto final: www.house360abrantes.pt
-                        </a>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="font-size: 1.2rem; font-weight: 700; color: #111;">Magda Gaspar</div>
+                            <div style="color: #666; font-size: 1rem; margin-bottom: 0.8rem;">Gestão e Mediação de Obras (House 360)</div>
+                            <a href="https://www.house360abrantes.pt" target="_blank" style="color: var(--primary-color); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.2s; font-size: 1.05rem;">
+                                <i class="ph ph-arrow-square-out"></i> Ver o projeto final: www.house360abrantes.pt
+                            </a>
+                        </div>
                     </div>
                 </div>
+                <!-- ============================ -->
+                <!-- END TESTIMONIAL 1 -->
+                <!-- (To add more, simply copy the entire TESTIMONIAL block above and paste it below here) -->
+                <!-- ============================ -->
             </div>
 
             <!-- Bottom: CTA -->
