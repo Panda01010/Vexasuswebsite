@@ -327,47 +327,60 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         </div>
     </section>
 
-    <!-- Video Testimonial Section (Card Layout) -->
-    <section id="testimonial" class="section testimonial-card-section" style="background-color: var(--bg-color); padding-top: 6rem; padding-bottom: 6rem; color: #fff;">
-        <div class="container">
+    <!-- Video Testimonial Section (Premium Redesign) -->
+    <section id="testimonial" class="testimonial-premium-section">
+        <!-- Ambient glow background element -->
+        <div class="testimonial-glow-orb"></div>
+        <div class="container" style="position: relative; z-index: 2;">
+
             <!-- Section Header -->
             <div class="text-center mb-5" data-aos="fade-up">
-                <span class="section-subtitle color-light" style="color: var(--primary-color); font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Testemunhos Reais</span>
-                <h2 style="font-size: 2.6rem; font-weight: 800; line-height: 1.2; color: #fff; margin-top: 0.5rem; letter-spacing: -0.02em;">O que os profissionais da construção dizem sobre nós</h2>
+                <span class="testimonial-eyebrow">Testemunhos Reais</span>
+                <h2 class="testimonial-heading">O que os profissionais<br>da construção <span class="testimonial-heading-accent">dizem sobre nós</span></h2>
             </div>
 
             <div class="testimonials-list">
                 <!-- ============================ -->
                 <!-- TESTIMONIAL CARD 1 -->
                 <!-- ============================ -->
-                <div class="testimonial-card-item mx-auto" data-aos="fade-up" style="background-color: #ffffff; color: #111; border-radius: 24px; padding: 2.5rem; box-shadow: 0 30px 60px rgba(0,0,0,0.4); max-width: 900px; display: flex; flex-wrap: wrap; align-items: center; gap: 3rem; margin-bottom: 4rem;">
-                    
+                <div class="testimonial-glass-card mx-auto" data-aos="fade-up">
+
                     <!-- Left Column: Video -->
-                    <div style="flex: 1 1 250px; max-width: 320px; margin: 0 auto;">
-                        <div class="video-testimonial-wrapper" style="border-radius: 16px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.15); background: #000; position: relative;">
-                            <!-- preload="none" ensures no speed impact. 'poster' sets the thumbnail image before playing. -->
-                            <video controls preload="none" poster="assets/magda.jpg" style="width: 100%; max-height: 600px; object-fit: contain; display: block; border-radius: 16px;">
+                    <div class="testimonial-video-col">
+                        <div class="testimonial-video-frame">
+                            <!-- preload="none" ensures no speed impact -->
+                            <video controls preload="none" poster="assets/magda.jpg" style="width: 100%; max-height: 600px; object-fit: contain; display: block; border-radius: 12px;">
                                 <source src="https://assets.cdn.filesafe.space/DKLObRiP0GBmgYDPAdXA/media/69fe1a8be4086e455f72560b.mov">
                                 O teu navegador não suporta o formato de vídeo.
                             </video>
                         </div>
                     </div>
-                    
+
                     <!-- Right Column: Content -->
-                    <div style="flex: 1 1 350px; text-align: left;">
-                        <div style="margin-bottom: 1.5rem;">
-                            <!-- Quote icon using Phosphor Icons -->
-                            <i class="ph-fill ph-quotes" style="font-size: 3rem; color: rgba(226, 75, 74, 0.2); display: block; margin-bottom: 1rem;"></i>
-                            <p style="font-size: 1.25rem; font-style: italic; color: #333; line-height: 1.6; margin-bottom: 0;">
+                    <div class="testimonial-content-col">
+                        <!-- Stars -->
+                        <div class="testimonial-stars">
+                            <i class="ph-fill ph-star"></i>
+                            <i class="ph-fill ph-star"></i>
+                            <i class="ph-fill ph-star"></i>
+                            <i class="ph-fill ph-star"></i>
+                            <i class="ph-fill ph-star"></i>
+                        </div>
+
+                        <!-- Quote -->
+                        <div class="testimonial-quote-block">
+                            <i class="ph-fill ph-quotes testimonial-quote-icon"></i>
+                            <p class="testimonial-quote-text">
                                 "Gostei muito do trabalho que fizeram, foi um trabalho espetacular. Recomendo sem dúvida!"
                             </p>
                         </div>
 
-                        <div style="border-top: 1px solid rgba(0,0,0,0.08); padding-top: 1.5rem; margin-top: 1.5rem;">
-                            <div style="font-size: 1.2rem; font-weight: 700; color: #111;">Magda Gaspar</div>
-                            <div style="color: #666; font-size: 0.95rem; margin-bottom: 0.8rem; font-weight: 500;">Gestão e Mediação de Obras (House 360)</div>
-                            <a href="https://www.house360abrantes.pt" target="_blank" style="color: var(--primary-color); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; transition: opacity 0.2s; font-size: 1rem;">
-                                <i class="ph ph-arrow-square-out"></i> Ver o projeto: www.house360abrantes.pt
+                        <!-- Author -->
+                        <div class="testimonial-author-block">
+                            <div class="testimonial-author-name">Magda Gaspar</div>
+                            <div class="testimonial-author-role">Gestão e Mediação de Obras · House 360</div>
+                            <a href="https://www.house360abrantes.pt" target="_blank" class="testimonial-project-link">
+                                <i class="ph ph-arrow-square-out"></i> www.house360abrantes.pt
                             </a>
                         </div>
                     </div>
@@ -380,7 +393,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
 
             <!-- Bottom: CTA -->
             <div class="text-center mt-5 pt-3" data-aos="fade-up">
-                <a href="#apply" class="btn btn-primary btn-lg" style="font-size: 1.15rem; padding: 1.2rem 2.5rem; box-shadow: 0 10px 25px rgba(226, 75, 74, 0.4); border-radius: 50px;">Quero o meu site de construção a 0€ também &rarr;</a>
+                <a href="#apply" class="testimonial-cta-btn">Quero o meu site de construção a 0€ também &rarr;</a>
             </div>
         </div>
     </section>
