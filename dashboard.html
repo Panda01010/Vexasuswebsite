@@ -170,6 +170,9 @@
         .chat-input-row { display:flex; gap:0.5rem; }
         .chat-input-row .bot-input { flex:1; }
         .chat-send { background:var(--red); color:#fff; border:none; border-radius:10px; padding:0.6rem 1rem; font-family:var(--font); font-size:0.85rem; font-weight:700; cursor:pointer; white-space:nowrap; }
+        /* Facebook connect button */
+        .fb-connect-btn { display:flex; align-items:center; gap:0.6rem; background:#1877F2; color:#fff; border:none; border-radius:10px; padding:0.75rem 1.25rem; font-family:var(--font); font-size:0.88rem; font-weight:700; cursor:pointer; width:100%; justify-content:center; transition:background 0.2s,transform 0.15s; }
+        .fb-connect-btn:hover { background:#145dbf; transform:translateY(-1px); }
     </style>
 </head>
 <body>
@@ -387,15 +390,30 @@
         <div class="bot-card" style="margin-bottom:1.25rem;">
             <h3>⚙️ Configuração</h3>
             <div class="bot-grid" style="margin-bottom:0;">
+                <!-- OpenAI -->
                 <div>
                     <label class="bot-label">OpenAI API Key (GPT-4o + DALL-E 3)</label>
                     <input type="password" class="bot-input" id="bot-oai-key" placeholder="sk-..." oninput="saveKeys()">
                     <div class="api-status" id="oai-status"><span class="status-dot dot-off" id="oai-dot"></span>Não configurado</div>
                 </div>
+                <!-- Facebook OAuth -->
                 <div>
-                    <label class="bot-label">Facebook User Access Token</label>
-                    <input type="password" class="bot-input" id="bot-fb-token" placeholder="EAAxxxxxxx..." oninput="saveKeys()">
-                    <div class="api-status" id="fb-status"><span class="status-dot dot-off" id="fb-dot"></span>Não configurado</div>
+                    <label class="bot-label">Facebook App ID <span style="color:rgba(255,255,255,0.3);font-weight:400;">(da tua Facebook App)</span></label>
+                    <input class="bot-input" id="fb-app-id" placeholder="Ex: 1234567890" oninput="saveFbAppId()" style="margin-bottom:0.6rem;">
+                    <!-- Connect button -->
+                    <button class="fb-connect-btn" id="fb-connect-btn" onclick="fbLogin()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.12 8.44 9.88v-6.99H7.9V12h2.54V9.8c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99C18.34 21.12 22 16.99 22 12z"/></svg>
+                        Ligar conta Facebook
+                    </button>
+                    <!-- Connected state -->
+                    <div id="fb-connected" style="display:none;">
+                        <div class="api-status" style="margin-bottom:0.6rem;"><span class="status-dot dot-ok"></span><span id="fb-user-name">Ligado</span></div>
+                        <select class="bot-input" id="fb-page-select" style="margin-bottom:0.5rem;">
+                            <option value="">— Seleciona uma Página / Grupo —</option>
+                        </select>
+                        <button class="bot-btn bot-btn-outline" onclick="fbLogout()" style="padding:0.4rem 0.75rem;font-size:0.78rem;width:auto;">Desligar</button>
+                    </div>
+                    <div id="fb-status" class="api-status" style="margin-top:0.4rem;"><span class="status-dot dot-off" id="fb-dot"></span>Não ligado</div>
                 </div>
             </div>
         </div>
@@ -453,8 +471,11 @@
                 <img id="preview-img" class="preview-img" alt="Imagem gerada">
                 <hr class="bot-divider">
                 <div class="bot-field">
-                    <label class="bot-label">Destinos (Grupos/Páginas Facebook)</label>
-                    <input class="bot-input" id="fb-targets" placeholder="ID do grupo ou página, separados por vírgula">
+                    <label class="bot-label">Publicar em</label>
+                    <select class="bot-input" id="fb-targets-select">
+                        <option value="">— Liga o Facebook primeiro —</option>
+                    </select>
+                    <input class="bot-input" id="fb-targets" placeholder="Ou escreve IDs manualmente, separados por vírgula" style="margin-top:0.4rem;">
                 </div>
                 <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
                     <button class="bot-btn bot-btn-outline" onclick="addToQueue()" style="flex:1;">📋 Adicionar à Fila</button>
@@ -495,6 +516,11 @@
 
 <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+<script>
+  // Facebook JS SDK — loaded dynamically after App ID is set
+  window.fbAsyncInit = function() {};
+  (function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src='https://connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js,fjs);}(document,'script','facebook-jssdk'));
+</script>
 <script>
     const PASSWORD     = 'Vex@sus01!';
     const SESSION_KEY  = 'vx_dash_auth';
@@ -668,19 +694,18 @@
 
     function saveKeys() {
         const oai = document.getElementById('bot-oai-key').value.trim();
-        const fb  = document.getElementById('bot-fb-token').value.trim();
         if (oai) { localStorage.setItem(BOT_OAI_KEY, oai); setDot('oai', true); }
-        if (fb)  { localStorage.setItem(BOT_FB_TOKEN, fb);  setDot('fb', true); }
     }
     function setDot(id, ok) {
-        document.getElementById(id+'-dot').className = 'status-dot '+(ok?'dot-ok':'dot-off');
-        document.getElementById(id+'-status').childNodes[1].textContent = ok ? ' Configurado ✓' : ' Não configurado';
+        const dot = document.getElementById(id+'-dot');
+        const stat = document.getElementById(id+'-status');
+        if (dot)  dot.className = 'status-dot '+(ok?'dot-ok':'dot-off');
+        if (stat) stat.childNodes[1] && (stat.childNodes[1].textContent = ok ? ' Configurado ✓' : ' Não configurado');
     }
     function loadBotKeys() {
         const oai = localStorage.getItem(BOT_OAI_KEY);
-        const fb  = localStorage.getItem(BOT_FB_TOKEN);
         if (oai) { document.getElementById('bot-oai-key').value = oai; setDot('oai', true); }
-        if (fb)  { document.getElementById('bot-fb-token').value = fb;  setDot('fb', true); }
+        restoreFbSession();
         renderQueue();
     }
 
@@ -834,6 +859,133 @@
     // Load keys when dash becomes visible
     const _origShowDash = showDash;
     window.showDash = function() { _origShowDash(); loadBotKeys(); };
+
+    // ── Facebook OAuth ──────────────────────────────────
+    const FB_APP_ID_KEY = 'vx_fb_app_id';
+    const FB_TOKEN_KEY  = 'vx_fb_token';
+    const FB_USER_KEY   = 'vx_fb_user';
+    const FB_PAGES_KEY  = 'vx_fb_pages';
+
+    function saveFbAppId() {
+        const appId = document.getElementById('fb-app-id').value.trim();
+        if (!appId) return;
+        localStorage.setItem(FB_APP_ID_KEY, appId);
+        initFbSdk(appId);
+    }
+
+    function initFbSdk(appId) {
+        if (typeof FB === 'undefined') {
+            // SDK not ready yet — retry in 500ms
+            setTimeout(() => initFbSdk(appId), 500);
+            return;
+        }
+        FB.init({ appId, cookie: true, xfbml: false, version: 'v19.0' });
+        // Check if already logged in
+        FB.getLoginStatus(resp => {
+            if (resp.status === 'connected') onFbConnected(resp.authResponse.accessToken);
+        });
+    }
+
+    function fbLogin() {
+        const appId = localStorage.getItem(FB_APP_ID_KEY) || document.getElementById('fb-app-id').value.trim();
+        if (!appId) { alert('Cola primeiro o teu Facebook App ID no campo acima.'); return; }
+        if (typeof FB === 'undefined') { alert('O SDK do Facebook ainda está a carregar. Aguarda um segundo e tenta novamente.'); return; }
+        FB.login(resp => {
+            if (resp.authResponse) {
+                onFbConnected(resp.authResponse.accessToken);
+            } else {
+                alert('Login cancelado ou recusado.');
+            }
+        }, {
+            scope: 'pages_manage_posts,pages_read_engagement,pages_show_list,publish_to_groups,groups_access_member_info,instagram_basic,instagram_content_publish',
+            return_scopes: true
+        });
+    }
+
+    async function onFbConnected(token) {
+        localStorage.setItem(FB_TOKEN_KEY, token);
+        setDot('fb', true);
+        // Get user name
+        try {
+            const meRes  = await fetch(`https://graph.facebook.com/me?fields=name&access_token=${token}`);
+            const me     = await meRes.json();
+            const name   = me.name || 'Facebook';
+            localStorage.setItem(FB_USER_KEY, name);
+            document.getElementById('fb-user-name').textContent = `✅ ${name}`;
+        } catch(e) {}
+        // Get pages
+        await loadFbPages(token);
+        document.getElementById('fb-connected').style.display = 'block';
+        document.getElementById('fb-connect-btn').style.display = 'none';
+        document.getElementById('fb-status').style.display = 'none';
+    }
+
+    async function loadFbPages(token) {
+        try {
+            const res  = await fetch(`https://graph.facebook.com/me/accounts?fields=id,name,access_token&access_token=${token}`);
+            const data = await res.json();
+            const pages = data.data || [];
+            localStorage.setItem(FB_PAGES_KEY, JSON.stringify(pages));
+            populatePageSelects(pages);
+        } catch(e) {}
+    }
+
+    function populatePageSelects(pages) {
+        const selects = ['fb-page-select', 'fb-targets-select'];
+        selects.forEach(id => {
+            const sel = document.getElementById(id);
+            if (!sel) return;
+            sel.innerHTML = `<option value="">— Seleciona uma Página —</option>`;
+            pages.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = p.name;
+                sel.appendChild(opt);
+            });
+        });
+        // When a page is selected in the targets select, populate the manual input
+        const tsel = document.getElementById('fb-targets-select');
+        if (tsel) tsel.onchange = () => {
+            if (tsel.value) document.getElementById('fb-targets').value = tsel.value;
+        };
+    }
+
+    function fbLogout() {
+        if (typeof FB !== 'undefined') FB.logout();
+        [FB_TOKEN_KEY, FB_USER_KEY, FB_PAGES_KEY].forEach(k => localStorage.removeItem(k));
+        document.getElementById('fb-connected').style.display = 'none';
+        document.getElementById('fb-connect-btn').style.display = 'flex';
+        document.getElementById('fb-status').style.display = 'flex';
+        setDot('fb', false);
+        ['fb-page-select','fb-targets-select'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = '<option value="">— Liga o Facebook primeiro —</option>';
+        });
+    }
+
+    function restoreFbSession() {
+        const appId = localStorage.getItem(FB_APP_ID_KEY);
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        const name  = localStorage.getItem(FB_USER_KEY);
+        const pages = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]');
+        if (appId) document.getElementById('fb-app-id').value = appId;
+        if (token && name) {
+            setDot('fb', true);
+            document.getElementById('fb-user-name').textContent = `✅ ${name}`;
+            document.getElementById('fb-connected').style.display = 'block';
+            document.getElementById('fb-connect-btn').style.display = 'none';
+            document.getElementById('fb-status').style.display = 'none';
+            if (pages.length) populatePageSelects(pages);
+        }
+        if (appId) initFbSdk(appId);
+    }
+
+    // Override postNow / sendQueue to use page token from pages list
+    function getFbTokenForTarget(targetId) {
+        const pages = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]');
+        const page  = pages.find(p => p.id === targetId);
+        return page ? page.access_token : localStorage.getItem(FB_TOKEN_KEY);
+    }
 </script>
 </body>
 </html>
