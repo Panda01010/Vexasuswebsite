@@ -427,8 +427,8 @@
                         </div>
                         <div id="manual-page-status-cfg" style="font-size:0.75rem;margin-bottom:0.4rem;"></div>
                         <!-- Load admin groups -->
-                        <button class="bot-btn bot-btn-outline" id="load-groups-btn" onclick="loadFbGroups()" style="padding:0.4rem 0.75rem;font-size:0.78rem;width:100%;margin-bottom:0.4rem;">👥 Load My Facebook Groups (admin only)</button>
-                        <div id="groups-status" style="font-size:0.72rem;color:var(--muted);margin-bottom:0.4rem;">Only groups where you are an admin can be posted to via the API.</div>
+                        <button class="bot-btn bot-btn-outline" id="load-groups-btn" onclick="loadFbGroups()" style="padding:0.4rem 0.75rem;font-size:0.78rem;width:100%;margin-bottom:0.4rem;">👥 Load My Facebook Groups</button>
+                        <div id="groups-status" style="font-size:0.72rem;color:var(--muted);margin-bottom:0.4rem;">Fetches all groups you've joined. Requires reconnecting Facebook to grant the groups permission.</div>
                         <button class="bot-btn bot-btn-outline" onclick="fbLogout()" style="padding:0.4rem 0.75rem;font-size:0.78rem;width:auto;">Disconnect</button>
                     </div>
                     <div id="fb-status" class="api-status" style="margin-top:0.4rem;"><span class="status-dot dot-off" id="fb-dot"></span>Not connected</div>
@@ -1374,7 +1374,7 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
                 alert('Login cancelled or refused.');
             }
         }, {
-            scope: 'pages_manage_posts,pages_read_engagement,pages_show_list,instagram_basic,instagram_content_publish',
+            scope: 'pages_manage_posts,pages_read_engagement,pages_show_list,instagram_basic,instagram_content_publish,publish_to_groups,groups_access_member_info',
             return_scopes: true
         });
     }
@@ -1408,13 +1408,14 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
         status.style.color = 'var(--muted)';
         status.textContent = 'Fetching groups where you are admin...';
         try {
-            const res  = await fetch(`https://graph.facebook.com/v19.0/me/groups?fields=id,name&filter=administrator&limit=50&access_token=${token}`);
+            // Fetch ALL groups the user is a member of (publish_to_groups permission required)
+            const res  = await fetch(`https://graph.facebook.com/v19.0/me/groups?fields=id,name&limit=50&access_token=${token}`);
             const data = await res.json();
             if (data.error) throw new Error(data.error.message);
             const groups = (data.data || []).map(g => ({ id: g.id, name: '👥 ' + g.name, access_token: token }));
             if (!groups.length) {
                 status.style.color = 'var(--muted)';
-                status.textContent = 'No admin groups found. You need to be an admin of the group to post via API.';
+                status.textContent = 'No groups found. Make sure you granted the groups permission during login (reconnect if needed).';
             } else {
                 // Merge groups into the saved pages list
                 const existing = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]');
