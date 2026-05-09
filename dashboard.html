@@ -1059,6 +1059,7 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
         localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(accounts));
         if (localStorage.getItem('vx_default_ig_account') === id) localStorage.removeItem('vx_default_ig_account');
         populateIgSelect();
+        saveExtendedConfig();
     }
 
     async function saveIgManual() {
@@ -1086,6 +1087,7 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
             status.textContent = `✅ Found: "${data.username || data.name}" — added!`;
             populateIgSelect();
             document.getElementById('ig-user-id').value = data.id;
+            saveExtendedConfig();
         } catch(e) {
             status.style.color = 'var(--red)';
             status.textContent = `❌ ${e.message}`;
@@ -1121,6 +1123,7 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
                 if (accounts.length > 0) document.getElementById('ig-user-id').value = accounts[accounts.length - 1].id;
                 status.style.color = 'var(--green)';
                 status.textContent = `✅ Found and added ${found} Instagram account(s)!`;
+                saveExtendedConfig();
             } else {
                 status.style.color = 'var(--muted)';
                 status.textContent = 'No new Instagram Business accounts found linked to your Pages. Make sure your Instagram is a Business/Creator account connected in Meta Business Suite.';
@@ -1350,9 +1353,23 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
                     document.getElementById('fb-app-id').value = data.fbAppId;
                     localStorage.setItem(FB_APP_ID_KEY, data.fbAppId);
                 }
+                // Restore saved FB pages/groups
+                if (data.savedPages && data.savedPages.length) {
+                    const local = JSON.parse(localStorage.getItem('vx_fb_pages') || '[]');
+                    const merged = [...data.savedPages];
+                    local.forEach(p => { if (!merged.find(m => m.id === p.id)) merged.push(p); });
+                    localStorage.setItem('vx_fb_pages', JSON.stringify(merged));
+                }
+                // Restore saved IG accounts
+                if (data.savedIgAccounts && data.savedIgAccounts.length) {
+                    const local = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+                    const merged = [...data.savedIgAccounts];
+                    local.forEach(a => { if (!merged.find(m => m.id === a.id)) merged.push(a); });
+                    localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(merged));
+                }
             }
         } catch(e) {
-            // Fallback to localStorage
+            // Fallback to localStorage only
             const oai   = localStorage.getItem(BOT_OAI_KEY);
             const appId = localStorage.getItem(FB_APP_ID_KEY);
             if (oai)   { document.getElementById('bot-oai-key').value = oai; setDot('oai', true); }
@@ -1360,6 +1377,22 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
         }
         restoreFbSession();
         renderQueue();
+        populateIgSelect();
+    }
+
+    // Save groups + IG accounts to Firebase so they persist across sessions/devices
+    async function saveExtendedConfig() {
+        try {
+            const pages      = JSON.parse(localStorage.getItem('vx_fb_pages') || '[]');
+            const igAccounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+            // Strip access tokens before storing (security — token is re-applied from FB session)
+            const cleanPages = pages.map(p => ({ id: p.id, name: p.name }));
+            await db.collection('config').doc('bot_settings').set({
+                savedPages:      cleanPages,
+                savedIgAccounts: igAccounts,
+                updatedAt:       new Date().toISOString()
+            }, { merge: true });
+        } catch(e) { console.warn('saveExtendedConfig failed:', e.message); }
     }
 
     // ── Facebook OAuth ──────────────────────────────────
@@ -1448,6 +1481,7 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
             input.value = '';
             status.style.color = 'var(--green)';
             status.textContent = `✅ "${data.name}" added!`;
+            saveExtendedConfig();
         } catch(e) {
             status.style.color = 'var(--red)';
             status.textContent = `❌ ${e.message}`;
@@ -1616,6 +1650,7 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
         // Clear default if it was this page
         if (localStorage.getItem('vx_default_fb_page') === id) localStorage.removeItem('vx_default_fb_page');
         populatePageSelects(pages);
+        saveExtendedConfig();
     }
 
     function fbLogout() {
