@@ -815,7 +815,7 @@
             const sc = p.status==='posted'?'qi-posted':p.status==='error'?'qi-error':'qi-pending';
             const sl = p.status==='posted'?'✅ Published':p.status==='error'?'❌ Error':'⏳ Pending';
             const icon = p.platform==='instagram'?'📸':'📘';
-            return `<div class="queue-item"><div class="qi-icon">${icon}</div><div class="qi-body"><div class="qi-text">${p.text.slice(0,120)}...</div><div class="qi-meta">${p.ts} · Targets: ${p.targets||'nenhum'}</div></div><span class="qi-status ${sc}">${sl}</span></div>`;
+            return `<div class="queue-item"><div class="qi-icon">${icon}</div><div class="qi-body"><div class="qi-text">${p.text.slice(0,120)}...</div><div class="qi-meta">${p.ts} · Targets: ${p.targets||'none'}</div></div><span class="qi-status ${sc}">${sl}</span></div>`;
         }).join('');
     }
 
