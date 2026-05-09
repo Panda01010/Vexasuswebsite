@@ -1226,8 +1226,18 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
         const totalDests = targets.length + (igCross && igUserId ? 1 : 0);
         if (!confirm(`Publish to ${totalDests} destination(s) now?`)) return;
 
-        // Facebook targets
+        // Split pages (API) vs groups (clipboard + new tab)
+        const apiTargets   = [];
+        const groupTargets = [];
         for (const t of targets) {
+            const saved = JSON.parse(localStorage.getItem(FB_PAGES_KEY)||'[]').find(p => p.id === t);
+            const isGroup = saved?.name?.startsWith('👥') || !/^\d+$/.test(t);
+            if (isGroup) groupTargets.push({ id: t, name: saved?.name || t });
+            else         apiTargets.push(t);
+        }
+
+        // Facebook PAGES — via Graph API
+        for (const t of apiTargets) {
             try {
                 const token = await getFbTokenForTarget(t);
                 const body = new URLSearchParams({ message: generatedText, access_token: token });
@@ -1238,8 +1248,22 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
                 const res = await fetch(endpoint, { method:'POST', body });
                 const data = await res.json();
                 if (data.error) throw new Error(data.error.message);
-                alert(`✅ Facebook: Published to ${t}!`);
-            } catch(e) { alert(`❌ Facebook error on ${t}: ${e.message}`); }
+                alert(`✅ Published to page ${t}!`);
+            } catch(e) { alert(`❌ Page error on ${t}: ${e.message}`); }
+        }
+
+        // Facebook GROUPS — Facebook's API blocks this without App Review.
+        // Best UX: copy text to clipboard + open each group in a new tab.
+        if (groupTargets.length) {
+            await navigator.clipboard.writeText(generatedText).catch(() => {});
+            const names = groupTargets.map(g => g.name.replace('👥','').trim()).join(', ');
+            alert(`📋 Text copied to clipboard!\n\nThe following groups will open in new tabs — just paste and post:\n👥 ${names}`);
+            for (const g of groupTargets) {
+                const url = /^\d+$/.test(g.id)
+                    ? `https://www.facebook.com/groups/${g.id}`
+                    : `https://www.facebook.com/groups/${g.id}`;
+                window.open(url, '_blank');
+            }
         }
 
         // Instagram cross-post (requires public image URL)
