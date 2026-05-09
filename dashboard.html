@@ -547,12 +547,21 @@
                 </details>
                 <!-- Instagram cross-post toggle -->
                 <div style="border:1px solid var(--border);border-radius:10px;padding:0.7rem 0.85rem;margin-top:0.5rem;">
-                    <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.4rem;">
+                    <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.6rem;">
                         <input type="checkbox" id="ig-crosspost" style="width:16px;height:16px;accent-color:var(--red);cursor:pointer;">
                         <label for="ig-crosspost" style="font-size:0.8rem;color:var(--text);cursor:pointer;">📸 Also post to Instagram</label>
                     </div>
-                    <input class="bot-input" id="ig-user-id" placeholder="Instagram User ID (linked to your FB Page)" style="font-size:0.78rem;padding:0.45rem 0.75rem;">
-                    <div style="font-size:0.7rem;color:var(--muted);margin-top:0.3rem;">⚠️ Requires a public image URL (use DALL-E 3 model). base64 images won't work with Instagram API.</div>
+                    <!-- Saved IG accounts dropdown -->
+                    <select class="bot-input" id="ig-user-id" style="margin-bottom:0.5rem;">
+                        <option value="">— Select Instagram account —</option>
+                    </select>
+                    <!-- Add new IG account -->
+                    <div style="display:flex;gap:0.4rem;align-items:center;">
+                        <input class="bot-input" id="ig-add-id" placeholder="Paste Instagram User ID to verify & add" style="font-size:0.78rem;padding:0.45rem 0.75rem;flex:1;">
+                        <button class="bot-btn" id="ig-add-btn" onclick="checkAndAddIgAccount()" style="padding:0.45rem 0.75rem;font-size:0.78rem;width:auto;white-space:nowrap;">🔍 Add</button>
+                    </div>
+                    <div id="ig-add-status" style="font-size:0.75rem;margin-top:0.35rem;"></div>
+                    <div style="font-size:0.7rem;color:var(--muted);margin-top:0.4rem;">⚠️ Requires a public image URL — use DALL-E 3 model. Account must be Business/Creator linked to your FB Page.</div>
                 </div>
                 <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
                     <button class="bot-btn bot-btn-outline" onclick="addToQueue()" style="flex:1;">📋 Add to Queue</button>
@@ -784,6 +793,7 @@
         if (oai) { document.getElementById('bot-oai-key').value = oai; setDot('oai', true); }
         restoreFbSession();
         renderQueue();
+        populateIgSelect();
     }
 
     // Chat assistant — €1,000/day senior marketing expert, always responds in English
@@ -929,6 +939,55 @@
             // Public URL — open in new tab so user can right-click save
             window.open(generatedImgUrl, '_blank');
         }
+    }
+
+    // ── Instagram Account Management ──────────────────────────
+    const IG_ACCOUNTS_KEY = 'vx_ig_accounts';
+
+    function populateIgSelect() {
+        const sel = document.getElementById('ig-user-id');
+        if (!sel) return;
+        const accounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+        sel.innerHTML = '<option value="">— Select Instagram account —</option>';
+        accounts.forEach(a => {
+            const opt = document.createElement('option');
+            opt.value = a.id;
+            opt.textContent = `${a.username || a.name} (${a.id})`;
+            sel.appendChild(opt);
+        });
+    }
+
+    async function checkAndAddIgAccount() {
+        const input  = document.getElementById('ig-add-id');
+        const btn    = document.getElementById('ig-add-btn');
+        const status = document.getElementById('ig-add-status');
+        const igId   = input.value.trim();
+        if (!igId) { status.style.color='var(--red)'; status.textContent='⚠️ Paste an Instagram User ID first.'; return; }
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        if (!token) { status.style.color='var(--red)'; status.textContent='⚠️ Connect Facebook first.'; return; }
+        btn.disabled = true; btn.textContent = '⏳...';
+        status.textContent = '';
+        try {
+            const res  = await fetch(`https://graph.facebook.com/v19.0/${igId}?fields=id,name,username&access_token=${token}`);
+            const data = await res.json();
+            if (data.error) throw new Error(data.error.message);
+            if (!data.id)   throw new Error('Account not found.');
+            const accounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+            if (!accounts.find(a => a.id === data.id)) {
+                accounts.push({ id: data.id, name: data.name || data.id, username: data.username || '' });
+                localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(accounts));
+            }
+            input.value = '';
+            status.style.color = 'var(--green)';
+            status.textContent = `✅ "${data.username || data.name}" added!`;
+            populateIgSelect();
+            // Auto-select the newly added account
+            document.getElementById('ig-user-id').value = data.id;
+        } catch(e) {
+            status.style.color = 'var(--red)';
+            status.textContent = `❌ ${e.message}`;
+        }
+        btn.disabled = false; btn.textContent = '🔍 Add';
     }
 
     // Queue
