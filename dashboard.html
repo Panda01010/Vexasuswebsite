@@ -187,10 +187,10 @@
     <input type="password" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')unlock()">
     <label class="remember-row">
         <input type="checkbox" id="remember-me" checked>
-        Lembrar neste browser
+        Remember this browser
     </label>
-    <button id="pw-btn" onclick="unlock()">Entrar</button>
-    <p id="pw-error">Password incorreta.</p>
+    <button id="pw-btn" onclick="unlock()">Login</button>
+    <p id="pw-error">Incorrect password.</p>
 </div>
 
 <div id="dash">
@@ -201,8 +201,8 @@
         </div>
         <div class="header-btns">
             <button class="btn-refresh" onclick="loadData()">⟳ Refresh</button>
-            <button class="btn-delete" onclick="confirmDelete()">🗑 Apagar dados</button>
-            <button class="btn-logout" onclick="logout()">Sair</button>
+            <button class="btn-delete" onclick="confirmDelete()">🗑 Delete data</button>
+            <button class="btn-logout" onclick="logout()">Logout</button>
         </div>
     </div>
 
@@ -217,40 +217,40 @@
     <!-- ═══ TAB 1: A/B Results ═══ -->
     <div id="tab-ab" class="tab-pane active">
         <div class="summary-row">
-            <div class="sum-item"><span class="sum-label">Total Visitas</span><span class="sum-value" id="sum-visits">–</span></div>
-            <div class="sum-item"><span class="sum-label">Total Conversões</span><span class="sum-value" id="sum-conv">–</span></div>
-            <div class="sum-item"><span class="sum-label">Taxa Global</span><span class="sum-value" id="sum-rate">–</span></div>
-            <div class="sum-item"><span class="sum-label">A ganhar</span><span class="sum-value" id="sum-winner" style="color:var(--green)">–</span></div>
+            <div class="sum-item"><span class="sum-label">Total Visits</span><span class="sum-value" id="sum-visits">–</span></div>
+            <div class="sum-item"><span class="sum-label">Total Conversions</span><span class="sum-value" id="sum-conv">–</span></div>
+            <div class="sum-item"><span class="sum-label">Global Rate</span><span class="sum-value" id="sum-rate">–</span></div>
+            <div class="sum-item"><span class="sum-label">Winning</span><span class="sum-value" id="sum-winner" style="color:var(--green)">–</span></div>
         </div>
         <div class="cards-row">
             <div class="ab-card" id="card-a">
-                <div class="variant-label">Variante A</div>
-                <div class="variant-name">Inspiração · index.html</div>
-                <div class="stat-row"><span class="stat-label">Visitas</span><span class="stat-value" id="a-visits">–</span></div>
-                <div class="stat-row"><span class="stat-label">Conversões</span><span class="stat-value" id="a-conv">–</span></div>
+                <div class="variant-label">Variant A</div>
+                <div class="variant-name">Inspiration · index.html</div>
+                <div class="stat-row"><span class="stat-label">Visits</span><span class="stat-value" id="a-visits">–</span></div>
+                <div class="stat-row"><span class="stat-label">Conversions</span><span class="stat-value" id="a-conv">–</span></div>
                 <div class="rate-big neutral" id="a-rate">–%</div>
-                <div class="rate-sub">taxa de conversão</div>
+                <div class="rate-sub">conversion rate</div>
                 <div class="progress-wrap">
                     <div class="progress-label"><span>Conv. rate</span><span id="a-rate-label">–</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="a-bar" style="width:0%"></div></div>
                 </div>
             </div>
             <div class="ab-card" id="card-b">
-                <div class="variant-label">Variante B</div>
-                <div class="variant-name">Dor · index-b.html</div>
-                <div class="stat-row"><span class="stat-label">Visitas</span><span class="stat-value" id="b-visits">–</span></div>
-                <div class="stat-row"><span class="stat-label">Conversões</span><span class="stat-value" id="b-conv">–</span></div>
+                <div class="variant-label">Variant B</div>
+                <div class="variant-name">Pain · index-b.html</div>
+                <div class="stat-row"><span class="stat-label">Visits</span><span class="stat-value" id="b-visits">–</span></div>
+                <div class="stat-row"><span class="stat-label">Conversions</span><span class="stat-value" id="b-conv">–</span></div>
                 <div class="rate-big neutral" id="b-rate">–%</div>
-                <div class="rate-sub">taxa de conversão</div>
+                <div class="rate-sub">conversion rate</div>
                 <div class="progress-wrap">
                     <div class="progress-label"><span>Conv. rate</span><span id="b-rate-label">–</span></div>
                     <div class="progress-bar"><div class="progress-fill green" id="b-bar" style="width:0%"></div></div>
                 </div>
             </div>
         </div>
-        <div class="log-title">📋 Últimos 20 eventos</div>
-        <div id="log-wrap" class="loading">A carregar...</div>
-        <p class="note">Dados em tempo real do Firebase Firestore.<br>Cada visita e conversão é registada automaticamente.</p>
+        <div class="log-title">📋 Last 20 events</div>
+        <div id="log-wrap" class="loading">Loading...</div>
+        <p class="note">Real-time data from Firebase Firestore.<br>Every visit and conversion is automatically logged.</p>
     </div>
 
     <!-- ═══ TAB 2: Google Analytics ═══ -->
@@ -260,17 +260,17 @@
         <div style="background:rgba(251,188,4,0.08);border:1px solid rgba(251,188,4,0.25);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
             <span style="font-size:1.2rem;">⚠️</span>
             <div style="flex:1;min-width:200px;">
-                <div style="font-size:0.85rem;font-weight:700;color:#fbbc04;margin-bottom:0.2rem;">Se vês um ecrã de login abaixo</div>
-                <div style="font-size:0.78rem;color:var(--muted);">O report do Looker Studio precisa de ser público. Vai a Looker Studio → Share → Manage access → "Anyone with the link can view"</div>
+                <div style="font-size:0.85rem;font-weight:700;color:#fbbc04;margin-bottom:0.2rem;">If you see a login screen below</div>
+                <div style="font-size:0.78rem;color:var(--muted);">The Looker Studio report must be public. Vai a Looker Studio → Share → Manage access → "Anyone with the link can view"</div>
             </div>
-            <a href="https://lookerstudio.google.com/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd" target="_blank" style="background:#fbbc04;color:#000;border:none;border-radius:8px;padding:0.5rem 1rem;font-size:0.8rem;font-weight:700;text-decoration:none;white-space:nowrap;">Abrir Looker Studio →</a>
+            <a href="https://lookerstudio.google.com/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd" target="_blank" style="background:#fbbc04;color:#000;border:none;border-radius:8px;padding:0.5rem 1rem;font-size:0.8rem;font-weight:700;text-decoration:none;white-space:nowrap;">Open Looker Studio →</a>
         </div>
 
         <!-- Looker Studio embed -->
         <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1.5rem;">
             <div style="padding:0.75rem 1.25rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
                 <span style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);">📊 Looker Studio Report — GA4 Live</span>
-                <a href="https://lookerstudio.google.com/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd" target="_blank" style="font-size:0.75rem;color:var(--muted);text-decoration:none;">Abrir em fullscreen ↗</a>
+                <a href="https://lookerstudio.google.com/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd" target="_blank" style="font-size:0.75rem;color:var(--muted);text-decoration:none;">Open fullscreen ↗</a>
             </div>
             <iframe
                 src="https://datastudio.google.com/embed/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd/page/EddxF"
@@ -281,25 +281,25 @@
         </div>
 
         <!-- GA4 Quick Links -->
-        <div class="section-lbl">🔗 Acesso Rápido — GA4</div>
+        <div class="section-lbl">🔗 Quick Access — GA4</div>
         <div class="clarity-grid">
             <a class="cl-card" style="border-color:rgba(251,188,4,0.25)" href="https://analytics.google.com/analytics/web/" target="_blank">
                 <div class="cl-icon">📈</div>
                 <div class="cl-label">GA4</div>
                 <div class="cl-title">Overview</div>
-                <div class="cl-sub">Tráfego & páginas</div>
+                <div class="cl-sub">Traffic & pages</div>
             </a>
             <a class="cl-card" style="border-color:rgba(251,188,4,0.25)" href="https://analytics.google.com/analytics/web/#/realtime" target="_blank">
                 <div class="cl-icon">🔴</div>
                 <div class="cl-label">GA4</div>
                 <div class="cl-title">Realtime</div>
-                <div class="cl-sub">Utilizadores agora</div>
+                <div class="cl-sub">Users right now</div>
             </a>
             <a class="cl-card" style="border-color:rgba(251,188,4,0.25)" href="https://lookerstudio.google.com/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd" target="_blank">
                 <div class="cl-icon">📊</div>
                 <div class="cl-label">Looker Studio</div>
-                <div class="cl-title">Editar Report</div>
-                <div class="cl-sub">Adicionar gráficos</div>
+                <div class="cl-title">Edit Report</div>
+                <div class="cl-sub">Add charts</div>
             </a>
         </div>
     </div>
@@ -309,75 +309,75 @@
 
         <!-- What Clarity shows -->
         <div style="background:rgba(0,149,255,0.06);border:1px solid rgba(0,149,255,0.2);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;">
-            <div style="font-size:0.85rem;font-weight:700;color:#0095ff;margin-bottom:0.4rem;">🎬 O que o Clarity mostra</div>
+            <div style="font-size:0.85rem;font-weight:700;color:#0095ff;margin-bottom:0.4rem;">🎬 What Clarity shows</div>
             <div style="font-size:0.8rem;color:var(--muted);line-height:1.8;">
-                ✅ Gravações de sessão — vê exactamente o que cada utilizador fez<br>
-                ✅ Mapas de calor — onde clicam e onde param de ler<br>
-                ✅ Rage clicks — onde ficam frustrados<br>
-                ✅ Filtros por variante A ou B
+                ✅ Session recordings — see exactly what each user did<br>
+                ✅ Heatmaps — where they click and where they stop reading<br>
+                ✅ Rage clicks — where they get frustrated<br>
+                ✅ Filters by variant A or B
             </div>
         </div>
 
         <!-- All Sessions -->
-        <div class="section-lbl">📋 Todas as Sessões</div>
+        <div class="section-lbl">📋 All Sessions</div>
         <div class="clarity-grid" style="grid-template-columns:1fr 1fr;margin-bottom:1.5rem;">
             <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/dashboard" target="_blank">
                 <div class="cl-icon">🏠</div>
                 <div class="cl-label">Clarity</div>
-                <div class="cl-title">Dashboard Geral</div>
-                <div class="cl-sub">Visão geral de todas as métricas</div>
+                <div class="cl-title">General Dashboard</div>
+                <div class="cl-sub">Overview of all metrics</div>
             </a>
             <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/heatmaps" target="_blank">
                 <div class="cl-icon">🗺️</div>
                 <div class="cl-label">Clarity</div>
                 <div class="cl-title">Heatmaps</div>
-                <div class="cl-sub">Onde clicam & onde param de ler</div>
+                <div class="cl-sub">Where they click & stop reading</div>
             </a>
         </div>
 
         <!-- Recordings by variant -->
-        <div class="section-lbl">🎬 Gravações por Variante</div>
+        <div class="section-lbl">🎬 Recordings by Variant</div>
         <div class="clarity-grid" style="grid-template-columns:1fr 1fr;margin-bottom:1.5rem;">
             <a class="cl-card var-a" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AA" target="_blank">
                 <div class="cl-icon">🔴</div>
-                <div class="cl-label">Variante A — Inspiração</div>
-                <div class="cl-title">Gravações do index.html</div>
-                <div class="cl-sub">Vê sessões de utilizadores da página A</div>
+                <div class="cl-label">Variant A — Inspiration</div>
+                <div class="cl-title">Recordings for index.html</div>
+                <div class="cl-sub">Watch user sessions for page A</div>
             </a>
             <a class="cl-card var-b" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AB" target="_blank">
                 <div class="cl-icon">🔵</div>
-                <div class="cl-label">Variante B — Dor</div>
-                <div class="cl-title">Gravações do index-b.html</div>
-                <div class="cl-sub">Vê sessões de utilizadores da página B</div>
+                <div class="cl-label">Variant B — Pain</div>
+                <div class="cl-title">Recordings for index-b.html</div>
+                <div class="cl-sub">Watch user sessions for page B</div>
             </a>
         </div>
 
         <!-- Filter by section -->
-        <div class="section-lbl">🔍 Ver quem saiu em cada secção</div>
+        <div class="section-lbl">🔍 See who dropped off in each section</div>
         <div class="clarity-grid" style="margin-bottom:1.5rem;">
             <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=last_section%3A3_problems" target="_blank">
                 <div class="cl-icon">🚪</div>
-                <div class="cl-label">Saiu em</div>
-                <div class="cl-title">Problemas</div>
-                <div class="cl-sub">Secção 3</div>
+                <div class="cl-label">Dropped off in</div>
+                <div class="cl-title">Problems</div>
+                <div class="cl-sub">Section 3</div>
             </a>
             <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=last_section%3A7_pricing" target="_blank">
                 <div class="cl-icon">🚪</div>
-                <div class="cl-label">Saiu em</div>
-                <div class="cl-title">Preço</div>
-                <div class="cl-sub">Secção 7</div>
+                <div class="cl-label">Dropped off in</div>
+                <div class="cl-title">Pricing</div>
+                <div class="cl-sub">Section 7</div>
             </a>
             <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=last_section%3A9_apply_form" target="_blank">
                 <div class="cl-icon">📝</div>
-                <div class="cl-label">Chegou ao</div>
-                <div class="cl-title">Formulário</div>
-                <div class="cl-sub">Secção 9 — os mais quentes</div>
+                <div class="cl-label">Reached</div>
+                <div class="cl-title">Form</div>
+                <div class="cl-sub">Section 9 — the hottest leads</div>
             </a>
             <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=last_section%3A8_faq" target="_blank">
                 <div class="cl-icon">🚪</div>
-                <div class="cl-label">Saiu em</div>
+                <div class="cl-label">Dropped off in</div>
                 <div class="cl-title">FAQ</div>
-                <div class="cl-sub">Secção 8</div>
+                <div class="cl-sub">Section 8</div>
             </a>
         </div>
     </div>
@@ -388,63 +388,63 @@
 
         <!-- API Config -->
         <div class="bot-card" style="margin-bottom:1.25rem;">
-            <h3>⚙️ Configuração</h3>
+            <h3>⚙️ Configuration</h3>
             <div class="bot-grid" style="margin-bottom:1rem;">
                 <!-- OpenAI -->
                 <div>
                     <label class="bot-label">OpenAI API Key (GPT-4o + DALL-E 3)</label>
                     <input type="password" class="bot-input" id="bot-oai-key" placeholder="sk-...">
-                    <div class="api-status" id="oai-status"><span class="status-dot dot-off" id="oai-dot"></span>Não configurado</div>
+                    <div class="api-status" id="oai-status"><span class="status-dot dot-off" id="oai-dot"></span>Not configured</div>
                 </div>
                 <!-- Facebook OAuth -->
                 <div>
-                    <label class="bot-label">Facebook App ID <span style="color:rgba(255,255,255,0.3);font-weight:400;">(da tua Facebook App)</span></label>
+                    <label class="bot-label">Facebook App ID <span style="color:rgba(255,255,255,0.3);font-weight:400;">(from your Facebook App)</span></label>
                     <input class="bot-input" id="fb-app-id" placeholder="Ex: 1234567890" style="margin-bottom:0.6rem;">
                     <!-- Connect button -->
                     <button class="fb-connect-btn" id="fb-connect-btn" onclick="fbLogin()">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.12 8.44 9.88v-6.99H7.9V12h2.54V9.8c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99C18.34 21.12 22 16.99 22 12z"/></svg>
-                        Ligar conta Facebook
+                        Connect Facebook account
                     </button>
                     <!-- Connected state -->
                     <div id="fb-connected" style="display:none;">
-                        <div class="api-status" style="margin-bottom:0.6rem;"><span class="status-dot dot-ok"></span><span id="fb-user-name">Ligado</span></div>
+                        <div class="api-status" style="margin-bottom:0.6rem;"><span class="status-dot dot-ok"></span><span id="fb-user-name">Connected</span></div>
                         <select class="bot-input" id="fb-page-select" style="margin-bottom:0.5rem;">
-                            <option value="">— Seleciona uma Página / Grupo —</option>
+                            <option value="">— Select a Page / Group —</option>
                         </select>
-                        <button class="bot-btn bot-btn-outline" onclick="fbLogout()" style="padding:0.4rem 0.75rem;font-size:0.78rem;width:auto;">Desligar</button>
+                        <button class="bot-btn bot-btn-outline" onclick="fbLogout()" style="padding:0.4rem 0.75rem;font-size:0.78rem;width:auto;">Disconnect</button>
                     </div>
-                    <div id="fb-status" class="api-status" style="margin-top:0.4rem;"><span class="status-dot dot-off" id="fb-dot"></span>Não ligado</div>
+                    <div id="fb-status" class="api-status" style="margin-top:0.4rem;"><span class="status-dot dot-off" id="fb-dot"></span>Not connected</div>
                 </div>
             </div>
             <!-- Save row -->
             <div style="display:flex;align-items:center;gap:1rem;padding-top:1rem;border-top:1px solid var(--border);">
-                <button class="bot-btn" id="save-config-btn" onclick="saveConfig()" style="max-width:200px;">💾 Guardar Configuração</button>
+                <button class="bot-btn" id="save-config-btn" onclick="saveConfig()" style="max-width:200px;">💾 Save Configuration</button>
                 <span id="save-config-status" style="font-size:0.8rem;color:var(--muted);"></span>
             </div>
         </div>
 
         <!-- AI Chat assistant -->
         <div class="bot-card" style="margin-bottom:1.25rem;">
-            <h3>💬 Assistente de Marketing</h3>
+            <h3>💬 Marketing Assistant</h3>
             <div class="chat-box" id="chat-box">
-                <div class="chat-msg bot">Olá! Sou o teu assistente de marketing. Pede-me para criar posts para Facebook ou Instagram, sugerir estratégias para grupos de construção, ou gerar ideias de conteúdo para a Vexasus. 🚀</div>
+                <div class="chat-msg bot">Hello! I am your marketing assistant. Ask me to create posts for Facebook or Instagram, suggest strategies for construction groups, or generate content ideas for Vexasus. 🚀</div>
             </div>
             <div class="chat-input-row">
-                <input class="bot-input" id="chat-input" placeholder="Ex: Cria um post para grupos de construção no Facebook..." onkeydown="if(event.key==='Enter')sendChat()">
-                <button class="chat-send" onclick="sendChat()">Enviar</button>
+                <input class="bot-input" id="chat-input" placeholder="Ex: Create a post for construction groups on Facebook..." onkeydown="if(event.key==='Enter')sendChat()">
+                <button class="chat-send" onclick="sendChat()">Send</button>
             </div>
         </div>
 
         <!-- Post Generator -->
         <div class="bot-grid">
             <div class="bot-card">
-                <h3>✍️ Criar Post com IA</h3>
+                <h3>✍️ Create AI Post</h3>
                 <div class="bot-field">
-                    <label class="bot-label">Tema / Briefing</label>
-                    <textarea class="bot-input bot-textarea" id="post-brief" placeholder="Ex: Mostrar que a Vexasus ajuda empreiteiros a conseguir mais clientes com marketing digital..."></textarea>
+                    <label class="bot-label">Topic / Briefing</label>
+                    <textarea class="bot-input bot-textarea" id="post-brief" placeholder="Ex: Show that Vexasus helps contractors get more clients with digital marketing..."></textarea>
                 </div>
                 <div class="bot-field">
-                    <label class="bot-label">Plataforma</label>
+                    <label class="bot-label">Platform</label>
                     <select class="bot-input" id="post-platform">
                         <option value="facebook_group">📘 Facebook Group</option>
                         <option value="facebook_page">📘 Facebook Page</option>
@@ -452,69 +452,69 @@
                     </select>
                 </div>
                 <div class="bot-field">
-                    <label class="bot-label">Tom</label>
+                    <label class="bot-label">Tone</label>
                     <select class="bot-input" id="post-tone">
-                        <option value="profissional">💼 Profissional</option>
-                        <option value="casual">😊 Casual / Amigável</option>
-                        <option value="urgente">🔥 Urgente / FOMO</option>
-                        <option value="educativo">📚 Educativo</option>
+                        <option value="profissional">💼 Professional</option>
+                        <option value="casual">😊 Casual / Friendly</option>
+                        <option value="urgente">🔥 Urgent / FOMO</option>
+                        <option value="educativo">📚 Educational</option>
                     </select>
                 </div>
                 <div class="bot-field">
-                    <label class="bot-label">Gerar imagem com DALL-E 3?</label>
+                    <label class="bot-label">Generate image with DALL-E 3?</label>
                     <select class="bot-input" id="post-img">
-                        <option value="yes">✅ Sim — gerar imagem</option>
-                        <option value="no">❌ Não — só texto</option>
+                        <option value="yes">✅ Yes — generate image</option>
+                        <option value="no">❌ No — text only</option>
                     </select>
                 </div>
-                <button class="bot-btn" id="gen-btn" onclick="generatePost()">⚡ Gerar Post com IA</button>
+                <button class="bot-btn" id="gen-btn" onclick="generatePost()">⚡ Generate AI Post</button>
             </div>
 
             <div class="bot-card">
-                <h3>👁 Preview do Post</h3>
-                <div class="preview-box" id="post-preview">O teu post gerado aparece aqui...</div>
-                <img id="preview-img" class="preview-img" alt="Imagem gerada">
+                <h3>👁 Post Preview</h3>
+                <div class="preview-box" id="post-preview">Your generated post will appear here...</div>
+                <img id="preview-img" class="preview-img" alt="Generated image">
                 <hr class="bot-divider">
                 <div class="bot-field">
-                    <label class="bot-label">Publicar em</label>
+                    <label class="bot-label">Publish to</label>
                     <select class="bot-input" id="fb-targets-select">
-                        <option value="">— Liga o Facebook primeiro —</option>
+                        <option value="">— Connect Facebook first —</option>
                     </select>
-                    <input class="bot-input" id="fb-targets" placeholder="Ou escreve IDs manualmente, separados por vírgula" style="margin-top:0.4rem;">
+                    <input class="bot-input" id="fb-targets" placeholder="Or type IDs manually, separated by comma" style="margin-top:0.4rem;">
                 </div>
                 <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
-                    <button class="bot-btn bot-btn-outline" onclick="addToQueue()" style="flex:1;">📋 Adicionar à Fila</button>
-                    <button class="bot-btn bot-btn-green" onclick="postNow()" style="flex:1;">🚀 Publicar Agora</button>
+                    <button class="bot-btn bot-btn-outline" onclick="addToQueue()" style="flex:1;">📋 Add to Queue</button>
+                    <button class="bot-btn bot-btn-green" onclick="postNow()" style="flex:1;">🚀 Publish Now</button>
                 </div>
             </div>
         </div>
 
         <!-- Queue -->
         <div class="bot-card" style="margin-bottom:1.5rem;">
-            <h3>📋 Fila de Posts <span id="queue-count" style="color:var(--muted);font-weight:400;font-size:0.82rem;"></span></h3>
-            <div id="post-queue"><p style="color:var(--muted);font-size:0.85rem;">Nenhum post na fila ainda.</p></div>
-            <button class="bot-btn bot-btn-green" id="send-queue-btn" onclick="sendQueue()" style="margin-top:0.85rem;display:none;">🚀 Enviar Toda a Fila</button>
+            <h3>📋 Post Queue <span id="queue-count" style="color:var(--muted);font-weight:400;font-size:0.82rem;"></span></h3>
+            <div id="post-queue"><p style="color:var(--muted);font-size:0.85rem;">No posts in the queue yet.</p></div>
+            <button class="bot-btn bot-btn-green" id="send-queue-btn" onclick="sendQueue()" style="margin-top:0.85rem;display:none;">🚀 Send Toda a Fila</button>
         </div>
 
         <!-- Guide -->
         <div style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.2);border-radius:12px;padding:1rem 1.25rem;font-size:0.8rem;color:var(--muted);line-height:1.8;">
-            <div style="font-weight:700;color:var(--green);margin-bottom:0.4rem;">🗺️ Como funciona</div>
-            1. Insere a tua OpenAI API Key e o Facebook Token acima.<br>
-            2. Usa o <b>Assistente</b> para brainstorming e estratégia.<br>
-            3. Preenche o briefing → clica <b>Gerar Post</b> → o GPT-4o escreve o texto e o DALL-E 3 cria a imagem.<br>
-            4. Revê o preview, adiciona os IDs dos grupos/páginas e publica diretamente via Graph API.<br>
-            <span style="color:rgba(255,255,255,0.35);font-size:0.72rem;">⚠️ Para Instagram é necessário uma conta Business ligada a uma Página Facebook.</span>
+            <div style="font-weight:700;color:var(--green);margin-bottom:0.4rem;">🗺️ How it works</div>
+            1. Insert your OpenAI API Key and Facebook App ID above.<br>
+            2. Use the <b>Assistant</b> for brainstorming and strategy.<br>
+            3. Fill the briefing → click <b>Generate Post</b> → GPT-4o writes the text and DALL-E 3 creates the image.<br>
+            4. Review the preview, add group/page IDs and publish directly via Graph API.<br>
+            <span style="color:rgba(255,255,255,0.35);font-size:0.72rem;">⚠️ Instagram requires a Business account linked to a Facebook Page.</span>
         </div>
     </div>
 
 <!-- Delete confirm modal -->
 <div id="modal-overlay">
     <div id="modal-box">
-        <h3>⚠️ Apagar todos os dados?</h3>
-        <p>Isto vai eliminar todos os registos de visitas e conversões do Firebase.<br>O contador volta a zero. Esta ação não pode ser desfeita.</p>
+        <h3>⚠️ Delete all data?</h3>
+        <p>This will delete all visit and conversion logs from Firebase.<br>Counters will reset to zero. This action cannot be undone.</p>
         <div class="modal-btns">
-            <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-            <button class="btn-confirm-del" onclick="deleteAllData()">Sim, apagar tudo</button>
+            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+            <button class="btn-confirm-del" onclick="deleteAllData()">Yes, delete everything</button>
         </div>
     </div>
 </div>
@@ -610,7 +610,7 @@
     }
 
     async function loadData() {
-        document.getElementById('log-wrap').innerHTML = '<p class="loading">A carregar...</p>';
+        document.getElementById('log-wrap').innerHTML = '<p class="loading">Loading...</p>';
         try {
             const snap = await db.collection('ab_tracking').orderBy('ts','desc').limit(500).get();
             const docs = snap.docs.map(d => ({id: d.id, ...d.data()}));
@@ -624,7 +624,7 @@
             const aRate = aVisits > 0 ? (aConv/aVisits*100) : 0;
             const bRate = bVisits > 0 ? (bConv/bVisits*100) : 0;
             const maxRate = Math.max(aRate, bRate, 1);
-            const winner = aRate > bRate ? 'A (Inspiração)' : bRate > aRate ? 'B (Dor)' : 'Empate';
+            const winner = aRate > bRate ? 'A (Inspiration)' : bRate > aRate ? 'B (Pain)' : 'Empate';
 
             document.getElementById('a-visits').textContent = aVisits;
             document.getElementById('a-conv').textContent   = aConv;
@@ -663,7 +663,7 @@
             html += '</tbody></table>';
             document.getElementById('log-wrap').innerHTML = html;
         } catch(e) {
-            document.getElementById('log-wrap').innerHTML = '<p class="loading" style="color:#e74c3c;">Erro: '+e.message+'</p>';
+            document.getElementById('log-wrap').innerHTML = '<p class="loading" style="color:#e74c3c;">Error: '+e.message+'</p>';
         }
     }
 
@@ -687,7 +687,7 @@
         } catch(e) {
             alert('Erro ao apagar: ' + e.message);
         }
-        btn.textContent = 'Sim, apagar tudo'; btn.disabled = false;
+        btn.textContent = 'Yes, delete everything'; btn.disabled = false;
     }
 
     // ── AI Bot ─────────────────────────────────────────────────────
@@ -705,7 +705,7 @@
         const dot = document.getElementById(id+'-dot');
         const stat = document.getElementById(id+'-status');
         if (dot)  dot.className = 'status-dot '+(ok?'dot-ok':'dot-off');
-        if (stat) stat.childNodes[1] && (stat.childNodes[1].textContent = ok ? ' Configurado ✓' : ' Não configurado');
+        if (stat) stat.childNodes[1] && (stat.childNodes[1].textContent = ok ? ' Configurado ✓' : ' Not configured');
     }
     function loadBotKeys() {
         const oai = localStorage.getItem(BOT_OAI_KEY);
@@ -720,10 +720,10 @@
         const msg = inp.value.trim();
         if (!msg) return;
         const key = localStorage.getItem(BOT_OAI_KEY);
-        if (!key) { alert('Insere a tua OpenAI API Key primeiro.'); return; }
+        if (!key) { alert('Insert your OpenAI API Key first.'); return; }
         inp.value = '';
         appendChat('user', msg);
-        const typing = appendChat('bot', '⏳ A pensar...');
+        const typing = appendChat('bot', '⏳ Thinking...');
         try {
             const res = await fetch('https://api.openai.com/v1/chat/completions', {
                 method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
@@ -733,8 +733,8 @@
                 ], max_tokens:600 })
             });
             const data = await res.json();
-            typing.textContent = data.choices?.[0]?.message?.content || 'Erro na resposta.';
-        } catch(e) { typing.textContent = '❌ Erro: '+e.message; }
+            typing.textContent = data.choices?.[0]?.message?.content || 'Response error.';
+        } catch(e) { typing.textContent = '❌ Error: '+e.message; }
     }
     function appendChat(role, text) {
         const box = document.getElementById('chat-box');
@@ -749,15 +749,15 @@
     // Post generator
     async function generatePost() {
         const key   = localStorage.getItem(BOT_OAI_KEY);
-        if (!key) { alert('Insere a tua OpenAI API Key primeiro.'); return; }
+        if (!key) { alert('Insert your OpenAI API Key first.'); return; }
         const brief    = document.getElementById('post-brief').value.trim();
         const platform = document.getElementById('post-platform').value;
         const tone     = document.getElementById('post-tone').value;
         const wantImg  = document.getElementById('post-img').value === 'yes';
-        if (!brief) { alert('Escreve um briefing para o post.'); return; }
+        if (!brief) { alert('Write a brief for the post.'); return; }
         const btn = document.getElementById('gen-btn');
-        btn.disabled = true; btn.textContent = '⏳ A gerar...';
-        document.getElementById('post-preview').textContent = 'A gerar texto...';
+        btn.disabled = true; btn.textContent = '⏳ Generating...';
+        document.getElementById('post-preview').textContent = 'Generating text...';
         document.getElementById('preview-img').style.display = 'none';
         generatedText = ''; generatedImgUrl = '';
         try {
@@ -770,10 +770,10 @@
                 ], max_tokens:500 })
             });
             const data = await res.json();
-            generatedText = data.choices?.[0]?.message?.content || 'Erro ao gerar texto.';
+            generatedText = data.choices?.[0]?.message?.content || 'Error generating text.';
             document.getElementById('post-preview').textContent = generatedText;
             if (wantImg) {
-                document.getElementById('post-preview').textContent = generatedText + '\n\n⏳ A gerar imagem...';
+                document.getElementById('post-preview').textContent = generatedText + '\n\n⏳ Generating image...';
                 const imgRes = await fetch('https://api.openai.com/v1/images/generations', {
                     method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
                     body: JSON.stringify({ model:'dall-e-3', prompt:`Marketing visual for Portuguese construction company Vexasus: ${brief}. Professional, modern, clean design. No text in image.`, n:1, size:'1024x1024', quality:'standard' })
@@ -788,42 +788,42 @@
                 }
             }
         } catch(e) {
-            document.getElementById('post-preview').textContent = '❌ Erro: '+e.message;
+            document.getElementById('post-preview').textContent = '❌ Error: '+e.message;
         }
-        btn.disabled = false; btn.textContent = '⚡ Gerar Post com IA';
+        btn.disabled = false; btn.textContent = '⚡ Generate AI Post';
     }
 
     // Queue
     function addToQueue() {
-        if (!generatedText) { alert('Gera um post primeiro.'); return; }
+        if (!generatedText) { alert('Generate a post first.'); return; }
         const targets = document.getElementById('fb-targets').value.trim();
         postQueue.push({ id: Date.now(), text: generatedText, imgUrl: generatedImgUrl, targets, status:'pending', platform: document.getElementById('post-platform').value, ts: new Date().toLocaleString('pt-PT') });
         localStorage.setItem('vx_post_queue', JSON.stringify(postQueue));
         renderQueue();
-        alert('✅ Post adicionado à fila!');
+        alert('✅ Post added to queue!');
     }
     function renderQueue() {
         const el = document.getElementById('post-queue');
         const btn = document.getElementById('send-queue-btn');
-        if (!postQueue.length) { el.innerHTML='<p style="color:var(--muted);font-size:0.85rem;">Nenhum post na fila ainda.</p>'; btn.style.display='none'; return; }
+        if (!postQueue.length) { el.innerHTML='<p style="color:var(--muted);font-size:0.85rem;">No posts in the queue yet.</p>'; btn.style.display='none'; return; }
         document.getElementById('queue-count').textContent = `(${postQueue.length} posts)`;
         btn.style.display = 'block';
         el.innerHTML = postQueue.map((p,i) => {
             const sc = p.status==='posted'?'qi-posted':p.status==='error'?'qi-error':'qi-pending';
-            const sl = p.status==='posted'?'✅ Publicado':p.status==='error'?'❌ Erro':'⏳ Pendente';
+            const sl = p.status==='posted'?'✅ Published':p.status==='error'?'❌ Error':'⏳ Pending';
             const icon = p.platform==='instagram'?'📸':'📘';
-            return `<div class="queue-item"><div class="qi-icon">${icon}</div><div class="qi-body"><div class="qi-text">${p.text.slice(0,120)}...</div><div class="qi-meta">${p.ts} · Destinos: ${p.targets||'nenhum'}</div></div><span class="qi-status ${sc}">${sl}</span></div>`;
+            return `<div class="queue-item"><div class="qi-icon">${icon}</div><div class="qi-body"><div class="qi-text">${p.text.slice(0,120)}...</div><div class="qi-meta">${p.ts} · Targets: ${p.targets||'nenhum'}</div></div><span class="qi-status ${sc}">${sl}</span></div>`;
         }).join('');
     }
 
     // Post now via FB Graph API
     async function postNow() {
-        if (!generatedText) { alert('Gera um post primeiro.'); return; }
+        if (!generatedText) { alert('Generate a post first.'); return; }
         const token   = localStorage.getItem(BOT_FB_TOKEN);
-        if (!token) { alert('Insere o Facebook Token primeiro.'); return; }
+        if (!token) { alert('Insert the Facebook Token first.'); return; }
         const targets = document.getElementById('fb-targets').value.trim().split(',').map(s=>s.trim()).filter(Boolean);
-        if (!targets.length) { alert('Adiciona pelo menos um ID de grupo ou página.'); return; }
-        if (!confirm(`Publicar em ${targets.length} destino(s) agora?`)) return;
+        if (!targets.length) { alert('Add at least one group or page ID.'); return; }
+        if (!confirm(`Publish to ${targets.length} target(s) now?`)) return;
         for (const t of targets) {
             try {
                 const body = new URLSearchParams({ message: generatedText, access_token: token });
@@ -834,15 +834,15 @@
                 const res = await fetch(endpoint, { method:'POST', body });
                 const data = await res.json();
                 if (data.error) throw new Error(data.error.message);
-                alert(`✅ Publicado em ${t}!`);
-            } catch(e) { alert(`❌ Erro em ${t}: ${e.message}`); }
+                alert(`✅ Published to ${t}!`);
+            } catch(e) { alert(`❌ Error in ${t}: ${e.message}`); }
         }
     }
 
     async function sendQueue() {
         const token = localStorage.getItem(BOT_FB_TOKEN);
-        if (!token) { alert('Insere o Facebook Token primeiro.'); return; }
-        if (!confirm(`Enviar ${postQueue.filter(p=>p.status==='pending').length} post(s) pendentes?`)) return;
+        if (!token) { alert('Insert the Facebook Token first.'); return; }
+        if (!confirm(`Send ${postQueue.filter(p=>p.status==='pending').length} pending post(s)?`)) return;
         for (let i=0; i<postQueue.length; i++) {
             if (postQueue[i].status !== 'pending') continue;
             const targets = postQueue[i].targets.split(',').map(s=>s.trim()).filter(Boolean);
@@ -871,8 +871,8 @@
         const status = document.getElementById('save-config-status');
         const oai   = document.getElementById('bot-oai-key').value.trim();
         const appId = document.getElementById('fb-app-id').value.trim();
-        if (!oai && !appId) { status.textContent = '⚠️ Preenche pelo menos um campo.'; return; }
-        btn.disabled = true; btn.textContent = '⏳ A guardar...';
+        if (!oai && !appId) { status.textContent = '⚠️ Fill at least one field.'; return; }
+        btn.disabled = true; btn.textContent = '⏳ Saving...';
         try {
             const payload = { updatedAt: new Date().toISOString() };
             if (oai)   payload.oaiKey  = oai;
@@ -884,13 +884,13 @@
             if (oai)   setDot('oai', true);
             if (appId) { saveFbAppId(); }
             status.style.color = 'var(--green)';
-            status.textContent = '✅ Guardado com sucesso!';
+            status.textContent = '✅ Saved successfully!';
             setTimeout(() => status.textContent = '', 3000);
         } catch(e) {
             status.style.color = 'var(--red)';
-            status.textContent = '❌ Erro: ' + e.message;
+            status.textContent = '❌ Error: ' + e.message;
         }
-        btn.disabled = false; btn.textContent = '💾 Guardar Configuração';
+        btn.disabled = false; btn.textContent = '💾 Save Configuration';
     }
 
     async function loadConfigFromFirebase() {
@@ -947,13 +947,13 @@
 
     function fbLogin() {
         const appId = localStorage.getItem(FB_APP_ID_KEY) || document.getElementById('fb-app-id').value.trim();
-        if (!appId) { alert('Cola primeiro o teu Facebook App ID no campo acima.'); return; }
-        if (typeof FB === 'undefined') { alert('O SDK do Facebook ainda está a carregar. Aguarda um segundo e tenta novamente.'); return; }
+        if (!appId) { alert('Paste your Facebook App ID in the field above first.'); return; }
+        if (typeof FB === 'undefined') { alert('Facebook SDK is still loading. Wait a second and try again.'); return; }
         FB.login(resp => {
             if (resp.authResponse) {
                 onFbConnected(resp.authResponse.accessToken);
             } else {
-                alert('Login cancelado ou recusado.');
+                alert('Login cancelled or refused.');
             }
         }, {
             scope: 'pages_manage_posts,pages_read_engagement,pages_show_list,instagram_basic,instagram_content_publish',
@@ -1018,7 +1018,7 @@
         setDot('fb', false);
         ['fb-page-select','fb-targets-select'].forEach(id => {
             const el = document.getElementById(id);
-            if (el) el.innerHTML = '<option value="">— Liga o Facebook primeiro —</option>';
+            if (el) el.innerHTML = '<option value="">— Connect Facebook first —</option>';
         });
     }
 
