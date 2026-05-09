@@ -996,14 +996,21 @@
                 console.log('Granted permissions:', permData);
             } catch(e) {}
 
-            const res  = await fetch(`https://graph.facebook.com/me/accounts?fields=id,name,access_token&access_token=${token}`);
+            // Try v19.0 explicitly
+            const res  = await fetch(`https://graph.facebook.com/v19.0/me/accounts?fields=id,name,access_token&access_token=${token}`);
             const data = await res.json();
-            if (data.error) {
-                console.error('FB Pages Error:', data.error);
-                alert('Error loading pages: ' + data.error.message);
-                return;
+            
+            // Fallback: try fields=accounts on me
+            let pages = data.data || [];
+            if (pages.length === 0) {
+                try {
+                    const fallbackRes = await fetch(`https://graph.facebook.com/v19.0/me?fields=accounts&access_token=${token}`);
+                    const fallbackData = await fallbackRes.json();
+                    if (fallbackData.accounts && fallbackData.accounts.data) {
+                        pages = fallbackData.accounts.data;
+                    }
+                } catch(e) {}
             }
-            const pages = data.data || [];
             if (pages.length === 0) {
                 let permStr = '';
                 try {
