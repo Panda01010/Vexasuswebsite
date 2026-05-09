@@ -983,10 +983,20 @@
         try {
             const res  = await fetch(`https://graph.facebook.com/me/accounts?fields=id,name,access_token&access_token=${token}`);
             const data = await res.json();
+            if (data.error) {
+                console.error('FB Pages Error:', data.error);
+                alert('Error loading pages: ' + data.error.message);
+                return;
+            }
             const pages = data.data || [];
+            if (pages.length === 0) {
+                console.log('No pages found for this user.');
+            }
             localStorage.setItem(FB_PAGES_KEY, JSON.stringify(pages));
             populatePageSelects(pages);
-        } catch(e) {}
+        } catch(e) {
+            console.error('Network error loading pages:', e);
+        }
     }
 
     function populatePageSelects(pages) {
