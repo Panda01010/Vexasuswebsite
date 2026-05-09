@@ -525,6 +525,10 @@
                 <h3>👁 Post Preview</h3>
                 <div class="preview-box" id="post-preview">Your generated post will appear here...</div>
                 <img id="preview-img" class="preview-img" alt="Generated image">
+                <div id="img-actions" style="display:none;margin-top:0.5rem;display:none;">
+                    <button class="bot-btn bot-btn-outline" id="download-img-btn" onclick="downloadImage()" style="font-size:0.8rem;padding:0.5rem 0.85rem;">⬇️ Download Image</button>
+                    <div style="font-size:0.7rem;color:var(--muted);margin-top:0.3rem;">Save it to post on Instagram or use elsewhere.</div>
+                </div>
                 <hr class="bot-divider">
                 <div class="bot-field">
                     <label class="bot-label">Publish to</label>
@@ -842,6 +846,7 @@
         btn.disabled = true; btn.textContent = '⏳ Generating...';
         document.getElementById('post-preview').textContent = 'Generating content...';
         document.getElementById('preview-img').style.display = 'none';
+        document.getElementById('img-actions').style.display = 'none';
         generatedText = ''; generatedImgUrl = '';
 
         const platLabel = platform === 'facebook_group' ? 'a Facebook Group for construction contractors'
@@ -903,12 +908,27 @@
                     const img = document.getElementById('preview-img');
                     img.src = generatedImgUrl;
                     img.style.display = 'block';
+                    document.getElementById('img-actions').style.display = 'block';
                 }
             }
         } catch(e) {
             document.getElementById('post-preview').textContent = '❌ Error: '+e.message;
         }
         btn.disabled = false; btn.textContent = '⚡ Generate Content';
+    }
+
+    function downloadImage() {
+        if (!generatedImgUrl) return;
+        if (generatedImgUrl.startsWith('data:')) {
+            // base64 — download directly
+            const a = document.createElement('a');
+            a.href = generatedImgUrl;
+            a.download = `vexasus-post-${Date.now()}.png`;
+            a.click();
+        } else {
+            // Public URL — open in new tab so user can right-click save
+            window.open(generatedImgUrl, '_blank');
+        }
     }
 
     // Queue
