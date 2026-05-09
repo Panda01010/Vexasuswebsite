@@ -166,8 +166,10 @@
         .api-status { font-size:0.78rem; color:var(--muted); display:flex; align-items:center; margin-top:0.5rem; }
         .tab-badge { background:var(--red); color:#fff; border-radius:99px; font-size:0.6rem; padding:0.1rem 0.4rem; margin-left:0.3rem; vertical-align:middle; }
         .chat-box { background:rgba(0,0,0,0.25); border:1px solid var(--border); border-radius:12px; padding:1rem; height:200px; overflow-y:auto; margin-bottom:0.75rem; display:flex; flex-direction:column; gap:0.6rem; }
-        .chat-msg { max-width:85%; padding:0.6rem 0.9rem; border-radius:12px; font-size:0.83rem; line-height:1.5; }
-        .chat-msg.bot { background:rgba(226,75,74,0.1); border:1px solid rgba(226,75,74,0.2); align-self:flex-start; }
+        .chat-msg { max-width:85%; padding:0.75rem 1rem; border-radius:14px; font-size:0.83rem; line-height:1.65; word-break:break-word; }
+        .chat-msg.bot { background:rgba(226,75,74,0.08); border:1px solid rgba(226,75,74,0.18); align-self:flex-start; }
+        .chat-msg.bot strong { color:var(--red); }
+        .chat-msg.bot br + br { display:block; margin:0.3rem 0; content:''; }
         .chat-msg.user { background:rgba(255,255,255,0.07); align-self:flex-end; text-align:right; }
         .chat-input-row { display:flex; gap:0.5rem; }
         .chat-input-row .bot-input { flex:1; }
@@ -822,6 +824,9 @@
     }
 
     // Chat assistant — €1,000/day senior marketing expert, always responds in English
+    // Conversation history for context
+    let chatHistory = [];
+
     async function sendChat() {
         const inp = document.getElementById('chat-input');
         const msg = inp.value.trim();
@@ -830,24 +835,70 @@
         if (!key) { alert('Insert your OpenAI API Key first.'); return; }
         inp.value = '';
         appendChat('user', msg);
-        const typing = appendChat('bot', '⏳ Thinking...');
+        chatHistory.push({ role:'user', content: msg });
+        const typing = appendChat('bot', '<em style="color:var(--muted)">⏳ Thinking...</em>');
         try {
+            const systemPrompt = `You are a world-class senior marketing strategist who charges €1,000 per day. You ALWAYS respond in English regardless of the user's language.
+
+You specialise in social media content strategy and performance marketing for the construction and renovation industry. Your client is Vexasus — a digital marketing agency in Portugal that helps construction contractors (empreiteiros) get a consistent flow of qualified clients without cold calling or chasing leads.
+
+TARGET PERSONA: Male, 35-55, owns a small-to-mid construction company. Pain points: irregular cash flow, unreliable word-of-mouth, no time to market himself, tired of low-quality leads. Desires: steady calendar, premium clients, respect in his market.
+
+YOU KNOW DEEPLY:
+— Content pillars: Authority, Social Proof, Education, Emotion, Transformation
+— Carousel frameworks: Problem→Agitation→Solution, Before→After→Bridge, Step-by-step, Myth-busting, "X reasons why"
+— Hook formulas for Facebook & Instagram: curiosity gaps, bold claims, pain-first openers, "If you're a contractor who..."
+— Reel/Story structures: hook (0-2s), conflict (2-5s), resolution + CTA (5-10s)
+— What stops a construction business owner scrolling and makes them DM
+— The psychology of trust-building content for high-ticket B2C services
+— Hashtag strategy, posting frequency, best times for construction audiences
+— Caption writing: short punchy lines, white space, emojis used sparingly
+
+WHEN ASKED FOR IDEAS: Give structured, specific, immediately usable ideas — not generic tips. Format your answers with clear sections, numbered lists, and concrete examples.
+WHEN ASKED FOR A CAROUSEL: Provide the full slide-by-slide structure with headline + body for each slide.
+WHEN ASKED FOR A HOOK: Give 3-5 hook options ranked by estimated effectiveness.
+NEVER be vague. Never say “it depends” without then giving a specific answer. Act like you are billing €1,000 for this conversation.`;
+
+            const messages = [
+                { role:'system', content: systemPrompt },
+                ...chatHistory.slice(-12) // keep last 12 messages for context
+            ];
             const res = await fetch('https://api.openai.com/v1/chat/completions', {
                 method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-                body: JSON.stringify({ model:'gpt-4o', messages:[
-                    {role:'system', content:`You are a world-class senior marketing strategist who charges €1,000 per day. You ALWAYS respond in English, no matter what language the user writes in. You specialize in performance marketing for the construction and renovation industry. Your client is Vexasus — a digital marketing agency that helps construction contractors (empreiteiros) in Portugal get more clients without cold calling or chasing leads. The target persona is: male, 35-55 years old, owns a small-to-mid construction company, tired of unreliable leads, wants steady work and to stop depending on word of mouth. You think and communicate like a premium consultant — strategic, direct, data-aware, and obsessed with conversion. You never give generic advice. Every recommendation is specific, actionable, and rooted in real human psychology. You know Facebook, Instagram, carousel strategies, hooks, emotional triggers, and what makes construction business owners take action.`},
-                    {role:'user', content: msg}
-                ], max_tokens:800 })
+                body: JSON.stringify({ model:'gpt-4o', messages, max_tokens:1200 })
             });
             const data = await res.json();
-            typing.textContent = data.choices?.[0]?.message?.content || 'Response error.';
-        } catch(e) { typing.textContent = '❌ Error: '+e.message; }
+            const reply = data.choices?.[0]?.message?.content || 'Response error.';
+            chatHistory.push({ role:'assistant', content: reply });
+            typing.innerHTML = formatChatMsg(reply);
+        } catch(e) { typing.innerHTML = '❌ Error: '+e.message; }
+        const box = document.getElementById('chat-box');
+        box.scrollTop = box.scrollHeight;
     }
-    function appendChat(role, text) {
+
+    // Convert markdown-like text to readable HTML
+    function formatChatMsg(text) {
+        return text
+            // Bold **text**
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            // Headers ### or ##
+            .replace(/^###\s+(.+)$/gm, '<strong style="font-size:0.9rem;display:block;margin-top:0.6rem;">$1</strong>')
+            .replace(/^##\s+(.+)$/gm, '<strong style="font-size:0.92rem;display:block;margin-top:0.8rem;">$1</strong>')
+            // Numbered list items
+            .replace(/^(\d+\.\s+.+)$/gm, '<div style="margin:0.2rem 0 0.2rem 0.5rem">→ $1</div>')
+            // Bullet list items
+            .replace(/^[-\u2022\u2014]\s+(.+)$/gm, '<div style="margin:0.15rem 0 0.15rem 0.5rem">• $1</div>')
+            // Double newline = paragraph break
+            .replace(/\n\n/g, '<br><br>')
+            // Single newline = line break
+            .replace(/\n/g, '<br>');
+    }
+
+    function appendChat(role, html) {
         const box = document.getElementById('chat-box');
         const div = document.createElement('div');
-        div.className = 'chat-msg '+role;
-        div.textContent = text;
+        div.className = 'chat-msg ' + role;
+        div.innerHTML = html;
         box.appendChild(div);
         box.scrollTop = box.scrollHeight;
         return div;
