@@ -1285,6 +1285,8 @@
         } catch(e) {}
         // Get pages
         await loadFbPages(token);
+        // Auto-discover linked Instagram Business accounts
+        discoverIgFromPages();
         document.getElementById('fb-connected').style.display = 'block';
         document.getElementById('fb-connect-btn').style.display = 'none';
         document.getElementById('fb-status').style.display = 'none';
