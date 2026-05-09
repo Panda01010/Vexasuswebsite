@@ -429,12 +429,12 @@
                         <!-- Manual group entry — /me/groups is restricted by Facebook since 2018 -->
                         <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.4rem;">📌 Add Facebook Groups manually (Facebook restricts auto-detection):</div>
                         <div style="display:flex;gap:0.4rem;align-items:center;margin-bottom:0.3rem;">
-                            <input class="bot-input" id="manual-group-id" placeholder="Numeric Group ID" style="font-size:0.78rem;padding:0.45rem 0.6rem;flex:1;">
+                            <input class="bot-input" id="manual-group-id" placeholder="Paste group URL or numeric ID" style="font-size:0.78rem;padding:0.45rem 0.6rem;flex:1;">
                             <input class="bot-input" id="manual-group-name" placeholder="Group name (label)" style="font-size:0.78rem;padding:0.45rem 0.6rem;flex:1.2;">
                             <button class="bot-btn" id="manual-group-btn" onclick="checkAndAddGroup()" style="padding:0.45rem 0.75rem;font-size:0.78rem;width:auto;white-space:nowrap;">💾 Save</button>
                         </div>
                         <div id="groups-status" style="font-size:0.75rem;margin-bottom:0.4rem;"></div>
-                        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:0.4rem;">⚠️ Only <strong>numeric</strong> IDs work — not group names/slugs. Find it: open the group → click cover photo → right-click → Copy link → the number in the URL is the ID.</div>
+                        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:0.4rem;">🔗 Paste the full group URL or just the numeric ID. The label is your display name for the group.</div>
                         <button class="bot-btn bot-btn-outline" onclick="fbLogout()" style="padding:0.4rem 0.75rem;font-size:0.78rem;width:auto;">Disconnect</button>
                     </div>
                     <div id="fb-status" class="api-status" style="margin-top:0.4rem;"><span class="status-dot dot-off" id="fb-dot"></span>Not connected</div>
@@ -1463,22 +1463,19 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
         const nameIn = document.getElementById('manual-group-name');
         const status = document.getElementById('groups-status');
         let raw      = input.value.trim();
-        const label  = nameIn.value.trim();
 
-        // Auto-extract numeric ID from a facebook.com/groups/... URL
-        const urlMatch = raw.match(/facebook\.com\/groups\/(\d+)/);
-        if (urlMatch) raw = urlMatch[1];
-
-        if (!raw) { status.style.color='var(--red)'; status.textContent='⚠️ Paste a numeric Group ID.'; return; }
-        if (!/^\d+$/.test(raw)) {
-            status.style.color = 'var(--red)';
-            status.textContent = '❌ Only numeric IDs work. Facebook does not allow group lookup by name/slug.';
-            return;
+        // Extract slug or numeric ID from a facebook.com/groups/... URL
+        const urlMatch = raw.match(/facebook\.com\/groups\/([^/?#]+)/);
+        if (urlMatch) {
+            raw = urlMatch[1].replace(/\/$/, ''); // strip trailing slash
+            // Auto-fill the name field from the slug if it's empty
+            if (!nameIn.value.trim()) nameIn.value = raw;
         }
+
+        if (!raw) { status.style.color='var(--red)'; status.textContent='⚠️ Paste a group URL or ID.'; return; }
+        const label = nameIn.value.trim();
         if (!label) { status.style.color='var(--red)'; status.textContent='⚠️ Add a label name so you can recognise the group.'; return; }
 
-        // Facebook blocks API verification of groups without App Review.
-        // Save directly — the post attempt will fail if the ID is wrong.
         const existing = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]');
         if (existing.find(p => p.id === raw)) {
             status.style.color = 'var(--muted)';
@@ -1491,7 +1488,7 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
         populatePageSelects(existing);
         input.value = ''; nameIn.value = '';
         status.style.color = 'var(--green)';
-        status.textContent = `✅ Group "👥 ${label}" saved! Select it in Publish To and test a post.`;
+        status.textContent = `✅ "👥 ${label}" saved! Select it in Publish To and test a post.`;
         saveExtendedConfig();
     }
 
