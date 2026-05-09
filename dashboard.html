@@ -857,19 +857,25 @@
             generatedText = data.choices?.[0]?.message?.content || 'Error generating text.';
             document.getElementById('post-preview').textContent = generatedText;
             if (wantImg) {
+                document.getElementById('post-preview').textContent = generatedText + '\n\n⏳ Crafting image prompt...';
+                // Step 1: GPT-4o writes a cinematic, scroll-stopping DALL-E prompt
+                const promptRes = await fetch('https://api.openai.com/v1/chat/completions', {
+                    method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+                    body: JSON.stringify({ model:'gpt-4o', messages:[
+                        {role:'system', content:'You are a world-class creative director specialised in social media visuals for DALL-E 3. Write a single, highly specific, visually stunning image prompt (max 120 words). The image must be photo-realistic or cinematic, scroll-stopping, and emotionally resonant. Do NOT include text or logos. Describe lighting, composition, mood, colours, and key visual elements in detail. Output ONLY the prompt — no explanations.'},
+                        {role:'user', content:`Write a DALL-E 3 image prompt for this social media post:\n\nBrief: ${brief}\nPost text: ${generatedText.slice(0,300)}\nBrand: Vexasus (digital marketing for construction contractors in Portugal)\nStyle: modern, premium, dark cinematic tones, photorealistic`}
+                    ], max_tokens:200 })
+                });
+                const promptData = await promptRes.json();
+                const imagePrompt = promptData.choices?.[0]?.message?.content || `Premium cinematic marketing visual for a construction marketing agency. Theme: ${brief}. Dark modern tones, dramatic lighting, no text.`;
                 document.getElementById('post-preview').textContent = generatedText + '\n\n⏳ Generating image...';
+                // Step 2: DALL-E 3 HD with the crafted prompt
                 const imgRes = await fetch('https://api.openai.com/v1/images/generations', {
                     method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-                    body: JSON.stringify({ model:'gpt-image-1', prompt:`Premium marketing visual for Vexasus, a digital marketing agency for construction contractors. Theme: ${brief}. Style: modern, professional, dark tones, clean design. No text in image.`, n:1, size:'1024x1024', quality:'high' })
+                    body: JSON.stringify({ model:'dall-e-3', prompt: imagePrompt, n:1, size:'1024x1024', quality:'hd' })
                 });
                 const imgData = await imgRes.json();
-                // gpt-image-1 returns base64, DALL-E 3 returned a URL
-                const imgEntry = imgData.data?.[0];
-                if (imgEntry?.b64_json) {
-                    generatedImgUrl = 'data:image/png;base64,' + imgEntry.b64_json;
-                } else {
-                    generatedImgUrl = imgEntry?.url || '';
-                }
+                generatedImgUrl = imgData.data?.[0]?.url || '';
                 document.getElementById('post-preview').textContent = generatedText;
                 if (generatedImgUrl) {
                     const img = document.getElementById('preview-img');
