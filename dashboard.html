@@ -508,10 +508,13 @@
                     <input class="bot-input" id="post-lang-custom" placeholder="Type language (e.g. Brazilian Portuguese)" style="margin-top:0.4rem;display:none;">
                 </div>
                 <div class="bot-field">
-                    <label class="bot-label">Generate image with AI (Image 2.0)?</label>
+                    <label class="bot-label">Image Model</label>
                     <select class="bot-input" id="post-img">
-                        <option value="no">❌ No — text only</option>
-                        <option value="yes">✅ Yes — generate image</option>
+                        <option value="no">❌ No image — text only</option>
+                        <option value="gpt-image-2-2026-04-21" selected>🖼️ gpt-image-2 (2026-04-21)</option>
+                        <option value="gpt-image-1">🖼️ gpt-image-1</option>
+                        <option value="dall-e-3">🎨 DALL-E 3 HD</option>
+                        <option value="dall-e-2">🎨 DALL-E 2</option>
                     </select>
                 </div>
                 <button class="bot-btn" id="gen-btn" onclick="generatePost()">⚡ Generate Content</button>
@@ -818,7 +821,8 @@
         const platform = document.getElementById('post-platform').value;
         const type     = document.getElementById('post-type').value;
         const tone     = document.getElementById('post-tone').value;
-        const wantImg  = document.getElementById('post-img').value === 'yes';
+        const imgModel  = document.getElementById('post-img').value;
+        const wantImg  = imgModel !== 'no';
         const slides   = parseInt(document.getElementById('post-slides')?.value || 5);
         const langSel  = document.getElementById('post-lang').value;
         const lang     = langSel === 'custom' ? (document.getElementById('post-lang-custom').value.trim() || 'English') : langSel;
@@ -869,14 +873,16 @@
                 const promptData = await promptRes.json();
                 const imagePrompt = promptData.choices?.[0]?.message?.content || `Premium cinematic marketing visual for a construction marketing agency. Theme: ${brief}. Dark modern tones, dramatic lighting, no text.`;
                 document.getElementById('post-preview').textContent = generatedText + '\n\n⏳ Generating image...';
-                // Step 2: gpt-image-2 with the crafted prompt
+                // Step 2: generate with the selected model
+                const isDalle2  = imgModel === 'dall-e-3' || imgModel === 'dall-e-2';
+                const imgQuality = imgModel === 'dall-e-3' ? 'hd' : imgModel === 'dall-e-2' ? 'standard' : 'high';
                 const imgRes = await fetch('https://api.openai.com/v1/images/generations', {
                     method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-                    body: JSON.stringify({ model:'gpt-image-2-2026-04-21', prompt: imagePrompt, n:1, size:'1024x1024', quality:'high' })
+                    body: JSON.stringify({ model: imgModel, prompt: imagePrompt, n:1, size:'1024x1024', quality: imgQuality })
                 });
                 const imgData = await imgRes.json();
                 const imgEntry = imgData.data?.[0];
-                // Newer models return base64; fall back to URL if available
+                // Newer models return base64; fall back to URL
                 if (imgEntry?.b64_json) {
                     generatedImgUrl = 'data:image/png;base64,' + imgEntry.b64_json;
                 } else {
