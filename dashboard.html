@@ -565,9 +565,8 @@
                     <button class="bot-btn bot-btn-outline" id="ig-discover-btn" onclick="discoverIgFromPages()" style="width:100%;font-size:0.78rem;padding:0.45rem;margin-bottom:0.4rem;">🔗 Auto-detect from my Facebook Pages</button>
                     <!-- Manual entry -->
                     <div style="display:flex;gap:0.4rem;margin-bottom:0.4rem;">
-                        <input class="bot-input" id="ig-manual-id" placeholder="Instagram User ID (numeric)" style="font-size:0.78rem;padding:0.4rem 0.6rem;flex:1;">
-                        <input class="bot-input" id="ig-manual-name" placeholder="Name (e.g. Jones)" style="font-size:0.78rem;padding:0.4rem 0.6rem;flex:1;">
-                        <button class="bot-btn" onclick="saveIgManual()" style="padding:0.4rem 0.6rem;width:auto;margin:0;font-size:0.78rem;white-space:nowrap;">💾 Save</button>
+                        <input class="bot-input" id="ig-manual-id" placeholder="Paste numeric Instagram ID" style="font-size:0.78rem;padding:0.4rem 0.6rem;flex:1;">
+                        <button class="bot-btn" id="ig-manual-btn" onclick="saveIgManual()" style="padding:0.4rem 0.7rem;width:auto;margin:0;font-size:0.78rem;white-space:nowrap;">🔍 Check & Add</button>
                     </div>
                     <div id="ig-add-status" style="font-size:0.75rem;margin-top:0.25rem;"></div>
                     <div style="font-size:0.7rem;color:var(--muted);margin-top:0.4rem;">⚠️ Requires a public image URL — use DALL-E 3 model. Account must be a Business/Creator account linked to your FB Page.</div>
@@ -987,22 +986,36 @@
         populateIgSelect();
     }
 
-    function saveIgManual() {
-        const id     = document.getElementById('ig-manual-id').value.trim();
-        const name   = document.getElementById('ig-manual-name').value.trim() || id;
+    async function saveIgManual() {
+        const input  = document.getElementById('ig-manual-id');
+        const btn    = document.getElementById('ig-manual-btn');
         const status = document.getElementById('ig-add-status');
-        if (!id) { status.style.color='var(--red)'; status.textContent='⚠️ Paste the Instagram User ID first.'; return; }
-        const accounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
-        if (!accounts.find(a => a.id === id)) {
-            accounts.push({ id, name, username: name });
-            localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(accounts));
+        const id     = input.value.trim();
+        if (!id) { status.style.color='var(--red)'; status.textContent='⚠️ Paste a numeric Instagram User ID first.'; return; }
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        if (!token) { status.style.color='var(--red)'; status.textContent='⚠️ Connect Facebook first.'; return; }
+        btn.disabled = true; btn.textContent = '⏳ Checking...';
+        status.textContent = '';
+        try {
+            const res  = await fetch(`https://graph.facebook.com/v19.0/${id}?fields=id,name,username&access_token=${token}`);
+            const data = await res.json();
+            if (data.error) throw new Error(data.error.message);
+            if (!data.id)   throw new Error('Account not found.');
+            const accounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+            if (!accounts.find(a => a.id === data.id)) {
+                accounts.push({ id: data.id, name: data.name || data.id, username: data.username || data.name || data.id });
+                localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(accounts));
+            }
+            input.value = '';
+            status.style.color = 'var(--green)';
+            status.textContent = `✅ Found: "${data.username || data.name}" — added!`;
+            populateIgSelect();
+            document.getElementById('ig-user-id').value = data.id;
+        } catch(e) {
+            status.style.color = 'var(--red)';
+            status.textContent = `❌ ${e.message}`;
         }
-        document.getElementById('ig-manual-id').value   = '';
-        document.getElementById('ig-manual-name').value = '';
-        status.style.color = 'var(--green)';
-        status.textContent = `✅ "${name}" saved!`;
-        populateIgSelect();
-        document.getElementById('ig-user-id').value = id;
+        btn.disabled = false; btn.textContent = '🔍 Check & Add';
     }
 
     async function discoverIgFromPages() {
