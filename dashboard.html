@@ -127,6 +127,49 @@
         .cl-sub { font-size:0.72rem; color:var(--muted); }
         /* Section label */
         .section-lbl { font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:0.85rem; }
+
+        /* ── AI Bot Tab ── */
+        .bot-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.5rem; }
+        @media(max-width:640px){ .bot-grid { grid-template-columns:1fr; } }
+        .bot-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.5rem; }
+        .bot-card h3 { font-size:0.95rem; font-weight:700; margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem; }
+        .bot-input { width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:10px; padding:0.75rem 1rem; color:var(--text); font-family:var(--font); font-size:0.85rem; outline:none; transition:border-color 0.2s; }
+        .bot-input:focus { border-color:rgba(226,75,74,0.5); }
+        .bot-textarea { resize:vertical; min-height:90px; }
+        .bot-label { font-size:0.75rem; color:var(--muted); margin-bottom:0.4rem; display:block; }
+        .bot-field { margin-bottom:0.85rem; }
+        .bot-btn { width:100%; background:linear-gradient(135deg,#E24B4A,#c0392b); color:#fff; border:none; border-radius:10px; padding:0.8rem; font-family:var(--font); font-size:0.9rem; font-weight:700; cursor:pointer; transition:opacity 0.2s,transform 0.15s; margin-top:0.25rem; }
+        .bot-btn:hover { opacity:0.88; transform:translateY(-1px); }
+        .bot-btn:disabled { opacity:0.45; cursor:not-allowed; transform:none; }
+        .bot-btn-outline { background:transparent; border:1px solid var(--border); color:var(--text); }
+        .bot-btn-outline:hover { border-color:var(--red); background:rgba(226,75,74,0.06); opacity:1; }
+        .bot-btn-green { background:linear-gradient(135deg,#27ae60,#1e8449); }
+        .preview-box { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:12px; padding:1rem; min-height:80px; font-size:0.85rem; line-height:1.7; color:var(--text); white-space:pre-wrap; word-break:break-word; }
+        .preview-img { width:100%; border-radius:10px; margin-top:0.75rem; display:none; }
+        .target-chip { display:inline-flex; align-items:center; gap:0.4rem; background:rgba(226,75,74,0.1); border:1px solid rgba(226,75,74,0.25); border-radius:99px; padding:0.3rem 0.75rem; font-size:0.78rem; font-weight:600; color:var(--red); margin:0.25rem; cursor:pointer; transition:all 0.2s; }
+        .target-chip.selected { background:rgba(226,75,74,0.25); border-color:var(--red); }
+        .queue-item { display:flex; align-items:flex-start; gap:0.75rem; padding:0.85rem; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:10px; margin-bottom:0.6rem; }
+        .queue-item .qi-icon { font-size:1.4rem; flex-shrink:0; }
+        .queue-item .qi-body { flex:1; min-width:0; }
+        .queue-item .qi-text { font-size:0.82rem; line-height:1.5; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+        .queue-item .qi-meta { font-size:0.72rem; color:var(--muted); margin-top:0.25rem; }
+        .qi-status { font-size:0.7rem; font-weight:700; padding:0.2rem 0.55rem; border-radius:99px; }
+        .qi-pending { background:rgba(241,196,15,0.15); color:#f1c40f; }
+        .qi-posted  { background:rgba(46,204,113,0.15); color:var(--green); }
+        .qi-error   { background:rgba(226,75,74,0.15); color:var(--red); }
+        .bot-divider { border:none; border-top:1px solid var(--border); margin:1.25rem 0; }
+        .status-dot { width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:6px; }
+        .dot-ok { background:var(--green); box-shadow:0 0 6px var(--green); }
+        .dot-off { background:var(--muted); }
+        .api-status { font-size:0.78rem; color:var(--muted); display:flex; align-items:center; margin-top:0.5rem; }
+        .tab-badge { background:var(--red); color:#fff; border-radius:99px; font-size:0.6rem; padding:0.1rem 0.4rem; margin-left:0.3rem; vertical-align:middle; }
+        .chat-box { background:rgba(0,0,0,0.25); border:1px solid var(--border); border-radius:12px; padding:1rem; height:200px; overflow-y:auto; margin-bottom:0.75rem; display:flex; flex-direction:column; gap:0.6rem; }
+        .chat-msg { max-width:85%; padding:0.6rem 0.9rem; border-radius:12px; font-size:0.83rem; line-height:1.5; }
+        .chat-msg.bot { background:rgba(226,75,74,0.1); border:1px solid rgba(226,75,74,0.2); align-self:flex-start; }
+        .chat-msg.user { background:rgba(255,255,255,0.07); align-self:flex-end; text-align:right; }
+        .chat-input-row { display:flex; gap:0.5rem; }
+        .chat-input-row .bot-input { flex:1; }
+        .chat-send { background:var(--red); color:#fff; border:none; border-radius:10px; padding:0.6rem 1rem; font-family:var(--font); font-size:0.85rem; font-weight:700; cursor:pointer; white-space:nowrap; }
     </style>
 </head>
 <body>
@@ -165,6 +208,7 @@
         <button class="tab-btn active" onclick="switchTab('ab',this)">📊 A/B Results</button>
         <button class="tab-btn" onclick="switchTab('ga4',this)">📈 Google Analytics</button>
         <button class="tab-btn" onclick="switchTab('clarity',this)">🎬 Clarity</button>
+        <button class="tab-btn" onclick="switchTab('bot',this)">🤖 AI Bot <span class="tab-badge">NEW</span></button>
     </div>
 
     <!-- ═══ TAB 1: A/B Results ═══ -->
@@ -335,6 +379,107 @@
         </div>
     </div>
 </div>
+
+    <!-- ═══ TAB 4: AI Social Bot ═══ -->
+    <div id="tab-bot" class="tab-pane">
+
+        <!-- API Config -->
+        <div class="bot-card" style="margin-bottom:1.25rem;">
+            <h3>⚙️ Configuração</h3>
+            <div class="bot-grid" style="margin-bottom:0;">
+                <div>
+                    <label class="bot-label">OpenAI API Key (GPT-4o + DALL-E 3)</label>
+                    <input type="password" class="bot-input" id="bot-oai-key" placeholder="sk-..." oninput="saveKeys()">
+                    <div class="api-status" id="oai-status"><span class="status-dot dot-off" id="oai-dot"></span>Não configurado</div>
+                </div>
+                <div>
+                    <label class="bot-label">Facebook User Access Token</label>
+                    <input type="password" class="bot-input" id="bot-fb-token" placeholder="EAAxxxxxxx..." oninput="saveKeys()">
+                    <div class="api-status" id="fb-status"><span class="status-dot dot-off" id="fb-dot"></span>Não configurado</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Chat assistant -->
+        <div class="bot-card" style="margin-bottom:1.25rem;">
+            <h3>💬 Assistente de Marketing</h3>
+            <div class="chat-box" id="chat-box">
+                <div class="chat-msg bot">Olá! Sou o teu assistente de marketing. Pede-me para criar posts para Facebook ou Instagram, sugerir estratégias para grupos de construção, ou gerar ideias de conteúdo para a Vexasus. 🚀</div>
+            </div>
+            <div class="chat-input-row">
+                <input class="bot-input" id="chat-input" placeholder="Ex: Cria um post para grupos de construção no Facebook..." onkeydown="if(event.key==='Enter')sendChat()">
+                <button class="chat-send" onclick="sendChat()">Enviar</button>
+            </div>
+        </div>
+
+        <!-- Post Generator -->
+        <div class="bot-grid">
+            <div class="bot-card">
+                <h3>✍️ Criar Post com IA</h3>
+                <div class="bot-field">
+                    <label class="bot-label">Tema / Briefing</label>
+                    <textarea class="bot-input bot-textarea" id="post-brief" placeholder="Ex: Mostrar que a Vexasus ajuda empreiteiros a conseguir mais clientes com marketing digital..."></textarea>
+                </div>
+                <div class="bot-field">
+                    <label class="bot-label">Plataforma</label>
+                    <select class="bot-input" id="post-platform">
+                        <option value="facebook_group">📘 Facebook Group</option>
+                        <option value="facebook_page">📘 Facebook Page</option>
+                        <option value="instagram">📸 Instagram</option>
+                    </select>
+                </div>
+                <div class="bot-field">
+                    <label class="bot-label">Tom</label>
+                    <select class="bot-input" id="post-tone">
+                        <option value="profissional">💼 Profissional</option>
+                        <option value="casual">😊 Casual / Amigável</option>
+                        <option value="urgente">🔥 Urgente / FOMO</option>
+                        <option value="educativo">📚 Educativo</option>
+                    </select>
+                </div>
+                <div class="bot-field">
+                    <label class="bot-label">Gerar imagem com DALL-E 3?</label>
+                    <select class="bot-input" id="post-img">
+                        <option value="yes">✅ Sim — gerar imagem</option>
+                        <option value="no">❌ Não — só texto</option>
+                    </select>
+                </div>
+                <button class="bot-btn" id="gen-btn" onclick="generatePost()">⚡ Gerar Post com IA</button>
+            </div>
+
+            <div class="bot-card">
+                <h3>👁 Preview do Post</h3>
+                <div class="preview-box" id="post-preview">O teu post gerado aparece aqui...</div>
+                <img id="preview-img" class="preview-img" alt="Imagem gerada">
+                <hr class="bot-divider">
+                <div class="bot-field">
+                    <label class="bot-label">Destinos (Grupos/Páginas Facebook)</label>
+                    <input class="bot-input" id="fb-targets" placeholder="ID do grupo ou página, separados por vírgula">
+                </div>
+                <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
+                    <button class="bot-btn bot-btn-outline" onclick="addToQueue()" style="flex:1;">📋 Adicionar à Fila</button>
+                    <button class="bot-btn bot-btn-green" onclick="postNow()" style="flex:1;">🚀 Publicar Agora</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Queue -->
+        <div class="bot-card" style="margin-bottom:1.5rem;">
+            <h3>📋 Fila de Posts <span id="queue-count" style="color:var(--muted);font-weight:400;font-size:0.82rem;"></span></h3>
+            <div id="post-queue"><p style="color:var(--muted);font-size:0.85rem;">Nenhum post na fila ainda.</p></div>
+            <button class="bot-btn bot-btn-green" id="send-queue-btn" onclick="sendQueue()" style="margin-top:0.85rem;display:none;">🚀 Enviar Toda a Fila</button>
+        </div>
+
+        <!-- Guide -->
+        <div style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.2);border-radius:12px;padding:1rem 1.25rem;font-size:0.8rem;color:var(--muted);line-height:1.8;">
+            <div style="font-weight:700;color:var(--green);margin-bottom:0.4rem;">🗺️ Como funciona</div>
+            1. Insere a tua OpenAI API Key e o Facebook Token acima.<br>
+            2. Usa o <b>Assistente</b> para brainstorming e estratégia.<br>
+            3. Preenche o briefing → clica <b>Gerar Post</b> → o GPT-4o escreve o texto e o DALL-E 3 cria a imagem.<br>
+            4. Revê o preview, adiciona os IDs dos grupos/páginas e publica diretamente via Graph API.<br>
+            <span style="color:rgba(255,255,255,0.35);font-size:0.72rem;">⚠️ Para Instagram é necessário uma conta Business ligada a uma Página Facebook.</span>
+        </div>
+    </div>
 
 <!-- Delete confirm modal -->
 <div id="modal-overlay">
@@ -513,6 +658,182 @@
         }
         btn.textContent = 'Sim, apagar tudo'; btn.disabled = false;
     }
+
+    // ── AI Bot ─────────────────────────────────────────────────────
+    const BOT_OAI_KEY = 'vx_oai_key';
+    const BOT_FB_TOKEN = 'vx_fb_token';
+    let postQueue = JSON.parse(localStorage.getItem('vx_post_queue') || '[]');
+    let generatedText = '';
+    let generatedImgUrl = '';
+
+    function saveKeys() {
+        const oai = document.getElementById('bot-oai-key').value.trim();
+        const fb  = document.getElementById('bot-fb-token').value.trim();
+        if (oai) { localStorage.setItem(BOT_OAI_KEY, oai); setDot('oai', true); }
+        if (fb)  { localStorage.setItem(BOT_FB_TOKEN, fb);  setDot('fb', true); }
+    }
+    function setDot(id, ok) {
+        document.getElementById(id+'-dot').className = 'status-dot '+(ok?'dot-ok':'dot-off');
+        document.getElementById(id+'-status').childNodes[1].textContent = ok ? ' Configurado ✓' : ' Não configurado';
+    }
+    function loadBotKeys() {
+        const oai = localStorage.getItem(BOT_OAI_KEY);
+        const fb  = localStorage.getItem(BOT_FB_TOKEN);
+        if (oai) { document.getElementById('bot-oai-key').value = oai; setDot('oai', true); }
+        if (fb)  { document.getElementById('bot-fb-token').value = fb;  setDot('fb', true); }
+        renderQueue();
+    }
+
+    // Chat assistant
+    async function sendChat() {
+        const inp = document.getElementById('chat-input');
+        const msg = inp.value.trim();
+        if (!msg) return;
+        const key = localStorage.getItem(BOT_OAI_KEY);
+        if (!key) { alert('Insere a tua OpenAI API Key primeiro.'); return; }
+        inp.value = '';
+        appendChat('user', msg);
+        const typing = appendChat('bot', '⏳ A pensar...');
+        try {
+            const res = await fetch('https://api.openai.com/v1/chat/completions', {
+                method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+                body: JSON.stringify({ model:'gpt-4o', messages:[
+                    {role:'system', content:'És um especialista em marketing digital para o setor da construção civil em Portugal. Ajudas a criar conteúdo para Facebook e Instagram para a Vexasus, uma agência de marketing para empreiteiros. Responde sempre em português de Portugal. Sê conciso, prático e orientado para conversão.'},
+                    {role:'user', content: msg}
+                ], max_tokens:600 })
+            });
+            const data = await res.json();
+            typing.textContent = data.choices?.[0]?.message?.content || 'Erro na resposta.';
+        } catch(e) { typing.textContent = '❌ Erro: '+e.message; }
+    }
+    function appendChat(role, text) {
+        const box = document.getElementById('chat-box');
+        const div = document.createElement('div');
+        div.className = 'chat-msg '+role;
+        div.textContent = text;
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+        return div;
+    }
+
+    // Post generator
+    async function generatePost() {
+        const key   = localStorage.getItem(BOT_OAI_KEY);
+        if (!key) { alert('Insere a tua OpenAI API Key primeiro.'); return; }
+        const brief    = document.getElementById('post-brief').value.trim();
+        const platform = document.getElementById('post-platform').value;
+        const tone     = document.getElementById('post-tone').value;
+        const wantImg  = document.getElementById('post-img').value === 'yes';
+        if (!brief) { alert('Escreve um briefing para o post.'); return; }
+        const btn = document.getElementById('gen-btn');
+        btn.disabled = true; btn.textContent = '⏳ A gerar...';
+        document.getElementById('post-preview').textContent = 'A gerar texto...';
+        document.getElementById('preview-img').style.display = 'none';
+        generatedText = ''; generatedImgUrl = '';
+        try {
+            const platLabel = platform === 'facebook_group' ? 'grupo de Facebook de empreiteiros e construção' : platform === 'facebook_page' ? 'página de Facebook de empresa' : 'Instagram';
+            const res = await fetch('https://api.openai.com/v1/chat/completions', {
+                method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+                body: JSON.stringify({ model:'gpt-4o', messages:[
+                    {role:'system', content:'És um copywriter especializado em marketing digital para construção civil em Portugal. Cria posts altamente envolventes e autênticos. Usa emojis com moderação. Adapta o comprimento à plataforma. Não uses hashtags excessivas. Responde APENAS com o texto do post, sem explicações.'},
+                    {role:'user', content:`Cria um post para ${platLabel} com tom ${tone} sobre: ${brief}. A empresa chama-se Vexasus e ajuda empreiteiros e empresas de construção a conseguirem mais clientes com marketing digital. O post deve terminar com uma call-to-action clara.`}
+                ], max_tokens:500 })
+            });
+            const data = await res.json();
+            generatedText = data.choices?.[0]?.message?.content || 'Erro ao gerar texto.';
+            document.getElementById('post-preview').textContent = generatedText;
+            if (wantImg) {
+                document.getElementById('post-preview').textContent = generatedText + '\n\n⏳ A gerar imagem...';
+                const imgRes = await fetch('https://api.openai.com/v1/images/generations', {
+                    method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+                    body: JSON.stringify({ model:'dall-e-3', prompt:`Marketing visual for Portuguese construction company Vexasus: ${brief}. Professional, modern, clean design. No text in image.`, n:1, size:'1024x1024', quality:'standard' })
+                });
+                const imgData = await imgRes.json();
+                generatedImgUrl = imgData.data?.[0]?.url || '';
+                document.getElementById('post-preview').textContent = generatedText;
+                if (generatedImgUrl) {
+                    const img = document.getElementById('preview-img');
+                    img.src = generatedImgUrl;
+                    img.style.display = 'block';
+                }
+            }
+        } catch(e) {
+            document.getElementById('post-preview').textContent = '❌ Erro: '+e.message;
+        }
+        btn.disabled = false; btn.textContent = '⚡ Gerar Post com IA';
+    }
+
+    // Queue
+    function addToQueue() {
+        if (!generatedText) { alert('Gera um post primeiro.'); return; }
+        const targets = document.getElementById('fb-targets').value.trim();
+        postQueue.push({ id: Date.now(), text: generatedText, imgUrl: generatedImgUrl, targets, status:'pending', platform: document.getElementById('post-platform').value, ts: new Date().toLocaleString('pt-PT') });
+        localStorage.setItem('vx_post_queue', JSON.stringify(postQueue));
+        renderQueue();
+        alert('✅ Post adicionado à fila!');
+    }
+    function renderQueue() {
+        const el = document.getElementById('post-queue');
+        const btn = document.getElementById('send-queue-btn');
+        if (!postQueue.length) { el.innerHTML='<p style="color:var(--muted);font-size:0.85rem;">Nenhum post na fila ainda.</p>'; btn.style.display='none'; return; }
+        document.getElementById('queue-count').textContent = `(${postQueue.length} posts)`;
+        btn.style.display = 'block';
+        el.innerHTML = postQueue.map((p,i) => {
+            const sc = p.status==='posted'?'qi-posted':p.status==='error'?'qi-error':'qi-pending';
+            const sl = p.status==='posted'?'✅ Publicado':p.status==='error'?'❌ Erro':'⏳ Pendente';
+            const icon = p.platform==='instagram'?'📸':'📘';
+            return `<div class="queue-item"><div class="qi-icon">${icon}</div><div class="qi-body"><div class="qi-text">${p.text.slice(0,120)}...</div><div class="qi-meta">${p.ts} · Destinos: ${p.targets||'nenhum'}</div></div><span class="qi-status ${sc}">${sl}</span></div>`;
+        }).join('');
+    }
+
+    // Post now via FB Graph API
+    async function postNow() {
+        if (!generatedText) { alert('Gera um post primeiro.'); return; }
+        const token   = localStorage.getItem(BOT_FB_TOKEN);
+        if (!token) { alert('Insere o Facebook Token primeiro.'); return; }
+        const targets = document.getElementById('fb-targets').value.trim().split(',').map(s=>s.trim()).filter(Boolean);
+        if (!targets.length) { alert('Adiciona pelo menos um ID de grupo ou página.'); return; }
+        if (!confirm(`Publicar em ${targets.length} destino(s) agora?`)) return;
+        for (const t of targets) {
+            try {
+                const body = new URLSearchParams({ message: generatedText, access_token: token });
+                if (generatedImgUrl) body.append('url', generatedImgUrl);
+                const endpoint = generatedImgUrl
+                    ? `https://graph.facebook.com/v19.0/${t}/photos`
+                    : `https://graph.facebook.com/v19.0/${t}/feed`;
+                const res = await fetch(endpoint, { method:'POST', body });
+                const data = await res.json();
+                if (data.error) throw new Error(data.error.message);
+                alert(`✅ Publicado em ${t}!`);
+            } catch(e) { alert(`❌ Erro em ${t}: ${e.message}`); }
+        }
+    }
+
+    async function sendQueue() {
+        const token = localStorage.getItem(BOT_FB_TOKEN);
+        if (!token) { alert('Insere o Facebook Token primeiro.'); return; }
+        if (!confirm(`Enviar ${postQueue.filter(p=>p.status==='pending').length} post(s) pendentes?`)) return;
+        for (let i=0; i<postQueue.length; i++) {
+            if (postQueue[i].status !== 'pending') continue;
+            const targets = postQueue[i].targets.split(',').map(s=>s.trim()).filter(Boolean);
+            let ok = true;
+            for (const t of targets) {
+                try {
+                    const body = new URLSearchParams({ message: postQueue[i].text, access_token: token });
+                    const res = await fetch(`https://graph.facebook.com/v19.0/${t}/feed`, { method:'POST', body });
+                    const data = await res.json();
+                    if (data.error) throw new Error(data.error.message);
+                } catch(e) { ok = false; }
+            }
+            postQueue[i].status = ok ? 'posted' : 'error';
+        }
+        localStorage.setItem('vx_post_queue', JSON.stringify(postQueue));
+        renderQueue();
+    }
+
+    // Load keys when dash becomes visible
+    const _origShowDash = showDash;
+    window.showDash = function() { _origShowDash(); loadBotKeys(); };
 </script>
 </body>
 </html>
