@@ -561,11 +561,13 @@
                 </div>
                 <hr class="bot-divider">
                 <div class="bot-field">
-                    <label class="bot-label">Publish to</label>
-                    <select class="bot-input" id="fb-targets-select">
-                        <option value="">— Connect Facebook first —</option>
-                    </select>
-                    <input class="bot-input" id="fb-targets" placeholder="Or type IDs manually, separated by comma" style="margin-top:0.4rem;">
+                    <label class="bot-label">Publish to <span style="color:var(--muted);font-weight:400;">(tick all targets)</span></label>
+                    <div id="fb-targets-list" style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:8px;padding:0.5rem 0.75rem;max-height:140px;overflow-y:auto;display:flex;flex-direction:column;gap:0.35rem;">
+                        <span style="color:var(--muted);font-size:0.78rem;">Connect Facebook to see your pages & groups here.</span>
+                    </div>
+                    <!-- hidden select kept for backward compat -->
+                    <select id="fb-targets-select" style="display:none;"></select>
+                    <input class="bot-input" id="fb-targets" placeholder="Or type IDs manually, comma-separated" style="margin-top:0.4rem;font-size:0.78rem;">
                 </div>
                 <details style="margin-top:0.5rem;">
                     <summary style="font-size:0.75rem;color:var(--muted);cursor:pointer;user-select:none;">➕ Add missing page manually</summary>
@@ -1172,7 +1174,7 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
     // Queue
     async function addToQueue() {
         if (!generatedText) { alert('Generate a post first.'); return; }
-        const targets  = document.getElementById('fb-targets').value.trim();
+        const targets  = getCheckedTargets().join(',');
         let   imgUrl   = generatedImgUrl;
 
         // If image is a remote URL (e.g. DALL-E 3), convert to base64 now
@@ -1217,8 +1219,8 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
         if (!generatedText) { alert('Generate a post first.'); return; }
         const userToken = localStorage.getItem(BOT_FB_TOKEN);
         if (!userToken) { alert('Insert the Facebook Token first.'); return; }
-        const targets = document.getElementById('fb-targets').value.trim().split(',').map(s=>s.trim()).filter(Boolean);
-        if (!targets.length) { alert('Add at least one group or page ID.'); return; }
+        const targets = getCheckedTargets();
+        if (!targets.length) { alert('Tick at least one page or group above.'); return; }
         const igCross  = document.getElementById('ig-crosspost')?.checked;
         const igUserId = document.getElementById('ig-user-id')?.value.trim();
         const totalDests = targets.length + (igCross && igUserId ? 1 : 0);
@@ -1609,26 +1611,63 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
     }
 
     function populatePageSelects(pages) {
-        const selects = ['fb-page-select', 'fb-targets-select'];
         const defaultId = localStorage.getItem('vx_default_fb_page') || '';
-        selects.forEach(id => {
-            const sel = document.getElementById(id);
-            if (!sel) return;
-            sel.innerHTML = `<option value="">— Select a Page —</option>`;
+
+        // 1. Config page selector (single select)
+        const cfgSel = document.getElementById('fb-page-select');
+        if (cfgSel) {
+            cfgSel.innerHTML = `<option value="">— Select a Page —</option>`;
             pages.forEach(p => {
                 const opt = document.createElement('option');
                 opt.value = p.id;
                 opt.textContent = p.name + (p.id === defaultId ? ' ⭐' : '');
-                sel.appendChild(opt);
+                cfgSel.appendChild(opt);
             });
-            if (defaultId) sel.value = defaultId;
-        });
-        // When a page is selected in the targets select, populate the manual input
-        const tsel = document.getElementById('fb-targets-select');
-        if (tsel) tsel.onchange = () => {
-            if (tsel.value) document.getElementById('fb-targets').value = tsel.value;
-        };
+            if (defaultId) cfgSel.value = defaultId;
+        }
+
+        // 2. Hidden select (backward compat)
+        const hidSel = document.getElementById('fb-targets-select');
+        if (hidSel) {
+            hidSel.innerHTML = '';
+            pages.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id; opt.textContent = p.name;
+                hidSel.appendChild(opt);
+            });
+        }
+
+        // 3. Checklist (multi-select) in publish section
+        const list = document.getElementById('fb-targets-list');
+        if (list) {
+            if (!pages.length) {
+                list.innerHTML = '<span style="color:var(--muted);font-size:0.78rem;">No pages or groups added yet.</span>';
+                return;
+            }
+            list.innerHTML = '';
+            pages.forEach(p => {
+                const row = document.createElement('label');
+                row.style.cssText = 'display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;cursor:pointer;';
+                const cb = document.createElement('input');
+                cb.type = 'checkbox'; cb.value = p.id;
+                cb.className = 'fb-target-cb';
+                cb.style.cssText = 'width:15px;height:15px;accent-color:var(--red);cursor:pointer;';
+                // Auto-check the default
+                if (p.id === defaultId) cb.checked = true;
+                row.appendChild(cb);
+                row.appendChild(document.createTextNode(p.name));
+                list.appendChild(row);
+            });
+        }
     }
+
+    // Return array of IDs from checked checkboxes + manual input
+    function getCheckedTargets() {
+        const checked = [...document.querySelectorAll('.fb-target-cb:checked')].map(cb => cb.value);
+        const manual  = document.getElementById('fb-targets').value.trim().split(',').map(s => s.trim()).filter(Boolean);
+        return [...new Set([...checked, ...manual])];
+    }
+
 
     // ── FB Page default / delete ────────────────────────
     function setDefaultFbPage() {
