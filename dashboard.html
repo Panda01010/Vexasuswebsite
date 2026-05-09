@@ -541,6 +541,15 @@
                     </div>
                     <div id="manual-page-status" style="font-size:0.78rem;margin-top:0.35rem;"></div>
                 </details>
+                <!-- Instagram cross-post toggle -->
+                <div style="border:1px solid var(--border);border-radius:10px;padding:0.7rem 0.85rem;margin-top:0.5rem;">
+                    <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.4rem;">
+                        <input type="checkbox" id="ig-crosspost" style="width:16px;height:16px;accent-color:var(--red);cursor:pointer;">
+                        <label for="ig-crosspost" style="font-size:0.8rem;color:var(--text);cursor:pointer;">📸 Also post to Instagram</label>
+                    </div>
+                    <input class="bot-input" id="ig-user-id" placeholder="Instagram User ID (linked to your FB Page)" style="font-size:0.78rem;padding:0.45rem 0.75rem;">
+                    <div style="font-size:0.7rem;color:var(--muted);margin-top:0.3rem;">⚠️ Requires a public image URL (use DALL-E 3 model). base64 images won't work with Instagram API.</div>
+                </div>
                 <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
                     <button class="bot-btn bot-btn-outline" onclick="addToQueue()" style="flex:1;">📋 Add to Queue</button>
                     <button class="bot-btn bot-btn-green" onclick="postNow()" style="flex:1;">🚀 Publish Now</button>
@@ -925,27 +934,72 @@
         }).join('');
     }
 
-    // Post now via FB Graph API
+    // Post now via FB Graph API + optional Instagram
     async function postNow() {
         if (!generatedText) { alert('Generate a post first.'); return; }
         const userToken = localStorage.getItem(BOT_FB_TOKEN);
         if (!userToken) { alert('Insert the Facebook Token first.'); return; }
         const targets = document.getElementById('fb-targets').value.trim().split(',').map(s=>s.trim()).filter(Boolean);
         if (!targets.length) { alert('Add at least one group or page ID.'); return; }
-        if (!confirm(`Publish to ${targets.length} target(s) now?`)) return;
+        const igCross  = document.getElementById('ig-crosspost')?.checked;
+        const igUserId = document.getElementById('ig-user-id')?.value.trim();
+        const totalDests = targets.length + (igCross && igUserId ? 1 : 0);
+        if (!confirm(`Publish to ${totalDests} destination(s) now?`)) return;
+
+        // Facebook targets
         for (const t of targets) {
             try {
                 const token = await getFbTokenForTarget(t);
                 const body = new URLSearchParams({ message: generatedText, access_token: token });
-                if (generatedImgUrl) body.append('url', generatedImgUrl);
-                const endpoint = generatedImgUrl
+                if (generatedImgUrl && !generatedImgUrl.startsWith('data:')) body.append('url', generatedImgUrl);
+                const endpoint = (generatedImgUrl && !generatedImgUrl.startsWith('data:'))
                     ? `https://graph.facebook.com/v19.0/${t}/photos`
                     : `https://graph.facebook.com/v19.0/${t}/feed`;
                 const res = await fetch(endpoint, { method:'POST', body });
                 const data = await res.json();
                 if (data.error) throw new Error(data.error.message);
-                alert(`✅ Published to ${t}!`);
-            } catch(e) { alert(`❌ Error in ${t}: ${e.message}`); }
+                alert(`✅ Facebook: Published to ${t}!`);
+            } catch(e) { alert(`❌ Facebook error on ${t}: ${e.message}`); }
+        }
+
+        // Instagram cross-post (requires public image URL)
+        if (igCross && igUserId) {
+            await postToInstagram(igUserId, userToken);
+        }
+    }
+
+    async function postToInstagram(igUserId, userToken) {
+        try {
+            if (!generatedImgUrl || generatedImgUrl.startsWith('data:')) {
+                alert('⚠️ Instagram requires a public image URL. Switch to DALL-E 3 and regenerate.');
+                return;
+            }
+            // Step 1: Create media container
+            const containerRes = await fetch(`https://graph.facebook.com/v19.0/${igUserId}/media`, {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    image_url: generatedImgUrl,
+                    caption: generatedText,
+                    access_token: userToken
+                })
+            });
+            const containerData = await containerRes.json();
+            if (containerData.error) throw new Error(containerData.error.message);
+            const creationId = containerData.id;
+            if (!creationId) throw new Error('No container ID returned.');
+
+            // Step 2: Publish the container
+            const publishRes = await fetch(`https://graph.facebook.com/v19.0/${igUserId}/media_publish`, {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ creation_id: creationId, access_token: userToken })
+            });
+            const publishData = await publishRes.json();
+            if (publishData.error) throw new Error(publishData.error.message);
+            alert(`✅ Instagram: Published successfully!`);
+        } catch(e) {
+            alert(`❌ Instagram error: ${e.message}`);
         }
     }
 
