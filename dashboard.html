@@ -822,13 +822,14 @@
     // Post now via FB Graph API
     async function postNow() {
         if (!generatedText) { alert('Generate a post first.'); return; }
-        const token   = localStorage.getItem(BOT_FB_TOKEN);
-        if (!token) { alert('Insert the Facebook Token first.'); return; }
+        const userToken = localStorage.getItem(BOT_FB_TOKEN);
+        if (!userToken) { alert('Insert the Facebook Token first.'); return; }
         const targets = document.getElementById('fb-targets').value.trim().split(',').map(s=>s.trim()).filter(Boolean);
         if (!targets.length) { alert('Add at least one group or page ID.'); return; }
         if (!confirm(`Publish to ${targets.length} target(s) now?`)) return;
         for (const t of targets) {
             try {
+                const token = await getFbTokenForTarget(t);
                 const body = new URLSearchParams({ message: generatedText, access_token: token });
                 if (generatedImgUrl) body.append('url', generatedImgUrl);
                 const endpoint = generatedImgUrl
@@ -843,8 +844,8 @@
     }
 
     async function sendQueue() {
-        const token = localStorage.getItem(BOT_FB_TOKEN);
-        if (!token) { alert('Insert the Facebook Token first.'); return; }
+        const userToken = localStorage.getItem(BOT_FB_TOKEN);
+        if (!userToken) { alert('Insert the Facebook Token first.'); return; }
         if (!confirm(`Send ${postQueue.filter(p=>p.status==='pending').length} pending post(s)?`)) return;
         for (let i=0; i<postQueue.length; i++) {
             if (postQueue[i].status !== 'pending') continue;
@@ -852,11 +853,16 @@
             let ok = true;
             for (const t of targets) {
                 try {
+                    const token = await getFbTokenForTarget(t);
                     const body = new URLSearchParams({ message: postQueue[i].text, access_token: token });
-                    const res = await fetch(`https://graph.facebook.com/v19.0/${t}/feed`, { method:'POST', body });
+                    if (postQueue[i].imgUrl) body.append('url', postQueue[i].imgUrl);
+                    const endpoint = postQueue[i].imgUrl 
+                        ? `https://graph.facebook.com/v19.0/${t}/photos` 
+                        : `https://graph.facebook.com/v19.0/${t}/feed`;
+                    const res = await fetch(endpoint, { method:'POST', body });
                     const data = await res.json();
                     if (data.error) throw new Error(data.error.message);
-                } catch(e) { ok = false; }
+                } catch(e) { ok = false; console.error(e); }
             }
             postQueue[i].status = ok ? 'posted' : 'error';
         }
@@ -1079,11 +1085,17 @@
         if (appId) initFbSdk(appId);
     }
 
-    // Override postNow / sendQueue to use page token from pages list
-    function getFbTokenForTarget(targetId) {
-        const pages = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]');
-        const page  = pages.find(p => p.id === targetId);
-        return page ? page.access_token : localStorage.getItem(FB_TOKEN_KEY);
+    // Fetch page token dynamically if not in the cached list
+    async function getFbTokenForTarget(targetId) {
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        try {
+            // Ask Facebook directly for this specific page's access token
+            const res = await fetch(`https://graph.facebook.com/v19.0/${targetId}?fields=access_token&access_token=${token}`);
+            const data = await res.json();
+            if (data.access_token) return data.access_token;
+        } catch(e) {}
+        // Fallback to user token (will fail for pages, but might work for groups if the old API was used)
+        return token;
     }
 </script>
 </body>
