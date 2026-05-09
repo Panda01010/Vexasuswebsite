@@ -1161,13 +1161,33 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
     }
 
     // Queue
-    function addToQueue() {
+    async function addToQueue() {
         if (!generatedText) { alert('Generate a post first.'); return; }
-        const targets = document.getElementById('fb-targets').value.trim();
-        postQueue.push({ id: Date.now(), text: generatedText, imgUrl: generatedImgUrl, targets, status:'pending', platform: document.getElementById('post-platform').value, ts: new Date().toLocaleString('pt-PT') });
+        const targets  = document.getElementById('fb-targets').value.trim();
+        let   imgUrl   = generatedImgUrl;
+
+        // If image is a remote URL (e.g. DALL-E 3), convert to base64 now
+        // so it doesn't expire before the post is sent
+        if (imgUrl && !imgUrl.startsWith('data:')) {
+            try {
+                const resp   = await fetch(imgUrl);
+                const blob   = await resp.blob();
+                imgUrl = await new Promise((res, rej) => {
+                    const r = new FileReader();
+                    r.onload  = () => res(r.result);
+                    r.onerror = rej;
+                    r.readAsDataURL(blob);
+                });
+            } catch(e) {
+                // Keep the URL if conversion fails
+                console.warn('Image fetch failed, saving URL instead:', e);
+            }
+        }
+
+        postQueue.push({ id: Date.now(), text: generatedText, imgUrl, targets, status:'pending', platform: document.getElementById('post-platform').value, ts: new Date().toLocaleString('pt-PT') });
         localStorage.setItem('vx_post_queue', JSON.stringify(postQueue));
         renderQueue();
-        alert('✅ Post added to queue!');
+        alert('✅ Post added to queue! Image permanently saved.');
     }
     function renderQueue() {
         const el = document.getElementById('post-queue');
