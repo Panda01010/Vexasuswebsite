@@ -436,12 +436,12 @@
 
         <!-- AI Chat assistant -->
         <div class="bot-card" style="margin-bottom:1.25rem;">
-            <h3>💬 Marketing Assistant</h3>
+            <h3>💬 Senior Marketing Strategist <span style="font-size:0.7rem;font-weight:400;color:var(--muted);margin-left:0.5rem;">€1,000/day Expert · Always replies in English</span></h3>
             <div class="chat-box" id="chat-box">
-                <div class="chat-msg bot">Hello! I am your marketing assistant. Ask me to create posts for Facebook or Instagram, suggest strategies for construction groups, or generate content ideas for Vexasus. 🚀</div>
+                <div class="chat-msg bot">Hey. I'm your senior marketing strategist. I know your target persona — construction contractors who want more clients without chasing leads. Tell me what you need: content strategy, post ideas, carousel scripts, campaign angles, or competitor analysis. I'll give you premium-level thinking. Let's get to work. 🎯</div>
             </div>
             <div class="chat-input-row">
-                <input class="bot-input" id="chat-input" placeholder="Ex: Create a post for construction groups on Facebook..." onkeydown="if(event.key==='Enter')sendChat()">
+                <input class="bot-input" id="chat-input" placeholder="Ask anything: strategy, angles, hooks, campaign ideas..." onkeydown="if(event.key==='Enter')sendChat()">
                 <button class="chat-send" onclick="sendChat()">Send</button>
             </div>
         </div>
@@ -449,7 +449,7 @@
         <!-- Post Generator -->
         <div class="bot-grid">
             <div class="bot-card">
-                <h3>✍️ Create AI Post</h3>
+                <h3>✍️ Content Generator</h3>
                 <div class="bot-field">
                     <label class="bot-label">Topic / Briefing</label>
                     <textarea class="bot-input bot-textarea" id="post-brief" placeholder="Ex: Show that Vexasus helps contractors get more clients with digital marketing..."></textarea>
@@ -463,22 +463,58 @@
                     </select>
                 </div>
                 <div class="bot-field">
+                    <label class="bot-label">Content Type</label>
+                    <select class="bot-input" id="post-type" onchange="toggleSlides()">
+                        <option value="post">📝 Single Post</option>
+                        <option value="carousel">🎠 Carousel (multiple slides)</option>
+                        <option value="story">⚡ Story</option>
+                        <option value="reel">🎬 Reel Caption</option>
+                    </select>
+                </div>
+                <div class="bot-field" id="slides-field" style="display:none;">
+                    <label class="bot-label">Number of Slides</label>
+                    <select class="bot-input" id="post-slides">
+                        <option value="3">3 slides</option>
+                        <option value="4">4 slides</option>
+                        <option value="5" selected>5 slides</option>
+                        <option value="6">6 slides</option>
+                        <option value="7">7 slides</option>
+                        <option value="10">10 slides</option>
+                    </select>
+                </div>
+                <div class="bot-field">
                     <label class="bot-label">Tone</label>
                     <select class="bot-input" id="post-tone">
-                        <option value="profissional">💼 Professional</option>
+                        <option value="professional">💼 Professional</option>
                         <option value="casual">😊 Casual / Friendly</option>
-                        <option value="urgente">🔥 Urgent / FOMO</option>
-                        <option value="educativo">📚 Educational</option>
+                        <option value="urgent">🔥 Urgent / FOMO</option>
+                        <option value="educational">📚 Educational</option>
+                        <option value="storytelling">📖 Storytelling</option>
                     </select>
+                </div>
+                <div class="bot-field">
+                    <label class="bot-label">Output Language</label>
+                    <div style="display:flex;gap:0.4rem;">
+                        <select class="bot-input" id="post-lang" style="flex:1;" onchange="toggleCustomLang()">
+                            <option value="European Portuguese">🇵🇹 Portuguese (PT)</option>
+                            <option value="English">🇬🇧 English</option>
+                            <option value="Moroccan Darija">🇲🇦 Moroccan Darija</option>
+                            <option value="French">🇫🇷 French</option>
+                            <option value="Spanish">🇪🇸 Spanish</option>
+                            <option value="Arabic">🇸🇦 Arabic</option>
+                            <option value="custom">✏️ Custom...</option>
+                        </select>
+                    </div>
+                    <input class="bot-input" id="post-lang-custom" placeholder="Type language (e.g. Brazilian Portuguese)" style="margin-top:0.4rem;display:none;">
                 </div>
                 <div class="bot-field">
                     <label class="bot-label">Generate image with DALL-E 3?</label>
                     <select class="bot-input" id="post-img">
-                        <option value="yes">✅ Yes — generate image</option>
                         <option value="no">❌ No — text only</option>
+                        <option value="yes">✅ Yes — generate image</option>
                     </select>
                 </div>
-                <button class="bot-btn" id="gen-btn" onclick="generatePost()">⚡ Generate AI Post</button>
+                <button class="bot-btn" id="gen-btn" onclick="generatePost()">⚡ Generate Content</button>
             </div>
 
             <div class="bot-card">
@@ -733,7 +769,7 @@
         renderQueue();
     }
 
-    // Chat assistant
+    // Chat assistant — €1,000/day senior marketing expert, always responds in English
     async function sendChat() {
         const inp = document.getElementById('chat-input');
         const msg = inp.value.trim();
@@ -747,9 +783,9 @@
             const res = await fetch('https://api.openai.com/v1/chat/completions', {
                 method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
                 body: JSON.stringify({ model:'gpt-4o', messages:[
-                    {role:'system', content:'És um especialista em marketing digital para o setor da construção civil em Portugal. Ajudas a criar conteúdo para Facebook e Instagram para a Vexasus, uma agência de marketing para empreiteiros. Responde sempre em português de Portugal. Sê conciso, prático e orientado para conversão.'},
+                    {role:'system', content:`You are a world-class senior marketing strategist who charges €1,000 per day. You ALWAYS respond in English, no matter what language the user writes in. You specialize in performance marketing for the construction and renovation industry. Your client is Vexasus — a digital marketing agency that helps construction contractors (empreiteiros) in Portugal get more clients without cold calling or chasing leads. The target persona is: male, 35-55 years old, owns a small-to-mid construction company, tired of unreliable leads, wants steady work and to stop depending on word of mouth. You think and communicate like a premium consultant — strategic, direct, data-aware, and obsessed with conversion. You never give generic advice. Every recommendation is specific, actionable, and rooted in real human psychology. You know Facebook, Instagram, carousel strategies, hooks, emotional triggers, and what makes construction business owners take action.`},
                     {role:'user', content: msg}
-                ], max_tokens:600 })
+                ], max_tokens:800 })
             });
             const data = await res.json();
             typing.textContent = data.choices?.[0]?.message?.content || 'Response error.';
@@ -765,28 +801,57 @@
         return div;
     }
 
-    // Post generator
+    function toggleSlides() {
+        const type = document.getElementById('post-type').value;
+        document.getElementById('slides-field').style.display = type === 'carousel' ? 'block' : 'none';
+    }
+    function toggleCustomLang() {
+        const lang = document.getElementById('post-lang').value;
+        document.getElementById('post-lang-custom').style.display = lang === 'custom' ? 'block' : 'none';
+    }
+
+    // Post generator — expert persona, respects output language and content type
     async function generatePost() {
         const key   = localStorage.getItem(BOT_OAI_KEY);
         if (!key) { alert('Insert your OpenAI API Key first.'); return; }
         const brief    = document.getElementById('post-brief').value.trim();
         const platform = document.getElementById('post-platform').value;
+        const type     = document.getElementById('post-type').value;
         const tone     = document.getElementById('post-tone').value;
         const wantImg  = document.getElementById('post-img').value === 'yes';
+        const slides   = parseInt(document.getElementById('post-slides')?.value || 5);
+        const langSel  = document.getElementById('post-lang').value;
+        const lang     = langSel === 'custom' ? (document.getElementById('post-lang-custom').value.trim() || 'English') : langSel;
         if (!brief) { alert('Write a brief for the post.'); return; }
+
         const btn = document.getElementById('gen-btn');
         btn.disabled = true; btn.textContent = '⏳ Generating...';
-        document.getElementById('post-preview').textContent = 'Generating text...';
+        document.getElementById('post-preview').textContent = 'Generating content...';
         document.getElementById('preview-img').style.display = 'none';
         generatedText = ''; generatedImgUrl = '';
+
+        const platLabel = platform === 'facebook_group' ? 'a Facebook Group for construction contractors'
+            : platform === 'facebook_page' ? 'a Facebook Business Page'
+            : 'Instagram';
+
+        let contentInstruction = '';
+        if (type === 'post') {
+            contentInstruction = `Write a single ${tone}-tone social media post for ${platLabel}. Include a strong hook, body, and clear call-to-action. End with relevant hashtags.`;
+        } else if (type === 'carousel') {
+            contentInstruction = `Write a ${slides}-slide carousel for ${platLabel} with a ${tone} tone. Format it clearly as:\nSlide 1: [Hook]\nSlide 2: [Point]\n... up to Slide ${slides}: [CTA]. Each slide should have a short punchy headline and 1-2 support lines.`;
+        } else if (type === 'story') {
+            contentInstruction = `Write a Story-format post (short, punchy, max 3 screens) for ${platLabel} with a ${tone} tone. Format as Screen 1, Screen 2, Screen 3. Include a swipe-up or link CTA.`;
+        } else if (type === 'reel') {
+            contentInstruction = `Write a Reel caption for ${platLabel} with a ${tone} tone. Include a strong hook (first line stops the scroll), a short body, and a CTA. Add relevant hashtags.`;
+        }
+
         try {
-            const platLabel = platform === 'facebook_group' ? 'grupo de Facebook de empreiteiros e construção' : platform === 'facebook_page' ? 'página de Facebook de empresa' : 'Instagram';
             const res = await fetch('https://api.openai.com/v1/chat/completions', {
                 method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
                 body: JSON.stringify({ model:'gpt-4o', messages:[
-                    {role:'system', content:'És um copywriter especializado em marketing digital para construção civil em Portugal. Cria posts altamente envolventes e autênticos. Usa emojis com moderação. Adapta o comprimento à plataforma. Não uses hashtags excessivas. Responde APENAS com o texto do post, sem explicações.'},
-                    {role:'user', content:`Cria um post para ${platLabel} com tom ${tone} sobre: ${brief}. A empresa chama-se Vexasus e ajuda empreiteiros e empresas de construção a conseguirem mais clientes com marketing digital. O post deve terminar com uma call-to-action clara.`}
-                ], max_tokens:500 })
+                    {role:'system', content:`You are a world-class senior copywriter and marketing strategist who charges €1,000 per day. You write premium social media content for Vexasus — a digital marketing agency for construction contractors in Portugal. The target persona: male, 35-55, owns a small-to-mid construction business, wants steady clients without cold calling. You write ONLY the content — no explanations, no commentary, no meta-text. You write with psychological precision: strong hooks, real pain points, emotional triggers, and conversion-optimised CTAs. IMPORTANT: Write the ENTIRE output in ${lang}. Do not use any other language.`},
+                    {role:'user', content:`${contentInstruction}\n\nTopic / Briefing: ${brief}\nCompany: Vexasus — digital marketing for construction contractors.`}
+                ], max_tokens: type === 'carousel' ? 900 : 600 })
             });
             const data = await res.json();
             generatedText = data.choices?.[0]?.message?.content || 'Error generating text.';
@@ -795,7 +860,7 @@
                 document.getElementById('post-preview').textContent = generatedText + '\n\n⏳ Generating image...';
                 const imgRes = await fetch('https://api.openai.com/v1/images/generations', {
                     method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-                    body: JSON.stringify({ model:'dall-e-3', prompt:`Marketing visual for Portuguese construction company Vexasus: ${brief}. Professional, modern, clean design. No text in image.`, n:1, size:'1024x1024', quality:'standard' })
+                    body: JSON.stringify({ model:'dall-e-3', prompt:`Premium marketing visual for Vexasus, a digital marketing agency for construction contractors. Theme: ${brief}. Style: modern, professional, dark tones, clean design. No text in image.`, n:1, size:'1024x1024', quality:'standard' })
                 });
                 const imgData = await imgRes.json();
                 generatedImgUrl = imgData.data?.[0]?.url || '';
@@ -809,7 +874,7 @@
         } catch(e) {
             document.getElementById('post-preview').textContent = '❌ Error: '+e.message;
         }
-        btn.disabled = false; btn.textContent = '⚡ Generate AI Post';
+        btn.disabled = false; btn.textContent = '⚡ Generate Content';
     }
 
     // Queue
