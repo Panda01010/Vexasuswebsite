@@ -869,13 +869,19 @@
                 const promptData = await promptRes.json();
                 const imagePrompt = promptData.choices?.[0]?.message?.content || `Premium cinematic marketing visual for a construction marketing agency. Theme: ${brief}. Dark modern tones, dramatic lighting, no text.`;
                 document.getElementById('post-preview').textContent = generatedText + '\n\n⏳ Generating image...';
-                // Step 2: DALL-E 3 HD with the crafted prompt
+                // Step 2: gpt-image-2 with the crafted prompt
                 const imgRes = await fetch('https://api.openai.com/v1/images/generations', {
                     method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-                    body: JSON.stringify({ model:'dall-e-3', prompt: imagePrompt, n:1, size:'1024x1024', quality:'hd' })
+                    body: JSON.stringify({ model:'gpt-image-2-2026-04-21', prompt: imagePrompt, n:1, size:'1024x1024', quality:'high' })
                 });
                 const imgData = await imgRes.json();
-                generatedImgUrl = imgData.data?.[0]?.url || '';
+                const imgEntry = imgData.data?.[0];
+                // Newer models return base64; fall back to URL if available
+                if (imgEntry?.b64_json) {
+                    generatedImgUrl = 'data:image/png;base64,' + imgEntry.b64_json;
+                } else {
+                    generatedImgUrl = imgEntry?.url || '';
+                }
                 document.getElementById('post-preview').textContent = generatedText;
                 if (generatedImgUrl) {
                     const img = document.getElementById('preview-img');
