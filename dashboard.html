@@ -441,8 +441,12 @@
                 </div>
             </div>
             <!-- Save row -->
-            <div style="display:flex;align-items:center;gap:1rem;padding-top:1rem;border-top:1px solid var(--border);">
-                <button class="bot-btn" id="save-config-btn" onclick="saveConfig()" style="max-width:200px;">💾 Save Configuration</button>
+            <div style="display:flex;align-items:center;gap:1rem;padding-top:1rem;border-top:1px solid var(--border);flex-wrap:wrap;">
+                <div style="flex:1;min-width:260px;">
+                    <label class="bot-label">n8n Webhook URL <span style="color:var(--muted);font-weight:400;">(for group posting)</span></label>
+                    <input class="bot-input" id="n8n-webhook-url" placeholder="https://your-n8n.app/webhook/..." style="font-size:0.78rem;">
+                </div>
+                <button class="bot-btn" id="save-config-btn" onclick="saveConfig()" style="max-width:200px;align-self:flex-end;">💾 Save Configuration</button>
                 <span id="save-config-status" style="font-size:0.8rem;color:var(--muted);"></span>
             </div>
         </div>
@@ -601,9 +605,10 @@
                     <div id="ig-add-status" style="font-size:0.75rem;margin-top:0.25rem;"></div>
                     <div style="font-size:0.7rem;color:var(--muted);margin-top:0.4rem;">⚠️ Requires a public image URL — use DALL-E 3 model. Account must be a Business/Creator account linked to your FB Page.</div>
                 </div>
-                <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
+                <div style="display:flex;gap:0.5rem;margin-top:0.5rem;flex-wrap:wrap;">
                     <button class="bot-btn bot-btn-outline" onclick="addToQueue()" style="flex:1;">📋 Add to Queue</button>
                     <button class="bot-btn bot-btn-green" onclick="postNow()" style="flex:1;">🚀 Publish Now</button>
+                    <button class="bot-btn" onclick="sendToN8n()" style="flex:1;background:linear-gradient(135deg,#ea4b71,#f06a30);" title="Send to n8n for group posting">⚡ Send to n8n</button>
                 </div>
             </div>
         </div>
@@ -1347,13 +1352,16 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
         if (!oai && !appId) { status.textContent = '⚠️ Fill at least one field.'; return; }
         btn.disabled = true; btn.textContent = '⏳ Saving...';
         try {
+            const n8nUrl = document.getElementById('n8n-webhook-url').value.trim();
             const payload = { updatedAt: new Date().toISOString() };
-            if (oai)   payload.oaiKey  = oai;
-            if (appId) payload.fbAppId = appId;
+            if (oai)   payload.oaiKey    = oai;
+            if (appId) payload.fbAppId   = appId;
+            if (n8nUrl) payload.n8nWebhookUrl = n8nUrl;
             await db.collection('config').doc('bot_settings').set(payload, { merge: true });
             // Also cache locally
             if (oai)   localStorage.setItem(BOT_OAI_KEY,  oai);
             if (appId) localStorage.setItem(FB_APP_ID_KEY, appId);
+            if (n8nUrl) localStorage.setItem('vx_n8n_url', n8nUrl);
             if (oai)   setDot('oai', true);
             if (appId) { saveFbAppId(); }
             status.style.color = 'var(--green)';
@@ -1379,6 +1387,10 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
                 if (data.fbAppId) {
                     document.getElementById('fb-app-id').value = data.fbAppId;
                     localStorage.setItem(FB_APP_ID_KEY, data.fbAppId);
+                }
+                if (data.n8nWebhookUrl) {
+                    document.getElementById('n8n-webhook-url').value = data.n8nWebhookUrl;
+                    localStorage.setItem('vx_n8n_url', data.n8nWebhookUrl);
                 }
                 // Restore saved FB pages/groups
                 if (data.savedPages && data.savedPages.length) {
@@ -1762,6 +1774,49 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
         } catch(e) {}
         // Fallback to user token (will fail for pages, but might work for groups if the old API was used)
         return token;
+    }
+
+    async function sendToN8n() {
+        const webhookUrl = localStorage.getItem('vx_n8n_url') ||
+                           document.getElementById('n8n-webhook-url').value.trim();
+        if (!webhookUrl) {
+            alert('⚠️ Paste your n8n Webhook URL in Configuration → n8n Webhook URL first, then save.');
+            return;
+        }
+        if (!generatedText) { alert('Generate a post first.'); return; }
+
+        const targets = getCheckedTargets();
+        if (!targets.length) { alert('Tick at least one group or page above.'); return; }
+
+        // Build group list from saved pages
+        const saved   = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]');
+        const groups  = targets.map(id => {
+            const p = saved.find(x => x.id === id);
+            return { id, name: p?.name || id };
+        });
+
+        const fbToken = localStorage.getItem(FB_TOKEN_KEY) || '';
+
+        const payload = {
+            text:      generatedText,
+            imageUrl:  generatedImgUrl && !generatedImgUrl.startsWith('data:') ? generatedImgUrl : null,
+            imageB64:  generatedImgUrl && generatedImgUrl.startsWith('data:')  ? generatedImgUrl : null,
+            groups,
+            fbToken,
+            sentAt: new Date().toISOString()
+        };
+
+        try {
+            const res  = await fetch(webhookUrl, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            alert(`✅ Sent to n8n! ${groups.length} group(s) will be processed.\n\nMake sure your n8n workflow is active.`);
+        } catch(e) {
+            alert(`❌ n8n error: ${e.message}\n\nCheck your webhook URL and make sure the workflow is active.`);
+        }
     }
 </script>
 </body>
