@@ -433,7 +433,7 @@
                             <button class="bot-btn" id="manual-group-btn" onclick="checkAndAddGroup()" style="padding:0.45rem 0.75rem;font-size:0.78rem;width:auto;white-space:nowrap;">🔍 Add</button>
                         </div>
                         <div id="groups-status" style="font-size:0.75rem;margin-bottom:0.4rem;"></div>
-                        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:0.4rem;">Find the Group ID in the group URL: facebook.com/groups/<strong>GROUP_ID</strong></div>
+                        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:0.4rem;">⚠️ Only <strong>numeric</strong> IDs work — not group names/slugs. Find it: open the group → click cover photo → right-click → Copy link → the number in the URL is the ID.</div>
                         <button class="bot-btn bot-btn-outline" onclick="fbLogout()" style="padding:0.4rem 0.75rem;font-size:0.78rem;width:auto;">Disconnect</button>
                     </div>
                     <div id="fb-status" class="api-status" style="margin-top:0.4rem;"><span class="status-dot dot-off" id="fb-dot"></span>Not connected</div>
@@ -1461,14 +1461,31 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
         const input  = document.getElementById('manual-group-id');
         const btn    = document.getElementById('manual-group-btn');
         const status = document.getElementById('groups-status');
-        const groupId = input.value.trim();
-        if (!groupId) { status.style.color='var(--red)'; status.textContent='⚠️ Paste a Group ID first.'; return; }
+        let raw = input.value.trim();
+
+        // Auto-extract numeric ID from a facebook.com/groups/... URL
+        const urlMatch = raw.match(/facebook\.com\/groups\/(\d+)/);
+        if (urlMatch) raw = urlMatch[1];
+
+        // Groups only work with numeric IDs — slugs like "construcaocivilportugal" are not supported
+        if (!raw) { status.style.color='var(--red)'; status.textContent='⚠️ Paste a Group ID or URL first.'; return; }
+        if (!/^\d+$/.test(raw)) {
+            status.style.color = 'var(--red)';
+            status.innerHTML = `❌ Facebook only accepts <strong>numeric</strong> Group IDs via the API — slugs like "<em>${raw}</em>" don't work.<br><br>
+                👉 <strong>How to find the numeric ID:</strong><br>
+                1. Open the group on <strong>Facebook desktop</strong><br>
+                2. Click the group cover photo → right-click → <em>Copy link</em><br>
+                3. The link contains the numeric ID, e.g. <code>groups/<strong>123456789</strong></code><br>
+                4. Or: go to <strong>About</strong> tab of the group — the URL shows the numeric ID`;
+            return;
+        }
+
         const token = localStorage.getItem(FB_TOKEN_KEY);
         if (!token) { status.style.color='var(--red)'; status.textContent='⚠️ Connect Facebook first.'; return; }
         btn.disabled = true; btn.textContent = '⏳...';
         status.textContent = '';
         try {
-            const res  = await fetch(`https://graph.facebook.com/v19.0/${groupId}?fields=id,name&access_token=${token}`);
+            const res  = await fetch(`https://graph.facebook.com/v19.0/${raw}?fields=id,name&access_token=${token}`);
             const data = await res.json();
             if (data.error) throw new Error(data.error.message);
             if (!data.id)   throw new Error('Group not found.');
