@@ -394,7 +394,7 @@
             <div class="bot-grid" style="margin-bottom:1rem;">
                 <!-- OpenAI -->
                 <div>
-                    <label class="bot-label">OpenAI API Key (GPT-4o + DALL-E 3)</label>
+                    <label class="bot-label">OpenAI API Key (GPT-4o + Image 2.0)</label>
                     <input type="password" class="bot-input" id="bot-oai-key" placeholder="sk-...">
                     <div class="api-status" id="oai-status"><span class="status-dot dot-off" id="oai-dot"></span>Not configured</div>
                 </div>
@@ -508,7 +508,7 @@
                     <input class="bot-input" id="post-lang-custom" placeholder="Type language (e.g. Brazilian Portuguese)" style="margin-top:0.4rem;display:none;">
                 </div>
                 <div class="bot-field">
-                    <label class="bot-label">Generate image with DALL-E 3?</label>
+                    <label class="bot-label">Generate image with AI (Image 2.0)?</label>
                     <select class="bot-input" id="post-img">
                         <option value="no">❌ No — text only</option>
                         <option value="yes">✅ Yes — generate image</option>
@@ -860,10 +860,16 @@
                 document.getElementById('post-preview').textContent = generatedText + '\n\n⏳ Generating image...';
                 const imgRes = await fetch('https://api.openai.com/v1/images/generations', {
                     method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-                    body: JSON.stringify({ model:'dall-e-3', prompt:`Premium marketing visual for Vexasus, a digital marketing agency for construction contractors. Theme: ${brief}. Style: modern, professional, dark tones, clean design. No text in image.`, n:1, size:'1024x1024', quality:'standard' })
+                    body: JSON.stringify({ model:'gpt-image-1', prompt:`Premium marketing visual for Vexasus, a digital marketing agency for construction contractors. Theme: ${brief}. Style: modern, professional, dark tones, clean design. No text in image.`, n:1, size:'1024x1024', quality:'high' })
                 });
                 const imgData = await imgRes.json();
-                generatedImgUrl = imgData.data?.[0]?.url || '';
+                // gpt-image-1 returns base64, DALL-E 3 returned a URL
+                const imgEntry = imgData.data?.[0];
+                if (imgEntry?.b64_json) {
+                    generatedImgUrl = 'data:image/png;base64,' + imgEntry.b64_json;
+                } else {
+                    generatedImgUrl = imgEntry?.url || '';
+                }
                 document.getElementById('post-preview').textContent = generatedText;
                 if (generatedImgUrl) {
                     const img = document.getElementById('preview-img');
