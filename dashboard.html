@@ -555,13 +555,10 @@
                     <select class="bot-input" id="ig-user-id" style="margin-bottom:0.5rem;">
                         <option value="">— Select Instagram account —</option>
                     </select>
-                    <!-- Add new IG account -->
-                    <div style="display:flex;gap:0.4rem;align-items:center;">
-                        <input class="bot-input" id="ig-add-id" placeholder="Paste Instagram User ID to verify & add" style="font-size:0.78rem;padding:0.45rem 0.75rem;flex:1;">
-                        <button class="bot-btn" id="ig-add-btn" onclick="checkAndAddIgAccount()" style="padding:0.45rem 0.75rem;font-size:0.78rem;width:auto;white-space:nowrap;">🔍 Add</button>
-                    </div>
+                    <!-- Auto-discover from connected FB pages -->
+                    <button class="bot-btn bot-btn-outline" id="ig-discover-btn" onclick="discoverIgFromPages()" style="width:100%;font-size:0.78rem;padding:0.45rem;margin-bottom:0.5rem;">🔗 Auto-detect from my Facebook Pages</button>
                     <div id="ig-add-status" style="font-size:0.75rem;margin-top:0.35rem;"></div>
-                    <div style="font-size:0.7rem;color:var(--muted);margin-top:0.4rem;">⚠️ Requires a public image URL — use DALL-E 3 model. Account must be Business/Creator linked to your FB Page.</div>
+                    <div style="font-size:0.7rem;color:var(--muted);margin-top:0.4rem;">⚠️ Requires a public image URL — use DALL-E 3 model. Account must be a Business/Creator account linked to your FB Page.</div>
                 </div>
                 <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
                     <button class="bot-btn bot-btn-outline" onclick="addToQueue()" style="flex:1;">📋 Add to Queue</button>
@@ -955,6 +952,45 @@
             opt.textContent = `${a.username || a.name} (${a.id})`;
             sel.appendChild(opt);
         });
+    }
+
+    async function discoverIgFromPages() {
+        const btn    = document.getElementById('ig-discover-btn');
+        const status = document.getElementById('ig-add-status');
+        const token  = localStorage.getItem(FB_TOKEN_KEY);
+        if (!token) { status.style.color='var(--red)'; status.textContent='⚠️ Connect Facebook first.'; return; }
+        btn.disabled = true; btn.textContent = '⏳ Searching...';
+        status.textContent = '';
+        try {
+            // Fetch all connected pages including their linked Instagram business accounts
+            const res  = await fetch(`https://graph.facebook.com/v19.0/me/accounts?fields=id,name,instagram_business_account{id,name,username}&access_token=${token}`);
+            const data = await res.json();
+            const pages = data.data || [];
+            const accounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+            let found = 0;
+            pages.forEach(page => {
+                const ig = page.instagram_business_account;
+                if (ig && ig.id && !accounts.find(a => a.id === ig.id)) {
+                    accounts.push({ id: ig.id, name: ig.name || ig.id, username: ig.username || '' });
+                    found++;
+                }
+            });
+            if (found > 0) {
+                localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(accounts));
+                populateIgSelect();
+                // Auto-select the first discovered account
+                if (accounts.length > 0) document.getElementById('ig-user-id').value = accounts[accounts.length - 1].id;
+                status.style.color = 'var(--green)';
+                status.textContent = `✅ Found and added ${found} Instagram account(s)!`;
+            } else {
+                status.style.color = 'var(--muted)';
+                status.textContent = 'No new Instagram Business accounts found linked to your Pages. Make sure your Instagram is a Business/Creator account connected in Meta Business Suite.';
+            }
+        } catch(e) {
+            status.style.color = 'var(--red)';
+            status.textContent = `❌ ${e.message}`;
+        }
+        btn.disabled = false; btn.textContent = '🔗 Auto-detect from my Facebook Pages';
     }
 
     async function checkAndAddIgAccount() {
