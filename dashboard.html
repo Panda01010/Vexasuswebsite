@@ -416,6 +416,12 @@
                             </select>
                             <button class="bot-btn bot-btn-outline" onclick="forceRefreshPages()" style="padding:0.4rem 0.5rem; width:auto; margin:0;" title="Refresh Pages">🔄</button>
                         </div>
+                        <!-- Add missing page -->
+                        <div style="display:flex;gap:0.4rem;align-items:center;margin-bottom:0.5rem;">
+                            <input class="bot-input" id="manual-page-id-cfg" placeholder="Page ID not showing? Paste it here" style="font-size:0.78rem;padding:0.45rem 0.75rem;flex:1;">
+                            <button class="bot-btn" id="manual-page-btn-cfg" onclick="checkAndAddPageCfg()" style="padding:0.45rem 0.75rem;font-size:0.78rem;width:auto;white-space:nowrap;">🔍 Add</button>
+                        </div>
+                        <div id="manual-page-status-cfg" style="font-size:0.75rem;margin-bottom:0.4rem;"></div>
                         <button class="bot-btn bot-btn-outline" onclick="fbLogout()" style="padding:0.4rem 0.75rem;font-size:0.78rem;width:auto;">Disconnect</button>
                     </div>
                     <div id="fb-status" class="api-status" style="margin-top:0.4rem;"><span class="status-dot dot-off" id="fb-dot"></span>Not connected</div>
@@ -1079,6 +1085,39 @@
             status.textContent = `❌ ${e.message}`;
         }
         btn.disabled = false; btn.textContent = '🔍 Check & Add';
+    }
+
+    // Same as above but for the Config section inputs
+    async function checkAndAddPageCfg() {
+        const idInput = document.getElementById('manual-page-id-cfg');
+        const btn     = document.getElementById('manual-page-btn-cfg');
+        const status  = document.getElementById('manual-page-status-cfg');
+        const pageId  = idInput.value.trim();
+        if (!pageId) { status.style.color='var(--red)'; status.textContent = '⚠️ Paste a Page ID first.'; return; }
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        if (!token)  { status.style.color='var(--red)'; status.textContent = '⚠️ Connect Facebook first.'; return; }
+
+        btn.disabled = true; btn.textContent = '⏳...';
+        status.textContent = '';
+        try {
+            const res  = await fetch(`https://graph.facebook.com/v19.0/${pageId}?fields=id,name&access_token=${token}`);
+            const data = await res.json();
+            if (data.error) throw new Error(data.error.message);
+            if (!data.id)   throw new Error('Page not found.');
+            const manual = JSON.parse(localStorage.getItem('vx_manual_pages') || '[]');
+            if (!manual.find(m => m.id === data.id)) {
+                manual.push({ id: data.id, name: data.name });
+                localStorage.setItem('vx_manual_pages', JSON.stringify(manual));
+            }
+            idInput.value = '';
+            status.style.color = 'var(--green)';
+            status.textContent = `✅ "${data.name}" added!`;
+            loadFbPages(token);
+        } catch(e) {
+            status.style.color = 'var(--red)';
+            status.textContent = `❌ ${e.message}`;
+        }
+        btn.disabled = false; btn.textContent = '🔍 Add';
     }
 
     function populatePageSelects(pages) {
