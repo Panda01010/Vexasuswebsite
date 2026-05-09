@@ -511,7 +511,7 @@
                 </div>
                 <div class="bot-field">
                     <label class="bot-label">Image Model</label>
-                    <select class="bot-input" id="post-img">
+                    <select class="bot-input" id="post-img" onchange="toggleImgFields()">
                         <option value="no">❌ No image — text only</option>
                         <option value="gpt-image-2" selected>🖼️ gpt-image-2</option>
                         <option value="gpt-image-2-2026-04-21">🖼️ gpt-image-2 (2026-04-21)</option>
@@ -519,6 +519,23 @@
                         <option value="dall-e-3">🎨 DALL-E 3 HD</option>
                         <option value="dall-e-2">🎨 DALL-E 2</option>
                     </select>
+                </div>
+                <!-- Image options — shown only when a model is selected -->
+                <div id="img-options-fields">
+                    <div class="bot-field">
+                        <label class="bot-label">Image Ratio / Size</label>
+                        <select class="bot-input" id="post-img-size">
+                            <option value="1024x1024">⬛ Square 1:1 (1024×1024)</option>
+                            <option value="1024x1536">📱 Portrait 2:3 (1024×1536)</option>
+                            <option value="1536x1024">🖼️ Landscape 3:2 (1536×1024)</option>
+                            <option value="1024x1792">📱 Tall Portrait (1024×1792)</option>
+                            <option value="1792x1024">🖥️ Wide Landscape (1792×1024)</option>
+                        </select>
+                    </div>
+                    <div class="bot-field">
+                        <label class="bot-label">Image Prompt <span style="color:var(--muted);font-weight:400;">(exact — sent directly to the model)</span></label>
+                        <textarea class="bot-input bot-textarea" id="post-img-prompt" placeholder="Describe the image exactly as you want it generated..." style="min-height:80px;"></textarea>
+                    </div>
                 </div>
                 <button class="bot-btn" id="gen-btn" onclick="generatePost()">⚡ Generate Content</button>
             </div>
@@ -845,6 +862,13 @@
         document.getElementById('post-lang-custom').style.display = lang === 'custom' ? 'block' : 'none';
     }
 
+    function toggleImgFields() {
+        const model = document.getElementById('post-img').value;
+        document.getElementById('img-options-fields').style.display = model === 'no' ? 'none' : 'block';
+    }
+    // Init
+    document.addEventListener('DOMContentLoaded', () => toggleImgFields());
+
     // Post generator — expert persona, respects output language and content type
     async function generatePost() {
         const key   = localStorage.getItem(BOT_OAI_KEY);
@@ -894,39 +918,31 @@
             generatedText = data.choices?.[0]?.message?.content || 'Error generating text.';
             document.getElementById('post-preview').textContent = generatedText;
             if (wantImg) {
-                document.getElementById('post-preview').textContent = generatedText + '\n\n⏳ Crafting image prompt...';
-                // Step 1: GPT-4o writes a cinematic, scroll-stopping DALL-E prompt
-                const promptRes = await fetch('https://api.openai.com/v1/chat/completions', {
-                    method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-                    body: JSON.stringify({ model:'gpt-4o', messages:[
-                        {role:'system', content:'You are a world-class creative director specialised in social media visuals for DALL-E 3. Write a single, highly specific, visually stunning image prompt (max 120 words). The image must be photo-realistic or cinematic, scroll-stopping, and emotionally resonant. Do NOT include text or logos. Describe lighting, composition, mood, colours, and key visual elements in detail. Output ONLY the prompt — no explanations.'},
-                        {role:'user', content:`Write a DALL-E 3 image prompt for this social media post:\n\nBrief: ${brief}\nPost text: ${generatedText.slice(0,300)}\nBrand: Vexasus (digital marketing for construction contractors in Portugal)\nStyle: modern, premium, dark cinematic tones, photorealistic`}
-                    ], max_tokens:200 })
-                });
-                const promptData = await promptRes.json();
-                const imagePrompt = promptData.choices?.[0]?.message?.content || `Premium cinematic marketing visual for a construction marketing agency. Theme: ${brief}. Dark modern tones, dramatic lighting, no text.`;
-                document.getElementById('post-preview').textContent = generatedText + '\n\n⏳ Generating image...';
-                // Step 2: generate with the selected model
-                const isDalle2  = imgModel === 'dall-e-3' || imgModel === 'dall-e-2';
-                const imgQuality = imgModel === 'dall-e-3' ? 'hd' : imgModel === 'dall-e-2' ? 'standard' : 'high';
-                const imgRes = await fetch('https://api.openai.com/v1/images/generations', {
-                    method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-                    body: JSON.stringify({ model: imgModel, prompt: imagePrompt, n:1, size:'1024x1024', quality: imgQuality })
-                });
-                const imgData = await imgRes.json();
-                const imgEntry = imgData.data?.[0];
-                // Newer models return base64; fall back to URL
-                if (imgEntry?.b64_json) {
-                    generatedImgUrl = 'data:image/png;base64,' + imgEntry.b64_json;
+                const imagePrompt = document.getElementById('post-img-prompt').value.trim();
+                if (!imagePrompt) {
+                    document.getElementById('post-preview').textContent = generatedText + '\n\n⚠️ Add an image prompt above.';
                 } else {
-                    generatedImgUrl = imgEntry?.url || '';
-                }
-                document.getElementById('post-preview').textContent = generatedText;
-                if (generatedImgUrl) {
-                    const img = document.getElementById('preview-img');
-                    img.src = generatedImgUrl;
-                    img.style.display = 'block';
-                    document.getElementById('img-actions').style.display = 'block';
+                    document.getElementById('post-preview').textContent = generatedText + '\n\n⏳ Generating image...';
+                    const imgSize    = document.getElementById('post-img-size').value;
+                    const imgQuality = imgModel === 'dall-e-3' ? 'hd' : imgModel === 'dall-e-2' ? 'standard' : 'high';
+                    const imgRes = await fetch('https://api.openai.com/v1/images/generations', {
+                        method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+                        body: JSON.stringify({ model: imgModel, prompt: imagePrompt, n:1, size: imgSize, quality: imgQuality })
+                    });
+                    const imgData = await imgRes.json();
+                    const imgEntry = imgData.data?.[0];
+                    if (imgEntry?.b64_json) {
+                        generatedImgUrl = 'data:image/png;base64,' + imgEntry.b64_json;
+                    } else {
+                        generatedImgUrl = imgEntry?.url || '';
+                    }
+                    document.getElementById('post-preview').textContent = generatedText;
+                    if (generatedImgUrl) {
+                        const img = document.getElementById('preview-img');
+                        img.src = generatedImgUrl;
+                        img.style.display = 'block';
+                        document.getElementById('img-actions').style.display = 'block';
+                    }
                 }
             }
         } catch(e) {
