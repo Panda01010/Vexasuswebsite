@@ -562,8 +562,14 @@
                         <button class="bot-btn" onclick="deleteSelectedIgAccount()" style="padding:0.4rem 0.5rem;width:auto;margin:0;background:var(--red);" title="Delete selected">🗑️</button>
                     </div>
                     <!-- Auto-discover from connected FB pages -->
-                    <button class="bot-btn bot-btn-outline" id="ig-discover-btn" onclick="discoverIgFromPages()" style="width:100%;font-size:0.78rem;padding:0.45rem;margin-bottom:0.5rem;">🔗 Auto-detect from my Facebook Pages</button>
-                    <div id="ig-add-status" style="font-size:0.75rem;margin-top:0.35rem;"></div>
+                    <button class="bot-btn bot-btn-outline" id="ig-discover-btn" onclick="discoverIgFromPages()" style="width:100%;font-size:0.78rem;padding:0.45rem;margin-bottom:0.4rem;">🔗 Auto-detect from my Facebook Pages</button>
+                    <!-- Manual entry -->
+                    <div style="display:flex;gap:0.4rem;margin-bottom:0.4rem;">
+                        <input class="bot-input" id="ig-manual-id" placeholder="Instagram User ID (numeric)" style="font-size:0.78rem;padding:0.4rem 0.6rem;flex:1;">
+                        <input class="bot-input" id="ig-manual-name" placeholder="Name (e.g. Jones)" style="font-size:0.78rem;padding:0.4rem 0.6rem;flex:1;">
+                        <button class="bot-btn" onclick="saveIgManual()" style="padding:0.4rem 0.6rem;width:auto;margin:0;font-size:0.78rem;white-space:nowrap;">💾 Save</button>
+                    </div>
+                    <div id="ig-add-status" style="font-size:0.75rem;margin-top:0.25rem;"></div>
                     <div style="font-size:0.7rem;color:var(--muted);margin-top:0.4rem;">⚠️ Requires a public image URL — use DALL-E 3 model. Account must be a Business/Creator account linked to your FB Page.</div>
                 </div>
                 <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
@@ -979,6 +985,24 @@
         localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(accounts));
         if (localStorage.getItem('vx_default_ig_account') === id) localStorage.removeItem('vx_default_ig_account');
         populateIgSelect();
+    }
+
+    function saveIgManual() {
+        const id     = document.getElementById('ig-manual-id').value.trim();
+        const name   = document.getElementById('ig-manual-name').value.trim() || id;
+        const status = document.getElementById('ig-add-status');
+        if (!id) { status.style.color='var(--red)'; status.textContent='⚠️ Paste the Instagram User ID first.'; return; }
+        const accounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+        if (!accounts.find(a => a.id === id)) {
+            accounts.push({ id, name, username: name });
+            localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(accounts));
+        }
+        document.getElementById('ig-manual-id').value   = '';
+        document.getElementById('ig-manual-name').value = '';
+        status.style.color = 'var(--green)';
+        status.textContent = `✅ "${name}" saved!`;
+        populateIgSelect();
+        document.getElementById('ig-user-id').value = id;
     }
 
     async function discoverIgFromPages() {
