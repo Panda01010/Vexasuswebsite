@@ -426,6 +426,9 @@
                             <button class="bot-btn" id="manual-page-btn-cfg" onclick="checkAndAddPageCfg()" style="padding:0.45rem 0.75rem;font-size:0.78rem;width:auto;white-space:nowrap;">🔍 Add</button>
                         </div>
                         <div id="manual-page-status-cfg" style="font-size:0.75rem;margin-bottom:0.4rem;"></div>
+                        <!-- Load admin groups -->
+                        <button class="bot-btn bot-btn-outline" id="load-groups-btn" onclick="loadFbGroups()" style="padding:0.4rem 0.75rem;font-size:0.78rem;width:100%;margin-bottom:0.4rem;">👥 Load My Facebook Groups (admin only)</button>
+                        <div id="groups-status" style="font-size:0.72rem;color:var(--muted);margin-bottom:0.4rem;">Only groups where you are an admin can be posted to via the API.</div>
                         <button class="bot-btn bot-btn-outline" onclick="fbLogout()" style="padding:0.4rem 0.75rem;font-size:0.78rem;width:auto;">Disconnect</button>
                     </div>
                     <div id="fb-status" class="api-status" style="margin-top:0.4rem;"><span class="status-dot dot-off" id="fb-dot"></span>Not connected</div>
@@ -1394,6 +1397,38 @@ NEVER be vague. Never say “it depends” without then giving a specific answer
         document.getElementById('fb-connected').style.display = 'block';
         document.getElementById('fb-connect-btn').style.display = 'none';
         document.getElementById('fb-status').style.display = 'none';
+    }
+
+    async function loadFbGroups() {
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        if (!token) { alert('Connect Facebook first.'); return; }
+        const btn    = document.getElementById('load-groups-btn');
+        const status = document.getElementById('groups-status');
+        btn.disabled = true; btn.textContent = '⏳ Loading groups...';
+        status.style.color = 'var(--muted)';
+        status.textContent = 'Fetching groups where you are admin...';
+        try {
+            const res  = await fetch(`https://graph.facebook.com/v19.0/me/groups?fields=id,name&filter=administrator&limit=50&access_token=${token}`);
+            const data = await res.json();
+            if (data.error) throw new Error(data.error.message);
+            const groups = (data.data || []).map(g => ({ id: g.id, name: '👥 ' + g.name, access_token: token }));
+            if (!groups.length) {
+                status.style.color = 'var(--muted)';
+                status.textContent = 'No admin groups found. You need to be an admin of the group to post via API.';
+            } else {
+                // Merge groups into the saved pages list
+                const existing = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]');
+                groups.forEach(g => { if (!existing.find(p => p.id === g.id)) existing.push(g); });
+                localStorage.setItem(FB_PAGES_KEY, JSON.stringify(existing));
+                populatePageSelects(existing);
+                status.style.color = 'var(--green)';
+                status.textContent = `✅ ${groups.length} group(s) added to the dropdown!`;
+            }
+        } catch(e) {
+            status.style.color = 'var(--red)';
+            status.textContent = `❌ ${e.message}`;
+        }
+        btn.disabled = false; btn.textContent = '👥 Load My Facebook Groups (admin only)';
     }
 
     function forceRefreshPages() {
