@@ -487,6 +487,14 @@
                     </select>
                     <input class="bot-input" id="fb-targets" placeholder="Or type IDs manually, separated by comma" style="margin-top:0.4rem;">
                 </div>
+                <details style="margin-top:0.5rem;">
+                    <summary style="font-size:0.75rem;color:var(--muted);cursor:pointer;user-select:none;">➕ Add missing page manually</summary>
+                    <div style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.4rem;">
+                        <input class="bot-input" id="manual-page-id" placeholder="Page ID (e.g. 667926056410327)" style="font-size:0.8rem;padding:0.5rem 0.75rem;">
+                        <input class="bot-input" id="manual-page-name" placeholder="Page Name (e.g. Jones Essallamy)" style="font-size:0.8rem;padding:0.5rem 0.75rem;">
+                        <button class="bot-btn" onclick="saveManualPage()" style="padding:0.5rem;font-size:0.8rem;">💾 Save Page</button>
+                    </div>
+                </details>
                 <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
                     <button class="bot-btn bot-btn-outline" onclick="addToQueue()" style="flex:1;">📋 Add to Queue</button>
                     <button class="bot-btn bot-btn-green" onclick="postNow()" style="flex:1;">🚀 Publish Now</button>
@@ -997,27 +1005,63 @@
 
     async function loadFbPages(token) {
         try {
-            // 1. Fetch managed Pages
+            // 1. Classic Pages via /me/accounts
             const res  = await fetch(`https://graph.facebook.com/v19.0/me/accounts?fields=id,name,access_token&access_token=${token}`);
             const data = await res.json();
             let pages = data.data || [];
 
-            // 2. Also fetch the user's personal profile so it appears in the dropdown
-            //    Personal profiles use the user token directly (not a page token)
+            // 2. New Pages Experience — query page profiles via /me?fields=profiles
+            try {
+                const npRes  = await fetch(`https://graph.facebook.com/v19.0/me?fields=profiles{id,name}&access_token=${token}`);
+                const npData = await npRes.json();
+                const profiles = npData.profiles?.data || [];
+                // Add any that aren't already in the list
+                profiles.forEach(p => {
+                    if (!pages.find(x => x.id === p.id)) {
+                        pages.push({ id: p.id, name: p.name + ' (Page)', access_token: token });
+                    }
+                });
+            } catch(e) {}
+
+            // 3. Personal profile
             try {
                 const meRes  = await fetch(`https://graph.facebook.com/v19.0/me?fields=id,name&access_token=${token}`);
                 const meData = await meRes.json();
-                if (meData.id) {
-                    // Prepend personal profile with the user token so we can post to it
+                if (meData.id && !pages.find(x => x.id === meData.id)) {
                     pages = [{ id: meData.id, name: meData.name + ' (Personal Profile)', access_token: token }, ...pages];
                 }
             } catch(e) {}
+
+            // 4. Merge with any manually-saved pages
+            const manual = JSON.parse(localStorage.getItem('vx_manual_pages') || '[]');
+            manual.forEach(m => {
+                if (!pages.find(x => x.id === m.id)) {
+                    pages.push({ id: m.id, name: m.name + ' ★', access_token: token });
+                }
+            });
 
             localStorage.setItem(FB_PAGES_KEY, JSON.stringify(pages));
             populatePageSelects(pages);
         } catch(e) {
             console.error('Network error loading pages:', e);
         }
+    }
+
+    function saveManualPage() {
+        const id   = document.getElementById('manual-page-id').value.trim();
+        const name = document.getElementById('manual-page-name').value.trim();
+        if (!id || !name) { alert('Fill in both Page ID and Page Name.'); return; }
+        const manual = JSON.parse(localStorage.getItem('vx_manual_pages') || '[]');
+        if (!manual.find(m => m.id === id)) {
+            manual.push({ id, name });
+            localStorage.setItem('vx_manual_pages', JSON.stringify(manual));
+        }
+        document.getElementById('manual-page-id').value = '';
+        document.getElementById('manual-page-name').value = '';
+        // Re-populate dropdowns
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        if (token) loadFbPages(token);
+        alert('✅ Page saved! It will now appear in the dropdown.');
     }
 
     function populatePageSelects(pages) {
