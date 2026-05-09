@@ -410,11 +410,13 @@
                     <!-- Connected state -->
                     <div id="fb-connected" style="display:none;">
                         <div class="api-status" style="margin-bottom:0.6rem;"><span class="status-dot dot-ok"></span><span id="fb-user-name">Connected</span></div>
-                        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+                        <div style="display:flex; align-items:center; gap:0.4rem; margin-bottom:0.5rem;">
                             <select class="bot-input" id="fb-page-select" style="margin-bottom:0; flex:1;">
                                 <option value="">— Select a Page / Group —</option>
                             </select>
                             <button class="bot-btn bot-btn-outline" onclick="forceRefreshPages()" style="padding:0.4rem 0.5rem; width:auto; margin:0;" title="Refresh Pages">🔄</button>
+                            <button class="bot-btn" onclick="setDefaultFbPage()" style="padding:0.4rem 0.5rem;width:auto;margin:0;background:var(--yellow,#f0a500);" title="Set as default">⭐</button>
+                            <button class="bot-btn" onclick="deleteSelectedFbPage()" style="padding:0.4rem 0.5rem;width:auto;margin:0;background:var(--red);" title="Delete selected">🗑️</button>
                         </div>
                         <!-- Add missing page -->
                         <div style="display:flex;gap:0.4rem;align-items:center;margin-bottom:0.5rem;">
@@ -552,9 +554,13 @@
                         <label for="ig-crosspost" style="font-size:0.8rem;color:var(--text);cursor:pointer;">📸 Also post to Instagram</label>
                     </div>
                     <!-- Saved IG accounts dropdown -->
-                    <select class="bot-input" id="ig-user-id" style="margin-bottom:0.5rem;">
-                        <option value="">— Select Instagram account —</option>
-                    </select>
+                    <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.5rem;">
+                        <select class="bot-input" id="ig-user-id" style="flex:1;margin-bottom:0;">
+                            <option value="">— Select Instagram account —</option>
+                        </select>
+                        <button class="bot-btn" onclick="setDefaultIgAccount()" style="padding:0.4rem 0.5rem;width:auto;margin:0;background:var(--yellow,#f0a500);" title="Set as default">⭐</button>
+                        <button class="bot-btn" onclick="deleteSelectedIgAccount()" style="padding:0.4rem 0.5rem;width:auto;margin:0;background:var(--red);" title="Delete selected">🗑️</button>
+                    </div>
                     <!-- Auto-discover from connected FB pages -->
                     <button class="bot-btn bot-btn-outline" id="ig-discover-btn" onclick="discoverIgFromPages()" style="width:100%;font-size:0.78rem;padding:0.45rem;margin-bottom:0.5rem;">🔗 Auto-detect from my Facebook Pages</button>
                     <div id="ig-add-status" style="font-size:0.75rem;margin-top:0.35rem;"></div>
@@ -945,13 +951,34 @@
         const sel = document.getElementById('ig-user-id');
         if (!sel) return;
         const accounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+        const defaultId = localStorage.getItem('vx_default_ig_account') || '';
         sel.innerHTML = '<option value="">— Select Instagram account —</option>';
         accounts.forEach(a => {
             const opt = document.createElement('option');
             opt.value = a.id;
-            opt.textContent = `${a.username || a.name} (${a.id})`;
+            opt.textContent = `${a.username || a.name} (${a.id})` + (a.id === defaultId ? ' ⭐' : '');
             sel.appendChild(opt);
         });
+        if (defaultId) sel.value = defaultId;
+    }
+
+    // ── IG Account default / delete ──────────────────────
+    function setDefaultIgAccount() {
+        const sel = document.getElementById('ig-user-id');
+        if (!sel.value) { alert('Select an Instagram account first.'); return; }
+        localStorage.setItem('vx_default_ig_account', sel.value);
+        populateIgSelect();
+        alert('⭐ Default Instagram account set!');
+    }
+    function deleteSelectedIgAccount() {
+        const sel = document.getElementById('ig-user-id');
+        if (!sel.value) { alert('Select an account to delete.'); return; }
+        const id = sel.value;
+        if (!confirm('Remove this Instagram account from the dropdown?')) return;
+        const accounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]').filter(a => a.id !== id);
+        localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(accounts));
+        if (localStorage.getItem('vx_default_ig_account') === id) localStorage.removeItem('vx_default_ig_account');
+        populateIgSelect();
     }
 
     async function discoverIgFromPages() {
@@ -1381,6 +1408,7 @@
 
     function populatePageSelects(pages) {
         const selects = ['fb-page-select', 'fb-targets-select'];
+        const defaultId = localStorage.getItem('vx_default_fb_page') || '';
         selects.forEach(id => {
             const sel = document.getElementById(id);
             if (!sel) return;
@@ -1388,15 +1416,41 @@
             pages.forEach(p => {
                 const opt = document.createElement('option');
                 opt.value = p.id;
-                opt.textContent = p.name;
+                opt.textContent = p.name + (p.id === defaultId ? ' ⭐' : '');
                 sel.appendChild(opt);
             });
+            if (defaultId) sel.value = defaultId;
         });
         // When a page is selected in the targets select, populate the manual input
         const tsel = document.getElementById('fb-targets-select');
         if (tsel) tsel.onchange = () => {
             if (tsel.value) document.getElementById('fb-targets').value = tsel.value;
         };
+    }
+
+    // ── FB Page default / delete ────────────────────────
+    function setDefaultFbPage() {
+        const sel = document.getElementById('fb-page-select');
+        if (!sel.value) { alert('Select a page first.'); return; }
+        localStorage.setItem('vx_default_fb_page', sel.value);
+        const pages = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]');
+        populatePageSelects(pages);
+        alert('⭐ Default page set! It will be auto-selected every time.');
+    }
+    function deleteSelectedFbPage() {
+        const sel = document.getElementById('fb-page-select');
+        if (!sel.value) { alert('Select a page to delete.'); return; }
+        const id = sel.value;
+        if (!confirm('Remove this page from the dropdown?')) return;
+        // Remove from manual pages if it's there
+        const manual = JSON.parse(localStorage.getItem('vx_manual_pages') || '[]');
+        localStorage.setItem('vx_manual_pages', JSON.stringify(manual.filter(m => m.id !== id)));
+        // Remove from cached pages list
+        const pages = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]').filter(p => p.id !== id);
+        localStorage.setItem(FB_PAGES_KEY, JSON.stringify(pages));
+        // Clear default if it was this page
+        if (localStorage.getItem('vx_default_fb_page') === id) localStorage.removeItem('vx_default_fb_page');
+        populatePageSelects(pages);
     }
 
     function fbLogout() {
