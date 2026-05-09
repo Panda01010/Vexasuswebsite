@@ -995,37 +995,22 @@
 
     async function loadFbPages(token) {
         try {
-            // Check permissions granted
-            try {
-                const permRes = await fetch(`https://graph.facebook.com/me/permissions?access_token=${token}`);
-                const permData = await permRes.json();
-                console.log('Granted permissions:', permData);
-            } catch(e) {}
-
-            // Try v19.0 explicitly
+            // 1. Fetch managed Pages
             const res  = await fetch(`https://graph.facebook.com/v19.0/me/accounts?fields=id,name,access_token&access_token=${token}`);
             const data = await res.json();
-            
-            // Fallback: try fields=accounts on me
             let pages = data.data || [];
-            if (pages.length === 0) {
-                try {
-                    const fallbackRes = await fetch(`https://graph.facebook.com/v19.0/me?fields=accounts&access_token=${token}`);
-                    const fallbackData = await fallbackRes.json();
-                    if (fallbackData.accounts && fallbackData.accounts.data) {
-                        pages = fallbackData.accounts.data;
-                    }
-                } catch(e) {}
-            }
-            if (pages.length === 0) {
-                let permStr = '';
-                try {
-                    const permRes = await fetch(`https://graph.facebook.com/me/permissions?access_token=${token}`);
-                    const permData = await permRes.json();
-                    permStr = JSON.stringify(permData);
-                } catch(e) {}
-                alert('No pages found. Permissions granted: ' + permStr);
-            }
+
+            // 2. Also fetch the user's personal profile so it appears in the dropdown
+            //    Personal profiles use the user token directly (not a page token)
+            try {
+                const meRes  = await fetch(`https://graph.facebook.com/v19.0/me?fields=id,name&access_token=${token}`);
+                const meData = await meRes.json();
+                if (meData.id) {
+                    // Prepend personal profile with the user token so we can post to it
+                    pages = [{ id: meData.id, name: meData.name + ' (Personal Profile)', access_token: token }, ...pages];
+                }
+            } catch(e) {}
+
             localStorage.setItem(FB_PAGES_KEY, JSON.stringify(pages));
             populatePageSelects(pages);
         } catch(e) {
