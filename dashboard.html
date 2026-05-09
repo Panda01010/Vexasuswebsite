@@ -981,6 +981,13 @@
 
     async function loadFbPages(token) {
         try {
+            // Check permissions granted
+            try {
+                const permRes = await fetch(`https://graph.facebook.com/me/permissions?access_token=${token}`);
+                const permData = await permRes.json();
+                console.log('Granted permissions:', permData);
+            } catch(e) {}
+
             const res  = await fetch(`https://graph.facebook.com/me/accounts?fields=id,name,access_token&access_token=${token}`);
             const data = await res.json();
             if (data.error) {
@@ -990,7 +997,7 @@
             }
             const pages = data.data || [];
             if (pages.length === 0) {
-                console.log('No pages found for this user.');
+                alert('No pages found. Facebook returned: ' + JSON.stringify(data));
             }
             localStorage.setItem(FB_PAGES_KEY, JSON.stringify(pages));
             populatePageSelects(pages);
