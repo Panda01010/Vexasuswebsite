@@ -489,11 +489,11 @@
                 </div>
                 <details style="margin-top:0.5rem;">
                     <summary style="font-size:0.75rem;color:var(--muted);cursor:pointer;user-select:none;">➕ Add missing page manually</summary>
-                    <div style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.4rem;">
-                        <input class="bot-input" id="manual-page-id" placeholder="Page ID (e.g. 667926056410327)" style="font-size:0.8rem;padding:0.5rem 0.75rem;">
-                        <input class="bot-input" id="manual-page-name" placeholder="Page Name (e.g. Jones Essallamy)" style="font-size:0.8rem;padding:0.5rem 0.75rem;">
-                        <button class="bot-btn" onclick="saveManualPage()" style="padding:0.5rem;font-size:0.8rem;">💾 Save Page</button>
+                    <div style="margin-top:0.5rem;display:flex;gap:0.4rem;align-items:center;">
+                        <input class="bot-input" id="manual-page-id" placeholder="Paste Page ID (e.g. 667926056410327)" style="font-size:0.8rem;padding:0.5rem 0.75rem;flex:1;">
+                        <button class="bot-btn" id="manual-page-btn" onclick="checkAndAddPage()" style="padding:0.5rem 0.85rem;font-size:0.8rem;width:auto;white-space:nowrap;">🔍 Check & Add</button>
                     </div>
+                    <div id="manual-page-status" style="font-size:0.78rem;margin-top:0.35rem;"></div>
                 </details>
                 <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
                     <button class="bot-btn bot-btn-outline" onclick="addToQueue()" style="flex:1;">📋 Add to Queue</button>
@@ -1047,21 +1047,38 @@
         }
     }
 
-    function saveManualPage() {
-        const id   = document.getElementById('manual-page-id').value.trim();
-        const name = document.getElementById('manual-page-name').value.trim();
-        if (!id || !name) { alert('Fill in both Page ID and Page Name.'); return; }
-        const manual = JSON.parse(localStorage.getItem('vx_manual_pages') || '[]');
-        if (!manual.find(m => m.id === id)) {
-            manual.push({ id, name });
-            localStorage.setItem('vx_manual_pages', JSON.stringify(manual));
-        }
-        document.getElementById('manual-page-id').value = '';
-        document.getElementById('manual-page-name').value = '';
-        // Re-populate dropdowns
+    async function checkAndAddPage() {
+        const idInput = document.getElementById('manual-page-id');
+        const btn     = document.getElementById('manual-page-btn');
+        const status  = document.getElementById('manual-page-status');
+        const pageId  = idInput.value.trim();
+        if (!pageId) { status.style.color='var(--red)'; status.textContent = '⚠️ Paste a Page ID first.'; return; }
         const token = localStorage.getItem(FB_TOKEN_KEY);
-        if (token) loadFbPages(token);
-        alert('✅ Page saved! It will now appear in the dropdown.');
+        if (!token)  { status.style.color='var(--red)'; status.textContent = '⚠️ Connect Facebook first.'; return; }
+
+        btn.disabled = true; btn.textContent = '⏳ Checking...';
+        status.textContent = '';
+        try {
+            const res  = await fetch(`https://graph.facebook.com/v19.0/${pageId}?fields=id,name&access_token=${token}`);
+            const data = await res.json();
+            if (data.error) throw new Error(data.error.message);
+            if (!data.id)   throw new Error('Page not found.');
+
+            // Save to manual list
+            const manual = JSON.parse(localStorage.getItem('vx_manual_pages') || '[]');
+            if (!manual.find(m => m.id === data.id)) {
+                manual.push({ id: data.id, name: data.name });
+                localStorage.setItem('vx_manual_pages', JSON.stringify(manual));
+            }
+            idInput.value = '';
+            status.style.color = 'var(--green)';
+            status.textContent = `✅ Found: "${data.name}" — added to dropdown!`;
+            loadFbPages(token);
+        } catch(e) {
+            status.style.color = 'var(--red)';
+            status.textContent = `❌ ${e.message}`;
+        }
+        btn.disabled = false; btn.textContent = '🔍 Check & Add';
     }
 
     function populatePageSelects(pages) {
