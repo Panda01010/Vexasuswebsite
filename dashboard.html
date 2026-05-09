@@ -1005,7 +1005,13 @@
             }
             const pages = data.data || [];
             if (pages.length === 0) {
-                alert('No pages found. Facebook returned: ' + JSON.stringify(data));
+                let permStr = '';
+                try {
+                    const permRes = await fetch(`https://graph.facebook.com/me/permissions?access_token=${token}`);
+                    const permData = await permRes.json();
+                    permStr = JSON.stringify(permData);
+                } catch(e) {}
+                alert('No pages found. Permissions granted: ' + permStr);
             }
             localStorage.setItem(FB_PAGES_KEY, JSON.stringify(pages));
             populatePageSelects(pages);
