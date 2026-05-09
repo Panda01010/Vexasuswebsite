@@ -408,9 +408,12 @@
                     <!-- Connected state -->
                     <div id="fb-connected" style="display:none;">
                         <div class="api-status" style="margin-bottom:0.6rem;"><span class="status-dot dot-ok"></span><span id="fb-user-name">Connected</span></div>
-                        <select class="bot-input" id="fb-page-select" style="margin-bottom:0.5rem;">
-                            <option value="">— Select a Page / Group —</option>
-                        </select>
+                        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+                            <select class="bot-input" id="fb-page-select" style="margin-bottom:0; flex:1;">
+                                <option value="">— Select a Page / Group —</option>
+                            </select>
+                            <button class="bot-btn bot-btn-outline" onclick="forceRefreshPages()" style="padding:0.4rem 0.5rem; width:auto; margin:0;" title="Refresh Pages">🔄</button>
+                        </div>
                         <button class="bot-btn bot-btn-outline" onclick="fbLogout()" style="padding:0.4rem 0.75rem;font-size:0.78rem;width:auto;">Disconnect</button>
                     </div>
                     <div id="fb-status" class="api-status" style="margin-top:0.4rem;"><span class="status-dot dot-off" id="fb-dot"></span>Not connected</div>
@@ -979,6 +982,11 @@
         document.getElementById('fb-status').style.display = 'none';
     }
 
+    function forceRefreshPages() {
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        if (token) loadFbPages(token);
+    }
+
     async function loadFbPages(token) {
         try {
             // Check permissions granted
@@ -1052,6 +1060,8 @@
             document.getElementById('fb-connect-btn').style.display = 'none';
             document.getElementById('fb-status').style.display = 'none';
             if (pages.length) populatePageSelects(pages);
+            // Always refresh pages in the background just in case
+            loadFbPages(token);
         }
         if (appId) initFbSdk(appId);
     }
