@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <!-- A/B Split: 50/50 — Variant A stays, Variant B redirects to index-b.html -->
+    <!-- A/B Test concluded: Variant B (Pain) won with 5.2% CR vs 0.7% — routing 100% to index-b.html -->
     <script>
     (function(){
-        var v = localStorage.getItem('vx_ab');
-        if (!v) { v = Math.random() < 0.5 ? 'B' : 'A'; localStorage.setItem('vx_ab', v); }
-        if (v === 'B') window.location.replace('index-b.html');
+        localStorage.setItem('vx_ab', 'B');
+        window.location.replace('index-b.html');
     })();
     </script>
     <title>Vexasus | O Site da Tua Construtora</title>
