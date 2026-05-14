@@ -1,0 +1,154 @@
+{
+  "name": "Vexasus — Facebook Group Poster",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "vexasus-fb-groups",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "vexasus-fb-groups"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract the payload sent by the dashboard\nconst body = $input.first().json.body || $input.first().json;\n\nconst text     = body.text || '';\nconst imageUrl = body.imageUrl || null;\nconst fbToken  = body.fbToken || '';\nconst groups   = body.groups || [];\n\nif (!text)    throw new Error('No text in payload');\nif (!fbToken) throw new Error('No fbToken in payload');\nif (!groups.length) throw new Error('No groups in payload');\n\n// Return one item per group so the next node loops\nreturn groups.map(g => ({\n  json: {\n    groupId:  g.id,\n    groupName: g.name,\n    text,\n    imageUrl,\n    fbToken\n  }\n}));"
+      },
+      "id": "prepare-node",
+      "name": "Prepare Groups",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-image",
+              "leftValue": "={{ $json.imageUrl }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-image",
+      "name": "Has Image?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v19.0/{{ $json.groupId }}/photos",
+        "sendBody": true,
+        "specifyBody": "form",
+        "bodyParameters": {
+          "parameters": [
+            { "name": "caption",      "value": "={{ $json.text }}" },
+            { "name": "url",          "value": "={{ $json.imageUrl }}" },
+            { "name": "access_token", "value": "={{ $json.fbToken }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "post-with-image",
+      "name": "Post with Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [900, 180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v19.0/{{ $json.groupId }}/feed",
+        "sendBody": true,
+        "specifyBody": "form",
+        "bodyParameters": {
+          "parameters": [
+            { "name": "message",      "value": "={{ $json.text }}" },
+            { "name": "access_token", "value": "={{ $json.fbToken }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "post-text-only",
+      "name": "Post Text Only",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [900, 420]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Collect results from all group posts\nconst items = $input.all();\nconst results = items.map(i => ({\n  groupId: i.json.groupId || i.json.id || 'unknown',\n  success: !i.json.error,\n  postId:  i.json.id || null,\n  error:   i.json.error?.message || null\n}));\nreturn [{ json: { results, total: results.length, successCount: results.filter(r => r.success).length } }];"
+      },
+      "id": "summarise",
+      "name": "Summarise Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "respond-node",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1340, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [[ { "node": "Prepare Groups", "type": "main", "index": 0 } ]]
+    },
+    "Prepare Groups": {
+      "main": [[ { "node": "Has Image?", "type": "main", "index": 0 } ]]
+    },
+    "Has Image?": {
+      "main": [
+        [ { "node": "Post with Image", "type": "main", "index": 0 } ],
+        [ { "node": "Post Text Only",  "type": "main", "index": 0 } ]
+      ]
+    },
+    "Post with Image": {
+      "main": [[ { "node": "Summarise Results", "type": "main", "index": 0 } ]]
+    },
+    "Post Text Only": {
+      "main": [[ { "node": "Summarise Results", "type": "main", "index": 0 } ]]
+    },
+    "Summarise Results": {
+      "main": [[ { "node": "Respond to Webhook", "type": "main", "index": 0 } ]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "tags": ["facebook", "vexasus", "social-media"],
+  "pinData": {}
+}
