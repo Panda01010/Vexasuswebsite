@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vexasus · Dashboard A/B</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #E24B4A; --bg: #0d0d0d; --card: #161616;
+            --border: rgba(255,255,255,0.08); --text: #F4F5F6;
+            --muted: #9ca3af; --green: #2ecc71; --font: 'Outfit', sans-serif;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:var(--font); background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:2rem 1.25rem 4rem; -webkit-font-smoothing:antialiased; }
+
+        /* Lock */
+        #lock { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:80vh; gap:1.5rem; text-align:center; }
+        #lock h1 { font-size:1.5rem; font-weight:900; }
+        #lock p { color:var(--muted); font-size:0.9rem; }
+        #pw-input { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:0.85rem 1.25rem; color:var(--text); font-family:var(--font); font-size:1rem; width:260px; outline:none; text-align:center; letter-spacing:0.05em; }
+        #pw-input:focus { border-color:rgba(226,75,74,0.5); }
+        #pw-btn { background:var(--red); color:#fff; border:none; border-radius:10px; padding:0.85rem 2rem; font-family:var(--font); font-size:1rem; font-weight:700; cursor:pointer; transition:opacity 0.2s; width:260px; }
+        #pw-btn:hover { opacity:0.85; }
+        #pw-error { color:var(--red); font-size:0.85rem; display:none; }
+        .remember-row { display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; color:var(--muted); cursor:pointer; }
+        .remember-row input { accent-color:var(--red); cursor:pointer; }
+
+        /* Dashboard */
+        #dash { display:none; width:100%; max-width:900px; }
+        .dash-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:2rem; flex-wrap:wrap; gap:1rem; }
+        .dash-header h1 { font-size:1.5rem; font-weight:900; }
+        .dash-header .subtitle { font-size:0.85rem; color:var(--muted); margin-top:0.25rem; }
+        .header-btns { display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap; }
+        .btn-refresh { background:var(--card); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:0.6rem 1.25rem; font-family:var(--font); font-size:0.85rem; font-weight:700; cursor:pointer; transition:border-color 0.2s; }
+        .btn-refresh:hover { border-color:var(--red); }
+        .btn-delete { background:rgba(226,75,74,0.08); border:1px solid rgba(226,75,74,0.25); color:var(--red); border-radius:8px; padding:0.6rem 1.25rem; font-family:var(--font); font-size:0.85rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
+        .btn-delete:hover { background:rgba(226,75,74,0.18); border-color:var(--red); }
+        .btn-logout { background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:8px; padding:0.6rem 1.25rem; font-family:var(--font); font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+        .btn-logout:hover { border-color:var(--muted); color:var(--text); }
+
+        /* Cards */
+        .cards-row { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.5rem; }
+        @media(max-width:580px){ .cards-row { grid-template-columns:1fr; } }
+        .ab-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.75rem 1.5rem; position:relative; overflow:hidden; }
+        .ab-card.winner { border-color:rgba(46,204,113,0.4); }
+        .ab-card.winner::before { content:'✅ WINNER'; position:absolute; top:1rem; right:1rem; font-size:0.7rem; font-weight:700; color:var(--green); background:rgba(46,204,113,0.1); border:1px solid rgba(46,204,113,0.3); border-radius:99px; padding:0.25rem 0.65rem; }
+        .variant-label { font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--red); margin-bottom:0.6rem; }
+        .variant-name { font-size:1.05rem; font-weight:700; color:var(--text); margin-bottom:1.25rem; }
+        .stat-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.85rem; }
+        .stat-label { font-size:0.85rem; color:var(--muted); }
+        .stat-value { font-size:1.1rem; font-weight:700; }
+        .rate-big { font-size:2.8rem; font-weight:900; margin:0.5rem 0; }
+        .rate-big.good { color:var(--green); }
+        .rate-big.neutral { color:#f1c40f; }
+        .rate-sub { font-size:0.8rem; color:var(--muted); }
+        .progress-wrap { margin-top:1rem; }
+        .progress-label { display:flex; justify-content:space-between; font-size:0.78rem; color:var(--muted); margin-bottom:0.4rem; }
+        .progress-bar { height:6px; background:rgba(255,255,255,0.07); border-radius:99px; overflow:hidden; }
+        .progress-fill { height:100%; background:var(--red); border-radius:99px; transition:width 0.8s ease; }
+        .progress-fill.green { background:var(--green); }
+
+        /* Summary */
+        .summary-row { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem 1.5rem; display:flex; gap:2.5rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+        .sum-item { display:flex; flex-direction:column; gap:0.25rem; }
+        .sum-label { font-size:0.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; }
+        .sum-value { font-size:1.25rem; font-weight:700; }
+
+        /* Log */
+        .log-title { font-size:0.78rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:0.75rem; }
+        .log-table { width:100%; border-collapse:collapse; }
+        .log-table th { font-size:0.75rem; font-weight:700; color:var(--muted); text-align:left; padding:0.5rem 0.75rem; border-bottom:1px solid var(--border); }
+        .log-table td { font-size:0.85rem; padding:0.6rem 0.75rem; border-bottom:1px solid rgba(255,255,255,0.03); }
+        .badge-v { display:inline-block; padding:0.2rem 0.6rem; border-radius:99px; font-size:0.72rem; font-weight:700; }
+        .badge-a { background:rgba(226,75,74,0.15); color:var(--red); }
+        .badge-b { background:rgba(52,152,219,0.15); color:#3498db; }
+        .badge-conv { background:rgba(46,204,113,0.15); color:var(--green); }
+        .badge-visit { background:rgba(255,255,255,0.07); color:var(--muted); }
+        .loading { color:var(--muted); font-size:0.9rem; text-align:center; padding:2rem; }
+        .note { font-size:0.78rem; color:var(--muted); margin-top:1.5rem; text-align:center; line-height:1.6; }
+
+        /* Delete confirm modal */
+        #modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:999; align-items:center; justify-content:center; }
+        #modal-overlay.show { display:flex; }
+        #modal-box { background:#1a1a1a; border:1px solid rgba(226,75,74,0.3); border-radius:16px; padding:2rem 2rem; max-width:380px; width:90%; text-align:center; }
+        #modal-box h3 { font-size:1.2rem; font-weight:900; margin-bottom:0.75rem; }
+        #modal-box p { color:var(--muted); font-size:0.9rem; line-height:1.6; margin-bottom:1.5rem; }
+        .modal-btns { display:flex; gap:0.75rem; justify-content:center; }
+        .btn-confirm-del { background:var(--red); color:#fff; border:none; border-radius:10px; padding:0.75rem 1.5rem; font-family:var(--font); font-size:0.9rem; font-weight:700; cursor:pointer; }
+        .btn-cancel { background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:10px; padding:0.75rem 1.5rem; font-family:var(--font); font-size:0.9rem; font-weight:600; cursor:pointer; }
+
+        /* Tabs */
+        .tab-nav { display:flex; gap:0.5rem; margin-bottom:1.75rem; border-bottom:1px solid var(--border); padding-bottom:0; }
+        .tab-btn { background:none; border:none; color:var(--muted); font-family:var(--font); font-size:0.9rem; font-weight:700; padding:0.6rem 1rem; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.2s; }
+        .tab-btn:hover { color:var(--text); }
+        .tab-btn.active { color:var(--text); border-bottom-color:var(--red); }
+        .tab-pane { display:none; }
+        .tab-pane.active { display:block; }
+        /* Looker Studio */
+        .ls-setup { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:2rem; margin-bottom:1.5rem; }
+        .ls-setup h3 { font-size:1rem; font-weight:700; margin-bottom:0.5rem; }
+        .ls-setup ol { color:var(--muted); font-size:0.85rem; line-height:2; padding-left:1.25rem; margin:1rem 0; }
+        .ls-setup ol a { color:#fbbc04; text-decoration:none; }
+        .ls-setup ol a:hover { text-decoration:underline; }
+        .ls-input-row { display:flex; gap:0.75rem; margin-top:1rem; flex-wrap:wrap; }
+        .ls-url-input { flex:1; min-width:200px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:10px; padding:0.75rem 1rem; color:var(--text); font-family:var(--font); font-size:0.85rem; outline:none; }
+        .ls-url-input:focus { border-color:rgba(251,188,4,0.5); }
+        .ls-save-btn { background:#fbbc04; color:#000; border:none; border-radius:10px; padding:0.75rem 1.5rem; font-family:var(--font); font-size:0.85rem; font-weight:700; cursor:pointer; white-space:nowrap; }
+        .ls-frame-wrap { position:relative; background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden; margin-bottom:1.5rem; }
+        .ls-frame-wrap iframe { width:100%; height:600px; border:none; display:block; }
+        .ls-change-btn { position:absolute; top:0.75rem; right:0.75rem; background:rgba(0,0,0,0.6); border:1px solid var(--border); color:var(--muted); border-radius:8px; padding:0.4rem 0.85rem; font-family:var(--font); font-size:0.75rem; cursor:pointer; backdrop-filter:blur(4px); }
+        .ls-change-btn:hover { color:var(--text); }
+        /* Clarity cards */
+        .clarity-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:1.5rem; }
+        @media(max-width:700px){ .clarity-grid { grid-template-columns:1fr 1fr; } }
+        .cl-card { display:flex; flex-direction:column; gap:0.5rem; background:var(--card); border:1px solid rgba(0,149,255,0.2); border-radius:14px; padding:1.1rem; text-decoration:none; color:var(--text); transition:border-color 0.2s, transform 0.15s; }
+        .cl-card:hover { border-color:rgba(0,149,255,0.5); transform:translateY(-2px); }
+        .cl-card.var-a { border-color:rgba(226,75,74,0.25); }
+        .cl-card.var-a:hover { border-color:rgba(226,75,74,0.6); }
+        .cl-card.var-b { border-color:rgba(52,152,219,0.25); }
+        .cl-card.var-b:hover { border-color:rgba(52,152,219,0.6); }
+        .cl-icon { font-size:1.4rem; }
+        .cl-label { font-size:0.68rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
+        .cl-title { font-size:0.88rem; font-weight:700; }
+        .cl-sub { font-size:0.72rem; color:var(--muted); }
+        /* Section label */
+        .section-lbl { font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:0.85rem; }
+
+        /* ── AI Bot Tab ── */
+        .bot-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.5rem; }
+        @media(max-width:640px){ .bot-grid { grid-template-columns:1fr; } }
+        .bot-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.5rem; }
+        .bot-card h3 { font-size:0.95rem; font-weight:700; margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem; }
+        .bot-input { width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:10px; padding:0.75rem 1rem; color:var(--text); font-family:var(--font); font-size:0.85rem; outline:none; transition:border-color 0.2s; }
+        .bot-input:focus { border-color:rgba(226,75,74,0.5); }
+        select.bot-input { background-color:#1a1a1a; color:var(--text); }
+        select.bot-input option { background-color:#1a1a1a; color:var(--text); }
+        .bot-textarea { resize:vertical; min-height:90px; }
+        .bot-label { font-size:0.75rem; color:var(--muted); margin-bottom:0.4rem; display:block; }
+        .bot-field { margin-bottom:0.85rem; }
+        .bot-btn { width:100%; background:linear-gradient(135deg,#E24B4A,#c0392b); color:#fff; border:none; border-radius:10px; padding:0.8rem; font-family:var(--font); font-size:0.9rem; font-weight:700; cursor:pointer; transition:opacity 0.2s,transform 0.15s; margin-top:0.25rem; }
+        .bot-btn:hover { opacity:0.88; transform:translateY(-1px); }
+        .bot-btn:disabled { opacity:0.45; cursor:not-allowed; transform:none; }
+        .bot-btn-outline { background:transparent; border:1px solid var(--border); color:var(--text); }
+        .bot-btn-outline:hover { border-color:var(--red); background:rgba(226,75,74,0.06); opacity:1; }
+        .bot-btn-green { background:linear-gradient(135deg,#27ae60,#1e8449); }
+        .preview-box { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:12px; padding:1rem; min-height:80px; font-size:0.85rem; line-height:1.7; color:var(--text); white-space:pre-wrap; word-break:break-word; }
+        .preview-img { width:100%; border-radius:10px; margin-top:0.75rem; display:none; }
+        .target-chip { display:inline-flex; align-items:center; gap:0.4rem; background:rgba(226,75,74,0.1); border:1px solid rgba(226,75,74,0.25); border-radius:99px; padding:0.3rem 0.75rem; font-size:0.78rem; font-weight:600; color:var(--red); margin:0.25rem; cursor:pointer; transition:all 0.2s; }
+        .target-chip.selected { background:rgba(226,75,74,0.25); border-color:var(--red); }
+        .queue-item { display:flex; align-items:flex-start; gap:0.75rem; padding:0.85rem; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:10px; margin-bottom:0.6rem; }
+        .queue-item .qi-icon { font-size:1.4rem; flex-shrink:0; }
+        .queue-item .qi-body { flex:1; min-width:0; }
+        .queue-item .qi-text { font-size:0.82rem; line-height:1.5; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+        .queue-item .qi-meta { font-size:0.72rem; color:var(--muted); margin-top:0.25rem; }
+        .qi-status { font-size:0.7rem; font-weight:700; padding:0.2rem 0.55rem; border-radius:99px; }
+        .qi-pending { background:rgba(241,196,15,0.15); color:#f1c40f; }
+        .qi-posted  { background:rgba(46,204,113,0.15); color:var(--green); }
+        .qi-error   { background:rgba(226,75,74,0.15); color:var(--red); }
+        .bot-divider { border:none; border-top:1px solid var(--border); margin:1.25rem 0; }
+        .status-dot { width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:6px; }
+        .dot-ok { background:var(--green); box-shadow:0 0 6px var(--green); }
+        .dot-off { background:var(--muted); }
+        .api-status { font-size:0.78rem; color:var(--muted); display:flex; align-items:center; margin-top:0.5rem; }
+        .tab-badge { background:var(--red); color:#fff; border-radius:99px; font-size:0.6rem; padding:0.1rem 0.4rem; margin-left:0.3rem; vertical-align:middle; }
+        .chat-box { background:rgba(0,0,0,0.25); border:1px solid var(--border); border-radius:12px; padding:1rem; height:200px; overflow-y:auto; margin-bottom:0.75rem; display:flex; flex-direction:column; gap:0.6rem; }
+        .chat-msg { max-width:85%; padding:0.75rem 1rem; border-radius:14px; font-size:0.83rem; line-height:1.65; word-break:break-word; }
+        .chat-msg.bot { background:rgba(226,75,74,0.08); border:1px solid rgba(226,75,74,0.18); align-self:flex-start; }
+        .chat-msg.bot strong { color:var(--red); }
+        .chat-msg.bot br + br { display:block; margin:0.3rem 0; content:''; }
+        .chat-msg.user { background:rgba(255,255,255,0.07); align-self:flex-end; text-align:right; }
+        .chat-input-row { display:flex; gap:0.5rem; }
+        .chat-input-row .bot-input { flex:1; }
+        .chat-send { background:var(--red); color:#fff; border:none; border-radius:10px; padding:0.6rem 1rem; font-family:var(--font); font-size:0.85rem; font-weight:700; cursor:pointer; white-space:nowrap; }
+        /* Facebook connect button */
+        .fb-connect-btn { display:flex; align-items:center; gap:0.6rem; background:#1877F2; color:#fff; border:none; border-radius:10px; padding:0.75rem 1.25rem; font-family:var(--font); font-size:0.88rem; font-weight:700; cursor:pointer; width:100%; justify-content:center; transition:background 0.2s,transform 0.15s; }
+        .fb-connect-btn:hover { background:#145dbf; transform:translateY(-1px); }
+    </style>
+</head>
+<body>
+
+<!-- Lock Screen -->
+<div id="lock">
+    <div>
+        <div style="font-size:2.5rem; margin-bottom:0.5rem;">🔒</div>
+        <h1>Vexasus Dashboard</h1>
+        <p>A/B Test Results · Private</p>
+    </div>
+    <input type="password" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')unlock()">
+    <label class="remember-row">
+        <input type="checkbox" id="remember-me" checked>
+        Remember this browser
+    </label>
+    <button id="pw-btn" onclick="unlock()">Login</button>
+    <p id="pw-error">Incorrect password.</p>
+</div>
+
+<div id="dash">
+    <div class="dash-header">
+        <div>
+            <h1>Vexasus Dashboard</h1>
+            <p class="subtitle">Live Firebase · <span id="last-updated">–</span></p>
+        </div>
+        <div class="header-btns">
+            <button class="btn-refresh" onclick="loadData()">⟳ Refresh</button>
+            <button class="btn-delete" onclick="confirmDelete()">🗑 Delete data</button>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <!-- Tab Nav -->
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('ab',this)">📊 A/B Results</button>
+        <button class="tab-btn" onclick="switchTab('ga4',this)">📈 Google Analytics</button>
+        <button class="tab-btn" onclick="switchTab('clarity',this)">🎬 Clarity</button>
+        <button class="tab-btn" onclick="switchTab('bot',this)">🤖 AI Bot <span class="tab-badge">NEW</span></button>
+    </div>
+
+    <!-- ═══ TAB 1: A/B Results ═══ -->
+    <div id="tab-ab" class="tab-pane active">
+        <div class="summary-row">
+            <div class="sum-item"><span class="sum-label">Total Visits</span><span class="sum-value" id="sum-visits">–</span></div>
+            <div class="sum-item"><span class="sum-label">Total Conversions</span><span class="sum-value" id="sum-conv">–</span></div>
+            <div class="sum-item"><span class="sum-label">Global Rate</span><span class="sum-value" id="sum-rate">–</span></div>
+            <div class="sum-item"><span class="sum-label">Winning</span><span class="sum-value" id="sum-winner" style="color:var(--green)">–</span></div>
+        </div>
+        <div class="cards-row">
+            <div class="ab-card" id="card-a">
+                <div class="variant-label">Variant A</div>
+                <div class="variant-name">Inspiration · index.html</div>
+                <div class="stat-row"><span class="stat-label">Visits</span><span class="stat-value" id="a-visits">–</span></div>
+                <div class="stat-row"><span class="stat-label">Conversions</span><span class="stat-value" id="a-conv">–</span></div>
+                <div class="rate-big neutral" id="a-rate">–%</div>
+                <div class="rate-sub">conversion rate</div>
+                <div class="progress-wrap">
+                    <div class="progress-label"><span>Conv. rate</span><span id="a-rate-label">–</span></div>
+                    <div class="progress-bar"><div class="progress-fill" id="a-bar" style="width:0%"></div></div>
+                </div>
+            </div>
+            <div class="ab-card" id="card-b">
+                <div class="variant-label">Variant B</div>
+                <div class="variant-name">Pain · index-b.html</div>
+                <div class="stat-row"><span class="stat-label">Visits</span><span class="stat-value" id="b-visits">–</span></div>
+                <div class="stat-row"><span class="stat-label">Conversions</span><span class="stat-value" id="b-conv">–</span></div>
+                <div class="rate-big neutral" id="b-rate">–%</div>
+                <div class="rate-sub">conversion rate</div>
+                <div class="progress-wrap">
+                    <div class="progress-label"><span>Conv. rate</span><span id="b-rate-label">–</span></div>
+                    <div class="progress-bar"><div class="progress-fill green" id="b-bar" style="width:0%"></div></div>
+                </div>
+            </div>
+        </div>
+        <div class="log-title">📋 Last 20 events</div>
+        <div id="log-wrap" class="loading">Loading...</div>
+        <p class="note">Real-time data from Firebase Firestore.<br>Every visit and conversion is automatically logged.</p>
+    </div>
+
+    <!-- ═══ TAB 2: Google Analytics ═══ -->
+    <div id="tab-ga4" class="tab-pane">
+
+        <!-- Permission notice -->
+        <div style="background:rgba(251,188,4,0.08);border:1px solid rgba(251,188,4,0.25);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+            <span style="font-size:1.2rem;">⚠️</span>
+            <div style="flex:1;min-width:200px;">
+                <div style="font-size:0.85rem;font-weight:700;color:#fbbc04;margin-bottom:0.2rem;">If you see a login screen below</div>
+                <div style="font-size:0.78rem;color:var(--muted);">The Looker Studio report must be public. Vai a Looker Studio → Share → Manage access → "Anyone with the link can view"</div>
+            </div>
+            <a href="https://lookerstudio.google.com/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd" target="_blank" style="background:#fbbc04;color:#000;border:none;border-radius:8px;padding:0.5rem 1rem;font-size:0.8rem;font-weight:700;text-decoration:none;white-space:nowrap;">Open Looker Studio →</a>
+        </div>
+
+        <!-- Looker Studio embed -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1.5rem;">
+            <div style="padding:0.75rem 1.25rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);">📊 Looker Studio Report — GA4 Live</span>
+                <a href="https://lookerstudio.google.com/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd" target="_blank" style="font-size:0.75rem;color:var(--muted);text-decoration:none;">Open fullscreen ↗</a>
+            </div>
+            <iframe
+                src="https://datastudio.google.com/embed/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd/page/EddxF"
+                style="width:100%;height:620px;border:none;display:block;"
+                allowfullscreen
+                sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+            </iframe>
+        </div>
+
+        <!-- GA4 Quick Links -->
+        <div class="section-lbl">🔗 Quick Access — GA4</div>
+        <div class="clarity-grid">
+            <a class="cl-card" style="border-color:rgba(251,188,4,0.25)" href="https://analytics.google.com/analytics/web/" target="_blank">
+                <div class="cl-icon">📈</div>
+                <div class="cl-label">GA4</div>
+                <div class="cl-title">Overview</div>
+                <div class="cl-sub">Traffic & pages</div>
+            </a>
+            <a class="cl-card" style="border-color:rgba(251,188,4,0.25)" href="https://analytics.google.com/analytics/web/#/realtime" target="_blank">
+                <div class="cl-icon">🔴</div>
+                <div class="cl-label">GA4</div>
+                <div class="cl-title">Realtime</div>
+                <div class="cl-sub">Users right now</div>
+            </a>
+            <a class="cl-card" style="border-color:rgba(251,188,4,0.25)" href="https://lookerstudio.google.com/reporting/7e15fd9c-1dbf-49ed-b0e5-748f4e8f0dbd" target="_blank">
+                <div class="cl-icon">📊</div>
+                <div class="cl-label">Looker Studio</div>
+                <div class="cl-title">Edit Report</div>
+                <div class="cl-sub">Add charts</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- ═══ TAB 3: Clarity ═══ -->
+    <div id="tab-clarity" class="tab-pane">
+
+        <!-- What Clarity shows -->
+        <div style="background:rgba(0,149,255,0.06);border:1px solid rgba(0,149,255,0.2);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;">
+            <div style="font-size:0.85rem;font-weight:700;color:#0095ff;margin-bottom:0.4rem;">🎬 What Clarity shows</div>
+            <div style="font-size:0.8rem;color:var(--muted);line-height:1.8;">
+                ✅ Session recordings — see exactly what each user did<br>
+                ✅ Heatmaps — where they click and where they stop reading<br>
+                ✅ Rage clicks — where they get frustrated<br>
+                ✅ Filters by variant A or B
+            </div>
+        </div>
+
+        <!-- All Sessions -->
+        <div class="section-lbl">📋 All Sessions</div>
+        <div class="clarity-grid" style="grid-template-columns:1fr 1fr;margin-bottom:1.5rem;">
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/dashboard" target="_blank">
+                <div class="cl-icon">🏠</div>
+                <div class="cl-label">Clarity</div>
+                <div class="cl-title">General Dashboard</div>
+                <div class="cl-sub">Overview of all metrics</div>
+            </a>
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/heatmaps" target="_blank">
+                <div class="cl-icon">🗺️</div>
+                <div class="cl-label">Clarity</div>
+                <div class="cl-title">Heatmaps</div>
+                <div class="cl-sub">Where they click & stop reading</div>
+            </a>
+        </div>
+
+        <!-- Recordings by variant -->
+        <div class="section-lbl">🎬 Recordings by Variant</div>
+        <div class="clarity-grid" style="grid-template-columns:1fr 1fr;margin-bottom:1.5rem;">
+            <a class="cl-card var-a" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AA" target="_blank">
+                <div class="cl-icon">🔴</div>
+                <div class="cl-label">Variant A — Inspiration</div>
+                <div class="cl-title">Recordings for index.html</div>
+                <div class="cl-sub">Watch user sessions for page A</div>
+            </a>
+            <a class="cl-card var-b" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AB" target="_blank">
+                <div class="cl-icon">🔵</div>
+                <div class="cl-label">Variant B — Pain</div>
+                <div class="cl-title">Recordings for index-b.html</div>
+                <div class="cl-sub">Watch user sessions for page B</div>
+            </a>
+        </div>
+
+        <!-- Filter by section -->
+        <div class="section-lbl">🔍 See who dropped off in each section</div>
+        <div class="clarity-grid" style="margin-bottom:1.5rem;">
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=last_section%3A3_problems" target="_blank">
+                <div class="cl-icon">🚪</div>
+                <div class="cl-label">Dropped off in</div>
+                <div class="cl-title">Problems</div>
+                <div class="cl-sub">Section 3</div>
+            </a>
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=last_section%3A7_pricing" target="_blank">
+                <div class="cl-icon">🚪</div>
+                <div class="cl-label">Dropped off in</div>
+                <div class="cl-title">Pricing</div>
+                <div class="cl-sub">Section 7</div>
+            </a>
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=last_section%3A9_apply_form" target="_blank">
+                <div class="cl-icon">📝</div>
+                <div class="cl-label">Reached</div>
+                <div class="cl-title">Form</div>
+                <div class="cl-sub">Section 9 — the hottest leads</div>
+            </a>
+            <a class="cl-card" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=last_section%3A8_faq" target="_blank">
+                <div class="cl-icon">🚪</div>
+                <div class="cl-label">Dropped off in</div>
+                <div class="cl-title">FAQ</div>
+                <div class="cl-sub">Section 8</div>
+            </a>
+        </div>
+    </div>
+</div>
+
+    <!-- ═══ TAB 4: AI Social Bot ═══ -->
+    <div id="tab-bot" class="tab-pane">
+
+        <!-- API Config -->
+        <div class="bot-card" style="margin-bottom:1.25rem;">
+            <h3>⚙️ Configuration</h3>
+            <div class="bot-grid" style="margin-bottom:1rem;">
+                <!-- OpenAI -->
+                <div>
+                    <label class="bot-label">OpenAI API Key (GPT-4o + Image 2.0)</label>
+                    <input type="password" class="bot-input" id="bot-oai-key" placeholder="sk-...">
+                    <div class="api-status" id="oai-status"><span class="status-dot dot-off" id="oai-dot"></span>Not configured</div>
+                </div>
+                <!-- Facebook OAuth -->
+                <div>
+                    <label class="bot-label">Facebook App ID <span style="color:rgba(255,255,255,0.3);font-weight:400;">(from your Facebook App)</span></label>
+                    <input class="bot-input" id="fb-app-id" placeholder="Ex: 1234567890" style="margin-bottom:0.6rem;">
+                    <!-- Connect button -->
+                    <button class="fb-connect-btn" id="fb-connect-btn" onclick="fbLogin()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.12 8.44 9.88v-6.99H7.9V12h2.54V9.8c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99C18.34 21.12 22 16.99 22 12z"/></svg>
+                        Connect Facebook account
+                    </button>
+                    <!-- Connected state -->
+                    <div id="fb-connected" style="display:none;">
+                        <div class="api-status" style="margin-bottom:0.6rem;"><span class="status-dot dot-ok"></span><span id="fb-user-name">Connected</span></div>
+                        <div style="display:flex; align-items:center; gap:0.4rem; margin-bottom:0.5rem;">
+                            <select class="bot-input" id="fb-page-select" style="margin-bottom:0; flex:1;">
+                                <option value="">— Select a Page / Group —</option>
+                            </select>
+                            <button class="bot-btn bot-btn-outline" onclick="forceRefreshPages()" style="padding:0.4rem 0.5rem; width:auto; margin:0;" title="Refresh Pages">🔄</button>
+                            <button class="bot-btn" onclick="setDefaultFbPage()" style="padding:0.4rem 0.5rem;width:auto;margin:0;background:var(--yellow,#f0a500);" title="Set as default">⭐</button>
+                            <button class="bot-btn" onclick="deleteSelectedFbPage()" style="padding:0.4rem 0.5rem;width:auto;margin:0;background:var(--red);" title="Delete selected">🗑️</button>
+                        </div>
+                        <!-- Add missing page -->
+                        <div style="display:flex;gap:0.4rem;align-items:center;margin-bottom:0.5rem;">
+                            <input class="bot-input" id="manual-page-id-cfg" placeholder="Page ID not showing? Paste it here" style="font-size:0.78rem;padding:0.45rem 0.75rem;flex:1;">
+                            <button class="bot-btn" id="manual-page-btn-cfg" onclick="checkAndAddPageCfg()" style="padding:0.45rem 0.75rem;font-size:0.78rem;width:auto;white-space:nowrap;">🔍 Add</button>
+                        </div>
+                        <div id="manual-page-status-cfg" style="font-size:0.75rem;margin-bottom:0.4rem;"></div>
+                        <!-- Manual group entry — /me/groups is restricted by Facebook since 2018 -->
+                        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.4rem;">📌 Add Facebook Groups manually (Facebook restricts auto-detection):</div>
+                        <div style="display:flex;gap:0.4rem;align-items:center;margin-bottom:0.3rem;">
+                            <input class="bot-input" id="manual-group-id" placeholder="Paste group URL or numeric ID" style="font-size:0.78rem;padding:0.45rem 0.6rem;flex:1;">
+                            <input class="bot-input" id="manual-group-name" placeholder="Group name (label)" style="font-size:0.78rem;padding:0.45rem 0.6rem;flex:1.2;">
+                            <button class="bot-btn" id="manual-group-btn" onclick="checkAndAddGroup()" style="padding:0.45rem 0.75rem;font-size:0.78rem;width:auto;white-space:nowrap;">💾 Save</button>
+                        </div>
+                        <div id="groups-status" style="font-size:0.75rem;margin-bottom:0.4rem;"></div>
+                        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:0.4rem;">🔗 Paste the full group URL or just the numeric ID. The label is your display name for the group.</div>
+                        <button class="bot-btn bot-btn-outline" onclick="fbLogout()" style="padding:0.4rem 0.75rem;font-size:0.78rem;width:auto;">Disconnect</button>
+                    </div>
+                    <div id="fb-status" class="api-status" style="margin-top:0.4rem;"><span class="status-dot dot-off" id="fb-dot"></span>Not connected</div>
+                </div>
+            </div>
+            <!-- Save row -->
+            <div style="display:flex;align-items:center;gap:1rem;padding-top:1rem;border-top:1px solid var(--border);flex-wrap:wrap;">
+                <div style="flex:1;min-width:260px;">
+                    <label class="bot-label">n8n Webhook URL <span style="color:var(--muted);font-weight:400;">(for group posting)</span></label>
+                    <input class="bot-input" id="n8n-webhook-url" placeholder="https://your-n8n.app/webhook/..." style="font-size:0.78rem;">
+                </div>
+                <button class="bot-btn" id="save-config-btn" onclick="saveConfig()" style="max-width:200px;align-self:flex-end;">💾 Save Configuration</button>
+                <span id="save-config-status" style="font-size:0.8rem;color:var(--muted);"></span>
+            </div>
+        </div>
+
+        <!-- AI Chat assistant -->
+        <div class="bot-card" style="margin-bottom:1.25rem;">
+            <h3>💬 Senior Marketing Strategist <span style="font-size:0.7rem;font-weight:400;color:var(--muted);margin-left:0.5rem;">€1,000/day Expert · Always replies in English</span></h3>
+            <div class="chat-box" id="chat-box">
+                <div class="chat-msg bot">Hey. I'm your senior marketing strategist. I know your target persona — construction contractors who want more clients without chasing leads. Tell me what you need: content strategy, post ideas, carousel scripts, campaign angles, or competitor analysis. I'll give you premium-level thinking. Let's get to work. 🎯</div>
+            </div>
+            <div class="chat-input-row">
+                <input class="bot-input" id="chat-input" placeholder="Ask anything: strategy, angles, hooks, campaign ideas..." onkeydown="if(event.key==='Enter')sendChat()">
+                <button class="chat-send" onclick="sendChat()">Send</button>
+            </div>
+        </div>
+
+        <!-- Post Generator -->
+        <div class="bot-grid">
+            <div class="bot-card">
+                <h3>✍️ Content Generator</h3>
+                <div class="bot-field">
+                    <label class="bot-label">Topic / Briefing</label>
+                    <textarea class="bot-input bot-textarea" id="post-brief" placeholder="Ex: Show that Vexasus helps contractors get more clients with digital marketing..."></textarea>
+                </div>
+                <div class="bot-field">
+                    <label class="bot-label">Platform</label>
+                    <select class="bot-input" id="post-platform">
+                        <option value="facebook_group">📘 Facebook Group</option>
+                        <option value="facebook_page">📘 Facebook Page</option>
+                        <option value="instagram">📸 Instagram</option>
+                    </select>
+                </div>
+                <div class="bot-field">
+                    <label class="bot-label">Content Type</label>
+                    <select class="bot-input" id="post-type" onchange="toggleSlides()">
+                        <option value="post">📝 Single Post</option>
+                        <option value="carousel">🎠 Carousel (multiple slides)</option>
+                        <option value="story">⚡ Story</option>
+                        <option value="reel">🎬 Reel Caption</option>
+                    </select>
+                </div>
+                <div class="bot-field" id="slides-field" style="display:none;">
+                    <label class="bot-label">Number of Slides</label>
+                    <select class="bot-input" id="post-slides">
+                        <option value="3">3 slides</option>
+                        <option value="4">4 slides</option>
+                        <option value="5" selected>5 slides</option>
+                        <option value="6">6 slides</option>
+                        <option value="7">7 slides</option>
+                        <option value="10">10 slides</option>
+                    </select>
+                </div>
+                <div class="bot-field">
+                    <label class="bot-label">Tone</label>
+                    <select class="bot-input" id="post-tone">
+                        <option value="professional">💼 Professional</option>
+                        <option value="casual">😊 Casual / Friendly</option>
+                        <option value="urgent">🔥 Urgent / FOMO</option>
+                        <option value="educational">📚 Educational</option>
+                        <option value="storytelling">📖 Storytelling</option>
+                    </select>
+                </div>
+                <div class="bot-field">
+                    <label class="bot-label">Output Language</label>
+                    <div style="display:flex;gap:0.4rem;">
+                        <select class="bot-input" id="post-lang" style="flex:1;" onchange="toggleCustomLang()">
+                            <option value="European Portuguese">🇵🇹 Portuguese (PT)</option>
+                            <option value="English">🇬🇧 English</option>
+                            <option value="Moroccan Darija">🇲🇦 Moroccan Darija</option>
+                            <option value="French">🇫🇷 French</option>
+                            <option value="Spanish">🇪🇸 Spanish</option>
+                            <option value="Arabic">🇸🇦 Arabic</option>
+                            <option value="custom">✏️ Custom...</option>
+                        </select>
+                    </div>
+                    <input class="bot-input" id="post-lang-custom" placeholder="Type language (e.g. Brazilian Portuguese)" style="margin-top:0.4rem;display:none;">
+                </div>
+                <div class="bot-field">
+                    <label class="bot-label">Image Model</label>
+                    <select class="bot-input" id="post-img" onchange="toggleImgFields()">
+                        <option value="no">❌ No image — text only</option>
+                        <option value="gpt-image-2" selected>🖼️ gpt-image-2</option>
+                        <option value="gpt-image-2-2026-04-21">🖼️ gpt-image-2 (2026-04-21)</option>
+                        <option value="gpt-image-1">🖼️ gpt-image-1</option>
+                        <option value="dall-e-3">🎨 DALL-E 3 HD</option>
+                        <option value="dall-e-2">🎨 DALL-E 2</option>
+                    </select>
+                </div>
+                <!-- Image options — shown only when a model is selected -->
+                <div id="img-options-fields">
+                    <div class="bot-field">
+                        <label class="bot-label">Image Ratio / Size</label>
+                        <select class="bot-input" id="post-img-size">
+                            <option value="1024x1024">⬛ Square 1:1 (1024×1024)</option>
+                            <option value="1024x1536">📱 Portrait 2:3 (1024×1536)</option>
+                            <option value="1536x1024">🖼️ Landscape 3:2 (1536×1024)</option>
+                            <option value="1024x1792">📱 Tall Portrait (1024×1792)</option>
+                            <option value="1792x1024">🖥️ Wide Landscape (1792×1024)</option>
+                        </select>
+                    </div>
+                    <div class="bot-field">
+                        <label class="bot-label">Image Prompt <span style="color:var(--muted);font-weight:400;">(exact — sent directly to the model)</span></label>
+                        <textarea class="bot-input bot-textarea" id="post-img-prompt" placeholder="Describe the image exactly as you want it generated..." style="min-height:80px;"></textarea>
+                    </div>
+                </div>
+                <button class="bot-btn" id="gen-btn" onclick="generatePost()">⚡ Generate Content</button>
+            </div>
+
+            <div class="bot-card">
+                <h3>👁 Post Preview</h3>
+                <div class="preview-box" id="post-preview">Your generated post will appear here...</div>
+                <img id="preview-img" class="preview-img" alt="Generated image">
+                <div id="img-actions" style="display:none;margin-top:0.5rem;display:none;">
+                    <button class="bot-btn bot-btn-outline" id="download-img-btn" onclick="downloadImage()" style="font-size:0.8rem;padding:0.5rem 0.85rem;">⬇️ Download Image</button>
+                    <div style="font-size:0.7rem;color:var(--muted);margin-top:0.3rem;">Save it to post on Instagram or use elsewhere.</div>
+                </div>
+                <hr class="bot-divider">
+                <div class="bot-field">
+                    <label class="bot-label">Publish to <span style="color:var(--muted);font-weight:400;">(tick all targets)</span></label>
+                    <div id="fb-targets-list" style="background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:8px;padding:0.5rem 0.75rem;max-height:140px;overflow-y:auto;display:flex;flex-direction:column;gap:0.35rem;">
+                        <span style="color:var(--muted);font-size:0.78rem;">Connect Facebook to see your pages & groups here.</span>
+                    </div>
+                    <!-- hidden select kept for backward compat -->
+                    <select id="fb-targets-select" style="display:none;"></select>
+                    <input class="bot-input" id="fb-targets" placeholder="Or type IDs manually, comma-separated" style="margin-top:0.4rem;font-size:0.78rem;">
+                </div>
+                <details style="margin-top:0.5rem;">
+                    <summary style="font-size:0.75rem;color:var(--muted);cursor:pointer;user-select:none;">➕ Add missing page manually</summary>
+                    <div style="margin-top:0.5rem;display:flex;gap:0.4rem;align-items:center;">
+                        <input class="bot-input" id="manual-page-id" placeholder="Paste Page ID (e.g. 667926056410327)" style="font-size:0.8rem;padding:0.5rem 0.75rem;flex:1;">
+                        <button class="bot-btn" id="manual-page-btn" onclick="checkAndAddPage()" style="padding:0.5rem 0.85rem;font-size:0.8rem;width:auto;white-space:nowrap;">🔍 Check & Add</button>
+                    </div>
+                    <div id="manual-page-status" style="font-size:0.78rem;margin-top:0.35rem;"></div>
+                </details>
+                <!-- Instagram cross-post toggle -->
+                <div style="border:1px solid var(--border);border-radius:10px;padding:0.7rem 0.85rem;margin-top:0.5rem;">
+                    <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.6rem;">
+                        <input type="checkbox" id="ig-crosspost" style="width:16px;height:16px;accent-color:var(--red);cursor:pointer;">
+                        <label for="ig-crosspost" style="font-size:0.8rem;color:var(--text);cursor:pointer;">📸 Also post to Instagram</label>
+                    </div>
+                    <!-- Saved IG accounts dropdown -->
+                    <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.5rem;">
+                        <select class="bot-input" id="ig-user-id" style="flex:1;margin-bottom:0;">
+                            <option value="">— Select Instagram account —</option>
+                        </select>
+                        <button class="bot-btn" onclick="setDefaultIgAccount()" style="padding:0.4rem 0.5rem;width:auto;margin:0;background:var(--yellow,#f0a500);" title="Set as default">⭐</button>
+                        <button class="bot-btn" onclick="deleteSelectedIgAccount()" style="padding:0.4rem 0.5rem;width:auto;margin:0;background:var(--red);" title="Delete selected">🗑️</button>
+                    </div>
+                    <!-- Auto-discover from connected FB pages -->
+                    <button class="bot-btn bot-btn-outline" id="ig-discover-btn" onclick="discoverIgFromPages()" style="width:100%;font-size:0.78rem;padding:0.45rem;margin-bottom:0.4rem;">🔗 Auto-detect from my Facebook Pages</button>
+                    <!-- Manual entry -->
+                    <div style="display:flex;gap:0.4rem;margin-bottom:0.4rem;">
+                        <input class="bot-input" id="ig-manual-id" placeholder="Paste numeric Instagram ID" style="font-size:0.78rem;padding:0.4rem 0.6rem;flex:1;">
+                        <button class="bot-btn" id="ig-manual-btn" onclick="saveIgManual()" style="padding:0.4rem 0.7rem;width:auto;margin:0;font-size:0.78rem;white-space:nowrap;">🔍 Check & Add</button>
+                    </div>
+                    <div id="ig-add-status" style="font-size:0.75rem;margin-top:0.25rem;"></div>
+                    <div style="font-size:0.7rem;color:var(--muted);margin-top:0.4rem;">⚠️ Requires a public image URL — use DALL-E 3 model. Account must be a Business/Creator account linked to your FB Page.</div>
+                </div>
+                <div style="display:flex;gap:0.5rem;margin-top:0.5rem;flex-wrap:wrap;">
+                    <button class="bot-btn bot-btn-outline" onclick="addToQueue()" style="flex:1;">📋 Add to Queue</button>
+                    <button class="bot-btn bot-btn-green" onclick="postNow()" style="flex:1;">🚀 Publish Now</button>
+                    <button class="bot-btn" onclick="sendToN8n()" style="flex:1;background:linear-gradient(135deg,#ea4b71,#f06a30);" title="Send to n8n for group posting">⚡ Send to n8n</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Queue -->
+        <div class="bot-card" style="margin-bottom:1.5rem;">
+            <h3>📋 Post Queue <span id="queue-count" style="color:var(--muted);font-weight:400;font-size:0.82rem;"></span></h3>
+            <div id="post-queue"><p style="color:var(--muted);font-size:0.85rem;">No posts in the queue yet.</p></div>
+            <button class="bot-btn bot-btn-green" id="send-queue-btn" onclick="sendQueue()" style="margin-top:0.85rem;display:none;">🚀 Send Entire Queue</button>
+        </div>
+
+        <!-- Guide -->
+        <div style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.2);border-radius:12px;padding:1rem 1.25rem;font-size:0.8rem;color:var(--muted);line-height:1.8;">
+            <div style="font-weight:700;color:var(--green);margin-bottom:0.4rem;">🗺️ How it works</div>
+            1. Insert your OpenAI API Key and Facebook App ID above.<br>
+            2. Use the <b>Assistant</b> for brainstorming and strategy.<br>
+            3. Fill the briefing → click <b>Generate Post</b> → GPT-4o writes the text and DALL-E 3 creates the image.<br>
+            4. Review the preview, add group/page IDs and publish directly via Graph API.<br>
+            <span style="color:rgba(255,255,255,0.35);font-size:0.72rem;">⚠️ Instagram requires a Business account linked to a Facebook Page.</span>
+        </div>
+    </div>
+
+<!-- Delete confirm modal -->
+<div id="modal-overlay">
+    <div id="modal-box">
+        <h3>⚠️ Delete all data?</h3>
+        <p>This will delete all visit and conversion logs from Firebase.<br>Counters will reset to zero. This action cannot be undone.</p>
+        <div class="modal-btns">
+            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+            <button class="btn-confirm-del" onclick="deleteAllData()">Yes, delete everything</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+<script>
+  // Facebook JS SDK — loaded dynamically after App ID is set
+  window.fbAsyncInit = function() {};
+  (function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src='https://connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js,fjs);}(document,'script','facebook-jssdk'));
+</script>
+<script>
+    const PASSWORD     = 'Vex@sus01!';
+    const SESSION_KEY  = 'vx_dash_auth';
+
+    // Auto-login if remembered
+    window.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem(SESSION_KEY) === '1') {
+            showDash();
+        }
+    });
+
+    function unlock() {
+        const val = document.getElementById('pw-input').value;
+        if (val === PASSWORD) {
+            if (document.getElementById('remember-me').checked) {
+                localStorage.setItem(SESSION_KEY, '1');
+            }
+            showDash();
+        } else {
+            document.getElementById('pw-error').style.display = 'block';
+            document.getElementById('pw-input').style.borderColor = 'rgba(226,75,74,0.6)';
+        }
+    }
+
+    function showDash() {
+        document.getElementById('lock').style.display = 'none';
+        document.getElementById('dash').style.display = 'block';
+        initFirebase();
+        loadData();
+        initLooker();
+    }
+
+    function switchTab(id, btn) {
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-' + id).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    const LS_KEY = 'vx_looker_url';
+    function initLooker() {
+        const saved = localStorage.getItem(LS_KEY);
+        if (saved) {
+            document.getElementById('ls-iframe').src = saved;
+            document.getElementById('ls-setup-card').style.display = 'none';
+            document.getElementById('ls-frame-card').style.display = 'block';
+        }
+    }
+    function saveLookerUrl() {
+        const url = document.getElementById('ls-url-input').value.trim();
+        if (!url) return;
+        localStorage.setItem(LS_KEY, url);
+        document.getElementById('ls-iframe').src = url;
+        document.getElementById('ls-setup-card').style.display = 'none';
+        document.getElementById('ls-frame-card').style.display = 'block';
+    }
+    function resetLookerUrl() {
+        localStorage.removeItem(LS_KEY);
+        document.getElementById('ls-iframe').src = '';
+        document.getElementById('ls-frame-card').style.display = 'none';
+        document.getElementById('ls-setup-card').style.display = 'block';
+    }
+
+    function logout() {
+        localStorage.removeItem(SESSION_KEY);
+        location.reload();
+    }
+
+    let db;
+    function initFirebase() {
+        try {
+            firebase.initializeApp({
+                apiKey: "AIzaSyBkOnrU2GW_dmNERzc92KEWyBlgrzWSwXg",
+                authDomain: "vexasus-12d26.firebaseapp.com",
+                projectId: "vexasus-12d26",
+                storageBucket: "vexasus-12d26.firebasestorage.app",
+                messagingSenderId: "452297550073",
+                appId: "1:452297550073:web:b8b638216b90301c0a5a28"
+            });
+        } catch(e) {}
+        db = firebase.firestore();
+    }
+
+    async function loadData() {
+        document.getElementById('log-wrap').innerHTML = '<p class="loading">Loading...</p>';
+        try {
+            const snap = await db.collection('ab_tracking').orderBy('ts','desc').limit(500).get();
+            const docs = snap.docs.map(d => ({id: d.id, ...d.data()}));
+
+            let aVisits=0, aConv=0, bVisits=0, bConv=0;
+            docs.forEach(d => {
+                if (d.variant==='A') { d.type==='visit' ? aVisits++ : d.type==='conversion' ? aConv++ : null; }
+                if (d.variant==='B') { d.type==='visit' ? bVisits++ : d.type==='conversion' ? bConv++ : null; }
+            });
+
+            const aRate = aVisits > 0 ? (aConv/aVisits*100) : 0;
+            const bRate = bVisits > 0 ? (bConv/bVisits*100) : 0;
+            const maxRate = Math.max(aRate, bRate, 1);
+            const winner = aRate > bRate ? 'A (Inspiration)' : bRate > aRate ? 'B (Pain)' : 'Empate';
+
+            document.getElementById('a-visits').textContent = aVisits;
+            document.getElementById('a-conv').textContent   = aConv;
+            document.getElementById('a-rate').textContent   = aRate.toFixed(1)+'%';
+            document.getElementById('a-rate-label').textContent = aRate.toFixed(1)+'%';
+            document.getElementById('a-bar').style.width   = (aRate/maxRate*100)+'%';
+
+            document.getElementById('b-visits').textContent = bVisits;
+            document.getElementById('b-conv').textContent   = bConv;
+            document.getElementById('b-rate').textContent   = bRate.toFixed(1)+'%';
+            document.getElementById('b-rate-label').textContent = bRate.toFixed(1)+'%';
+            document.getElementById('b-bar').style.width   = (bRate/maxRate*100)+'%';
+
+            document.getElementById('card-a').classList.toggle('winner', aRate > bRate && aVisits > 0);
+            document.getElementById('card-b').classList.toggle('winner', bRate > aRate && bVisits > 0);
+            document.getElementById('a-rate').className = aRate > bRate ? 'rate-big good' : 'rate-big neutral';
+            document.getElementById('b-rate').className = bRate > aRate ? 'rate-big good' : 'rate-big neutral';
+
+            const totV = aVisits+bVisits, totC = aConv+bConv;
+            document.getElementById('sum-visits').textContent = totV;
+            document.getElementById('sum-conv').textContent   = totC;
+            document.getElementById('sum-rate').textContent   = totV>0 ? (totC/totV*100).toFixed(1)+'%' : '–';
+            document.getElementById('sum-winner').textContent = totC>0 ? winner : 'Dados insuficientes';
+            document.getElementById('last-updated').textContent = new Date().toLocaleTimeString('pt-PT');
+
+            const recent = docs.slice(0,20);
+            if (!recent.length) { document.getElementById('log-wrap').innerHTML='<p class="loading">Nenhum evento ainda.</p>'; return; }
+            let html = '<table class="log-table"><thead><tr><th>Variante</th><th>Tipo</th><th>Data/Hora</th></tr></thead><tbody>';
+            recent.forEach(d => {
+                const ts = d.ts ? new Date(d.ts.seconds ? d.ts.seconds*1000 : d.ts).toLocaleString('pt-PT') : '–';
+                const vB = d.variant==='A'?'badge-a':d.variant==='B'?'badge-b':'';
+                const tB = d.type==='conversion'?'badge-conv':'badge-visit';
+                const tL = d.type==='conversion'?'✅ Conversão':'👁 Visita';
+                html += `<tr><td><span class="badge-v ${vB}">${d.variant}</span></td><td><span class="badge-v ${tB}">${tL}</span></td><td>${ts}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('log-wrap').innerHTML = html;
+        } catch(e) {
+            document.getElementById('log-wrap').innerHTML = '<p class="loading" style="color:#e74c3c;">Error: '+e.message+'</p>';
+        }
+    }
+
+    // ── Delete all data ──────────────────────────────────────────
+    function confirmDelete() { document.getElementById('modal-overlay').classList.add('show'); }
+    function closeModal()    { document.getElementById('modal-overlay').classList.remove('show'); }
+
+    async function deleteAllData() {
+        const btn = document.querySelector('.btn-confirm-del');
+        btn.textContent = 'A apagar...'; btn.disabled = true;
+        try {
+            let snap = await db.collection('ab_tracking').limit(400).get();
+            while (!snap.empty) {
+                const batch = db.batch();
+                snap.docs.forEach(d => batch.delete(d.ref));
+                await batch.commit();
+                snap = await db.collection('ab_tracking').limit(400).get();
+            }
+            closeModal();
+            loadData();
+        } catch(e) {
+            alert('Erro ao apagar: ' + e.message);
+        }
+        btn.textContent = 'Yes, delete everything'; btn.disabled = false;
+    }
+
+    // ── AI Bot ─────────────────────────────────────────────────────
+    const BOT_OAI_KEY = 'vx_oai_key';
+    const BOT_FB_TOKEN = 'vx_fb_token';
+    let postQueue = JSON.parse(localStorage.getItem('vx_post_queue') || '[]');
+    let generatedText = '';
+    let generatedImgUrl = '';
+
+    function saveKeys() {
+        const oai = document.getElementById('bot-oai-key').value.trim();
+        if (oai) { localStorage.setItem(BOT_OAI_KEY, oai); setDot('oai', true); }
+    }
+    function setDot(id, ok) {
+        const dot = document.getElementById(id+'-dot');
+        const stat = document.getElementById(id+'-status');
+        if (dot)  dot.className = 'status-dot '+(ok?'dot-ok':'dot-off');
+        if (stat) stat.childNodes[1] && (stat.childNodes[1].textContent = ok ? ' Configurado ✓' : ' Not configured');
+    }
+    function loadBotKeys() {
+        const oai = localStorage.getItem(BOT_OAI_KEY);
+        if (oai) { document.getElementById('bot-oai-key').value = oai; setDot('oai', true); }
+        restoreFbSession();
+        renderQueue();
+        populateIgSelect();
+    }
+
+    // Chat assistant — €1,000/day senior marketing expert, always responds in English
+    // Conversation history for context
+    let chatHistory = [];
+
+    async function sendChat() {
+        const inp = document.getElementById('chat-input');
+        const msg = inp.value.trim();
+        if (!msg) return;
+        const key = localStorage.getItem(BOT_OAI_KEY);
+        if (!key) { alert('Insert your OpenAI API Key first.'); return; }
+        inp.value = '';
+        appendChat('user', msg);
+        chatHistory.push({ role:'user', content: msg });
+        const typing = appendChat('bot', '<em style="color:var(--muted)">⏳ Thinking...</em>');
+        try {
+            const systemPrompt = `You are a world-class senior marketing strategist who charges €1,000 per day. You ALWAYS respond in English regardless of the user's language.
+
+You specialise in social media content strategy and performance marketing for the construction and renovation industry. Your client is Vexasus — a digital marketing agency in Portugal that helps construction contractors (empreiteiros) get a consistent flow of qualified clients without cold calling or chasing leads.
+
+TARGET PERSONA: Male, 35-55, owns a small-to-mid construction company. Pain points: irregular cash flow, unreliable word-of-mouth, no time to market himself, tired of low-quality leads. Desires: steady calendar, premium clients, respect in his market.
+
+YOU KNOW DEEPLY:
+— Content pillars: Authority, Social Proof, Education, Emotion, Transformation
+— Carousel frameworks: Problem→Agitation→Solution, Before→After→Bridge, Step-by-step, Myth-busting, "X reasons why"
+— Hook formulas for Facebook & Instagram: curiosity gaps, bold claims, pain-first openers, "If you're a contractor who..."
+— Reel/Story structures: hook (0-2s), conflict (2-5s), resolution + CTA (5-10s)
+— What stops a construction business owner scrolling and makes them DM
+— The psychology of trust-building content for high-ticket B2C services
+— Hashtag strategy, posting frequency, best times for construction audiences
+— Caption writing: short punchy lines, white space, emojis used sparingly
+
+WHEN ASKED FOR IDEAS: Give structured, specific, immediately usable ideas — not generic tips. Format your answers with clear sections, numbered lists, and concrete examples.
+WHEN ASKED FOR A CAROUSEL: Provide the full slide-by-slide structure with headline + body for each slide.
+WHEN ASKED FOR A HOOK: Give 3-5 hook options ranked by estimated effectiveness.
+NEVER be vague. Never say “it depends” without then giving a specific answer. Act like you are billing €1,000 for this conversation.`;
+
+            const messages = [
+                { role:'system', content: systemPrompt },
+                ...chatHistory.slice(-12) // keep last 12 messages for context
+            ];
+            const res = await fetch('https://api.openai.com/v1/chat/completions', {
+                method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+                body: JSON.stringify({ model:'gpt-4o', messages, max_tokens:1200 })
+            });
+            const data = await res.json();
+            const reply = data.choices?.[0]?.message?.content || 'Response error.';
+            chatHistory.push({ role:'assistant', content: reply });
+            typing.innerHTML = formatChatMsg(reply);
+        } catch(e) { typing.innerHTML = '❌ Error: '+e.message; }
+        const box = document.getElementById('chat-box');
+        box.scrollTop = box.scrollHeight;
+    }
+
+    // Convert markdown-like text to readable HTML
+    function formatChatMsg(text) {
+        return text
+            // Bold **text**
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            // Headers ### or ##
+            .replace(/^###\s+(.+)$/gm, '<strong style="font-size:0.9rem;display:block;margin-top:0.6rem;">$1</strong>')
+            .replace(/^##\s+(.+)$/gm, '<strong style="font-size:0.92rem;display:block;margin-top:0.8rem;">$1</strong>')
+            // Numbered list items
+            .replace(/^(\d+\.\s+.+)$/gm, '<div style="margin:0.2rem 0 0.2rem 0.5rem">→ $1</div>')
+            // Bullet list items
+            .replace(/^[-\u2022\u2014]\s+(.+)$/gm, '<div style="margin:0.15rem 0 0.15rem 0.5rem">• $1</div>')
+            // Double newline = paragraph break
+            .replace(/\n\n/g, '<br><br>')
+            // Single newline = line break
+            .replace(/\n/g, '<br>');
+    }
+
+    function appendChat(role, html) {
+        const box = document.getElementById('chat-box');
+        const div = document.createElement('div');
+        div.className = 'chat-msg ' + role;
+        div.innerHTML = html;
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+        return div;
+    }
+
+    function toggleSlides() {
+        const type = document.getElementById('post-type').value;
+        document.getElementById('slides-field').style.display = type === 'carousel' ? 'block' : 'none';
+    }
+    function toggleCustomLang() {
+        const lang = document.getElementById('post-lang').value;
+        document.getElementById('post-lang-custom').style.display = lang === 'custom' ? 'block' : 'none';
+    }
+
+    function toggleImgFields() {
+        const model = document.getElementById('post-img').value;
+        document.getElementById('img-options-fields').style.display = model === 'no' ? 'none' : 'block';
+    }
+    // Init
+    document.addEventListener('DOMContentLoaded', () => toggleImgFields());
+
+    // Post generator — expert persona, respects output language and content type
+    async function generatePost() {
+        const key   = localStorage.getItem(BOT_OAI_KEY);
+        if (!key) { alert('Insert your OpenAI API Key first.'); return; }
+        const brief    = document.getElementById('post-brief').value.trim();
+        const platform = document.getElementById('post-platform').value;
+        const type     = document.getElementById('post-type').value;
+        const tone     = document.getElementById('post-tone').value;
+        const imgModel  = document.getElementById('post-img').value;
+        const wantImg  = imgModel !== 'no';
+        const slides   = parseInt(document.getElementById('post-slides')?.value || 5);
+        const langSel  = document.getElementById('post-lang').value;
+        const lang     = langSel === 'custom' ? (document.getElementById('post-lang-custom').value.trim() || 'English') : langSel;
+        if (!brief) { alert('Write a brief for the post.'); return; }
+
+        const btn = document.getElementById('gen-btn');
+        btn.disabled = true; btn.textContent = '⏳ Generating...';
+        document.getElementById('post-preview').textContent = 'Generating content...';
+        document.getElementById('preview-img').style.display = 'none';
+        document.getElementById('img-actions').style.display = 'none';
+        generatedText = ''; generatedImgUrl = '';
+
+        const platLabel = platform === 'facebook_group' ? 'a Facebook Group for construction contractors'
+            : platform === 'facebook_page' ? 'a Facebook Business Page'
+            : 'Instagram';
+
+        let contentInstruction = '';
+        if (type === 'post') {
+            contentInstruction = `Write a single ${tone}-tone social media post for ${platLabel}. Include a strong hook, body, and clear call-to-action. End with relevant hashtags.`;
+        } else if (type === 'carousel') {
+            contentInstruction = `Write a ${slides}-slide carousel for ${platLabel} with a ${tone} tone. Format it clearly as:\nSlide 1: [Hook]\nSlide 2: [Point]\n... up to Slide ${slides}: [CTA]. Each slide should have a short punchy headline and 1-2 support lines.`;
+        } else if (type === 'story') {
+            contentInstruction = `Write a Story-format post (short, punchy, max 3 screens) for ${platLabel} with a ${tone} tone. Format as Screen 1, Screen 2, Screen 3. Include a swipe-up or link CTA.`;
+        } else if (type === 'reel') {
+            contentInstruction = `Write a Reel caption for ${platLabel} with a ${tone} tone. Include a strong hook (first line stops the scroll), a short body, and a CTA. Add relevant hashtags.`;
+        }
+
+        try {
+            const res = await fetch('https://api.openai.com/v1/chat/completions', {
+                method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+                body: JSON.stringify({ model:'gpt-4o', messages:[
+                    {role:'system', content:`You are a world-class senior copywriter and marketing strategist who charges €1,000 per day. You write premium social media content for Vexasus — a digital marketing agency for construction contractors in Portugal. The target persona: male, 35-55, owns a small-to-mid construction business, wants steady clients without cold calling. You write ONLY the content — no explanations, no commentary, no meta-text. You write with psychological precision: strong hooks, real pain points, emotional triggers, and conversion-optimised CTAs. IMPORTANT: Write the ENTIRE output in ${lang}. Do not use any other language.`},
+                    {role:'user', content:`${contentInstruction}\n\nTopic / Briefing: ${brief}\nCompany: Vexasus — digital marketing for construction contractors.`}
+                ], max_tokens: type === 'carousel' ? 900 : 600 })
+            });
+            const data = await res.json();
+            generatedText = data.choices?.[0]?.message?.content || 'Error generating text.';
+            document.getElementById('post-preview').textContent = generatedText;
+            if (wantImg) {
+                const imagePrompt = document.getElementById('post-img-prompt').value.trim();
+                if (!imagePrompt) {
+                    document.getElementById('post-preview').textContent = generatedText + '\n\n⚠️ Add an image prompt above.';
+                } else {
+                    document.getElementById('post-preview').textContent = generatedText + '\n\n⏳ Generating image...';
+                    const imgSize    = document.getElementById('post-img-size').value;
+                    const imgQuality = imgModel === 'dall-e-3' ? 'hd' : imgModel === 'dall-e-2' ? 'standard' : 'high';
+                    const imgRes = await fetch('https://api.openai.com/v1/images/generations', {
+                        method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+                        body: JSON.stringify({ model: imgModel, prompt: imagePrompt, n:1, size: imgSize, quality: imgQuality })
+                    });
+                    const imgData = await imgRes.json();
+                    const imgEntry = imgData.data?.[0];
+                    if (imgEntry?.b64_json) {
+                        generatedImgUrl = 'data:image/png;base64,' + imgEntry.b64_json;
+                    } else {
+                        generatedImgUrl = imgEntry?.url || '';
+                    }
+                    document.getElementById('post-preview').textContent = generatedText;
+                    if (generatedImgUrl) {
+                        const img = document.getElementById('preview-img');
+                        img.src = generatedImgUrl;
+                        img.style.display = 'block';
+                        document.getElementById('img-actions').style.display = 'block';
+                    }
+                }
+            }
+        } catch(e) {
+            document.getElementById('post-preview').textContent = '❌ Error: '+e.message;
+        }
+        btn.disabled = false; btn.textContent = '⚡ Generate Content';
+    }
+
+    function downloadImage() {
+        if (!generatedImgUrl) return;
+        if (generatedImgUrl.startsWith('data:')) {
+            // base64 — download directly
+            const a = document.createElement('a');
+            a.href = generatedImgUrl;
+            a.download = `vexasus-post-${Date.now()}.png`;
+            a.click();
+        } else {
+            // Public URL — open in new tab so user can right-click save
+            window.open(generatedImgUrl, '_blank');
+        }
+    }
+
+    // ── Instagram Account Management ──────────────────────────
+    const IG_ACCOUNTS_KEY = 'vx_ig_accounts';
+
+    function populateIgSelect() {
+        const sel = document.getElementById('ig-user-id');
+        if (!sel) return;
+        const accounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+        const defaultId = localStorage.getItem('vx_default_ig_account') || '';
+        sel.innerHTML = '<option value="">— Select Instagram account —</option>';
+        accounts.forEach(a => {
+            const opt = document.createElement('option');
+            opt.value = a.id;
+            opt.textContent = `${a.username || a.name} (${a.id})` + (a.id === defaultId ? ' ⭐' : '');
+            sel.appendChild(opt);
+        });
+        if (defaultId) sel.value = defaultId;
+    }
+
+    // ── IG Account default / delete ──────────────────────
+    function setDefaultIgAccount() {
+        const sel = document.getElementById('ig-user-id');
+        if (!sel.value) { alert('Select an Instagram account first.'); return; }
+        localStorage.setItem('vx_default_ig_account', sel.value);
+        populateIgSelect();
+        alert('⭐ Default Instagram account set!');
+    }
+    function deleteSelectedIgAccount() {
+        const sel = document.getElementById('ig-user-id');
+        if (!sel.value) { alert('Select an account to delete.'); return; }
+        const id = sel.value;
+        if (!confirm('Remove this Instagram account from the dropdown?')) return;
+        const accounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]').filter(a => a.id !== id);
+        localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(accounts));
+        if (localStorage.getItem('vx_default_ig_account') === id) localStorage.removeItem('vx_default_ig_account');
+        populateIgSelect();
+        saveExtendedConfig();
+    }
+
+    async function saveIgManual() {
+        const input  = document.getElementById('ig-manual-id');
+        const btn    = document.getElementById('ig-manual-btn');
+        const status = document.getElementById('ig-add-status');
+        const id     = input.value.trim();
+        if (!id) { status.style.color='var(--red)'; status.textContent='⚠️ Paste a numeric Instagram User ID first.'; return; }
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        if (!token) { status.style.color='var(--red)'; status.textContent='⚠️ Connect Facebook first.'; return; }
+        btn.disabled = true; btn.textContent = '⏳ Checking...';
+        status.textContent = '';
+        try {
+            const res  = await fetch(`https://graph.facebook.com/v19.0/${id}?fields=id,name,username&access_token=${token}`);
+            const data = await res.json();
+            if (data.error) throw new Error(data.error.message);
+            if (!data.id)   throw new Error('Account not found.');
+            const accounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+            if (!accounts.find(a => a.id === data.id)) {
+                accounts.push({ id: data.id, name: data.name || data.id, username: data.username || data.name || data.id });
+                localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(accounts));
+            }
+            input.value = '';
+            status.style.color = 'var(--green)';
+            status.textContent = `✅ Found: "${data.username || data.name}" — added!`;
+            populateIgSelect();
+            document.getElementById('ig-user-id').value = data.id;
+            saveExtendedConfig();
+        } catch(e) {
+            status.style.color = 'var(--red)';
+            status.textContent = `❌ ${e.message}`;
+        }
+        btn.disabled = false; btn.textContent = '🔍 Check & Add';
+    }
+
+    async function discoverIgFromPages() {
+        const btn    = document.getElementById('ig-discover-btn');
+        const status = document.getElementById('ig-add-status');
+        const token  = localStorage.getItem(FB_TOKEN_KEY);
+        if (!token) { status.style.color='var(--red)'; status.textContent='⚠️ Connect Facebook first.'; return; }
+        btn.disabled = true; btn.textContent = '⏳ Searching...';
+        status.textContent = '';
+        try {
+            // Fetch all connected pages including their linked Instagram business accounts
+            const res  = await fetch(`https://graph.facebook.com/v19.0/me/accounts?fields=id,name,instagram_business_account{id,name,username}&access_token=${token}`);
+            const data = await res.json();
+            const pages = data.data || [];
+            const accounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+            let found = 0;
+            pages.forEach(page => {
+                const ig = page.instagram_business_account;
+                if (ig && ig.id && !accounts.find(a => a.id === ig.id)) {
+                    accounts.push({ id: ig.id, name: ig.name || ig.id, username: ig.username || '' });
+                    found++;
+                }
+            });
+            if (found > 0) {
+                localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(accounts));
+                populateIgSelect();
+                // Auto-select the first discovered account
+                if (accounts.length > 0) document.getElementById('ig-user-id').value = accounts[accounts.length - 1].id;
+                status.style.color = 'var(--green)';
+                status.textContent = `✅ Found and added ${found} Instagram account(s)!`;
+                saveExtendedConfig();
+            } else {
+                status.style.color = 'var(--muted)';
+                status.textContent = 'No new Instagram Business accounts found linked to your Pages. Make sure your Instagram is a Business/Creator account connected in Meta Business Suite.';
+            }
+        } catch(e) {
+            status.style.color = 'var(--red)';
+            status.textContent = `❌ ${e.message}`;
+        }
+        btn.disabled = false; btn.textContent = '🔗 Auto-detect from my Facebook Pages';
+    }
+
+    async function checkAndAddIgAccount() {
+        const input  = document.getElementById('ig-add-id');
+        const btn    = document.getElementById('ig-add-btn');
+        const status = document.getElementById('ig-add-status');
+        const igId   = input.value.trim();
+        if (!igId) { status.style.color='var(--red)'; status.textContent='⚠️ Paste an Instagram User ID first.'; return; }
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        if (!token) { status.style.color='var(--red)'; status.textContent='⚠️ Connect Facebook first.'; return; }
+        btn.disabled = true; btn.textContent = '⏳...';
+        status.textContent = '';
+        try {
+            const res  = await fetch(`https://graph.facebook.com/v19.0/${igId}?fields=id,name,username&access_token=${token}`);
+            const data = await res.json();
+            if (data.error) throw new Error(data.error.message);
+            if (!data.id)   throw new Error('Account not found.');
+            const accounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+            if (!accounts.find(a => a.id === data.id)) {
+                accounts.push({ id: data.id, name: data.name || data.id, username: data.username || '' });
+                localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(accounts));
+            }
+            input.value = '';
+            status.style.color = 'var(--green)';
+            status.textContent = `✅ "${data.username || data.name}" added!`;
+            populateIgSelect();
+            // Auto-select the newly added account
+            document.getElementById('ig-user-id').value = data.id;
+        } catch(e) {
+            status.style.color = 'var(--red)';
+            status.textContent = `❌ ${e.message}`;
+        }
+        btn.disabled = false; btn.textContent = '🔍 Add';
+    }
+
+    // Queue
+    async function addToQueue() {
+        if (!generatedText) { alert('Generate a post first.'); return; }
+        const targets  = getCheckedTargets().join(',');
+        let   imgUrl   = generatedImgUrl;
+
+        // If image is a remote URL (e.g. DALL-E 3), convert to base64 now
+        // so it doesn't expire before the post is sent
+        if (imgUrl && !imgUrl.startsWith('data:')) {
+            try {
+                const resp   = await fetch(imgUrl);
+                const blob   = await resp.blob();
+                imgUrl = await new Promise((res, rej) => {
+                    const r = new FileReader();
+                    r.onload  = () => res(r.result);
+                    r.onerror = rej;
+                    r.readAsDataURL(blob);
+                });
+            } catch(e) {
+                // Keep the URL if conversion fails
+                console.warn('Image fetch failed, saving URL instead:', e);
+            }
+        }
+
+        postQueue.push({ id: Date.now(), text: generatedText, imgUrl, targets, status:'pending', platform: document.getElementById('post-platform').value, ts: new Date().toLocaleString('pt-PT') });
+        localStorage.setItem('vx_post_queue', JSON.stringify(postQueue));
+        renderQueue();
+        alert('✅ Post added to queue! Image permanently saved.');
+    }
+    function renderQueue() {
+        const el = document.getElementById('post-queue');
+        const btn = document.getElementById('send-queue-btn');
+        if (!postQueue.length) { el.innerHTML='<p style="color:var(--muted);font-size:0.85rem;">No posts in the queue yet.</p>'; btn.style.display='none'; return; }
+        document.getElementById('queue-count').textContent = `(${postQueue.length} posts)`;
+        btn.style.display = 'block';
+        el.innerHTML = postQueue.map((p,i) => {
+            const sc = p.status==='posted'?'qi-posted':p.status==='error'?'qi-error':'qi-pending';
+            const sl = p.status==='posted'?'✅ Published':p.status==='error'?'❌ Error':'⏳ Pending';
+            const icon = p.platform==='instagram'?'📸':'📘';
+            return `<div class="queue-item"><div class="qi-icon">${icon}</div><div class="qi-body"><div class="qi-text">${p.text.slice(0,120)}...</div><div class="qi-meta">${p.ts} · Targets: ${p.targets||'none'}</div></div><span class="qi-status ${sc}">${sl}</span></div>`;
+        }).join('');
+    }
+
+    // Post now via FB Graph API + optional Instagram
+    async function postNow() {
+        if (!generatedText) { alert('Generate a post first.'); return; }
+        const userToken = localStorage.getItem(BOT_FB_TOKEN);
+        if (!userToken) { alert('Insert the Facebook Token first.'); return; }
+        const targets = getCheckedTargets();
+        if (!targets.length) { alert('Tick at least one page or group above.'); return; }
+        const igCross  = document.getElementById('ig-crosspost')?.checked;
+        const igUserId = document.getElementById('ig-user-id')?.value.trim();
+        const totalDests = targets.length + (igCross && igUserId ? 1 : 0);
+        if (!confirm(`Publish to ${totalDests} destination(s) now?`)) return;
+
+        // Split pages (API) vs groups (clipboard + new tab)
+        const apiTargets   = [];
+        const groupTargets = [];
+        for (const t of targets) {
+            const saved = JSON.parse(localStorage.getItem(FB_PAGES_KEY)||'[]').find(p => p.id === t);
+            const isGroup = saved?.name?.startsWith('👥') || !/^\d+$/.test(t);
+            if (isGroup) groupTargets.push({ id: t, name: saved?.name || t });
+            else         apiTargets.push(t);
+        }
+
+        // Facebook PAGES — via Graph API
+        for (const t of apiTargets) {
+            try {
+                const token = await getFbTokenForTarget(t);
+                const body = new URLSearchParams({ message: generatedText, access_token: token });
+                if (generatedImgUrl && !generatedImgUrl.startsWith('data:')) body.append('url', generatedImgUrl);
+                const endpoint = (generatedImgUrl && !generatedImgUrl.startsWith('data:'))
+                    ? `https://graph.facebook.com/v19.0/${t}/photos`
+                    : `https://graph.facebook.com/v19.0/${t}/feed`;
+                const res = await fetch(endpoint, { method:'POST', body });
+                const data = await res.json();
+                if (data.error) throw new Error(data.error.message);
+                alert(`✅ Published to page ${t}!`);
+            } catch(e) { alert(`❌ Page error on ${t}: ${e.message}`); }
+        }
+
+        // Facebook GROUPS — Facebook's API blocks this without App Review.
+        // Best UX: copy text to clipboard + open each group in a new tab.
+        if (groupTargets.length) {
+            await navigator.clipboard.writeText(generatedText).catch(() => {});
+            const names = groupTargets.map(g => g.name.replace('👥','').trim()).join(', ');
+            alert(`📋 Text copied to clipboard!\n\nThe following groups will open in new tabs — just paste and post:\n👥 ${names}`);
+            for (const g of groupTargets) {
+                const url = /^\d+$/.test(g.id)
+                    ? `https://www.facebook.com/groups/${g.id}`
+                    : `https://www.facebook.com/groups/${g.id}`;
+                window.open(url, '_blank');
+            }
+        }
+
+        // Instagram cross-post (requires public image URL)
+        if (igCross && igUserId) {
+            await postToInstagram(igUserId, userToken);
+        }
+    }
+
+    async function postToInstagram(igUserId, userToken) {
+        try {
+            if (!generatedImgUrl || generatedImgUrl.startsWith('data:')) {
+                alert('⚠️ Instagram requires a public image URL. Switch to DALL-E 3 and regenerate.');
+                return;
+            }
+            // Step 1: Create media container
+            const containerRes = await fetch(`https://graph.facebook.com/v19.0/${igUserId}/media`, {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    image_url: generatedImgUrl,
+                    caption: generatedText,
+                    access_token: userToken
+                })
+            });
+            const containerData = await containerRes.json();
+            if (containerData.error) throw new Error(containerData.error.message);
+            const creationId = containerData.id;
+            if (!creationId) throw new Error('No container ID returned.');
+
+            // Step 2: Publish the container
+            const publishRes = await fetch(`https://graph.facebook.com/v19.0/${igUserId}/media_publish`, {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ creation_id: creationId, access_token: userToken })
+            });
+            const publishData = await publishRes.json();
+            if (publishData.error) throw new Error(publishData.error.message);
+            alert(`✅ Instagram: Published successfully!`);
+        } catch(e) {
+            alert(`❌ Instagram error: ${e.message}`);
+        }
+    }
+
+    async function sendQueue() {
+        const userToken = localStorage.getItem(BOT_FB_TOKEN);
+        if (!userToken) { alert('Insert the Facebook Token first.'); return; }
+        if (!confirm(`Send ${postQueue.filter(p=>p.status==='pending').length} pending post(s)?`)) return;
+        for (let i=0; i<postQueue.length; i++) {
+            if (postQueue[i].status !== 'pending') continue;
+            const targets = postQueue[i].targets.split(',').map(s=>s.trim()).filter(Boolean);
+            let ok = true;
+            for (const t of targets) {
+                try {
+                    const token = await getFbTokenForTarget(t);
+                    const body = new URLSearchParams({ message: postQueue[i].text, access_token: token });
+                    if (postQueue[i].imgUrl) body.append('url', postQueue[i].imgUrl);
+                    const endpoint = postQueue[i].imgUrl 
+                        ? `https://graph.facebook.com/v19.0/${t}/photos` 
+                        : `https://graph.facebook.com/v19.0/${t}/feed`;
+                    const res = await fetch(endpoint, { method:'POST', body });
+                    const data = await res.json();
+                    if (data.error) throw new Error(data.error.message);
+                } catch(e) { ok = false; console.error(e); }
+            }
+            postQueue[i].status = ok ? 'posted' : 'error';
+        }
+        localStorage.setItem('vx_post_queue', JSON.stringify(postQueue));
+        renderQueue();
+    }
+
+    // Load keys when dash becomes visible
+    const _origShowDash = showDash;
+    window.showDash = function() { _origShowDash(); loadConfigFromFirebase(); };
+
+    // ── Firestore Config Persistence ──────────────────────────
+    async function saveConfig() {
+        const btn = document.getElementById('save-config-btn');
+        const status = document.getElementById('save-config-status');
+        const oai   = document.getElementById('bot-oai-key').value.trim();
+        const appId = document.getElementById('fb-app-id').value.trim();
+        if (!oai && !appId) { status.textContent = '⚠️ Fill at least one field.'; return; }
+        btn.disabled = true; btn.textContent = '⏳ Saving...';
+        try {
+            const n8nUrl = document.getElementById('n8n-webhook-url').value.trim();
+            const payload = { updatedAt: new Date().toISOString() };
+            if (oai)   payload.oaiKey    = oai;
+            if (appId) payload.fbAppId   = appId;
+            if (n8nUrl) payload.n8nWebhookUrl = n8nUrl;
+            await db.collection('config').doc('bot_settings').set(payload, { merge: true });
+            // Also cache locally
+            if (oai)   localStorage.setItem(BOT_OAI_KEY,  oai);
+            if (appId) localStorage.setItem(FB_APP_ID_KEY, appId);
+            if (n8nUrl) localStorage.setItem('vx_n8n_url', n8nUrl);
+            if (oai)   setDot('oai', true);
+            if (appId) { saveFbAppId(); }
+            status.style.color = 'var(--green)';
+            status.textContent = '✅ Saved successfully!';
+            setTimeout(() => status.textContent = '', 3000);
+        } catch(e) {
+            status.style.color = 'var(--red)';
+            status.textContent = '❌ Error: ' + e.message;
+        }
+        btn.disabled = false; btn.textContent = '💾 Save Configuration';
+    }
+
+    async function loadConfigFromFirebase() {
+        try {
+            const doc = await db.collection('config').doc('bot_settings').get();
+            if (doc.exists) {
+                const data = doc.data();
+                if (data.oaiKey) {
+                    document.getElementById('bot-oai-key').value = data.oaiKey;
+                    localStorage.setItem(BOT_OAI_KEY, data.oaiKey);
+                    setDot('oai', true);
+                }
+                if (data.fbAppId) {
+                    document.getElementById('fb-app-id').value = data.fbAppId;
+                    localStorage.setItem(FB_APP_ID_KEY, data.fbAppId);
+                }
+                if (data.n8nWebhookUrl) {
+                    document.getElementById('n8n-webhook-url').value = data.n8nWebhookUrl;
+                    localStorage.setItem('vx_n8n_url', data.n8nWebhookUrl);
+                }
+                // Restore saved FB pages/groups
+                if (data.savedPages && data.savedPages.length) {
+                    const local = JSON.parse(localStorage.getItem('vx_fb_pages') || '[]');
+                    const merged = [...data.savedPages];
+                    local.forEach(p => { if (!merged.find(m => m.id === p.id)) merged.push(p); });
+                    localStorage.setItem('vx_fb_pages', JSON.stringify(merged));
+                }
+                // Restore saved IG accounts
+                if (data.savedIgAccounts && data.savedIgAccounts.length) {
+                    const local = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+                    const merged = [...data.savedIgAccounts];
+                    local.forEach(a => { if (!merged.find(m => m.id === a.id)) merged.push(a); });
+                    localStorage.setItem(IG_ACCOUNTS_KEY, JSON.stringify(merged));
+                }
+            }
+        } catch(e) {
+            // Fallback to localStorage only
+            const oai   = localStorage.getItem(BOT_OAI_KEY);
+            const appId = localStorage.getItem(FB_APP_ID_KEY);
+            if (oai)   { document.getElementById('bot-oai-key').value = oai; setDot('oai', true); }
+            if (appId)   document.getElementById('fb-app-id').value = appId;
+        }
+        restoreFbSession();
+        renderQueue();
+        populateIgSelect();
+    }
+
+    // Save groups + IG accounts to Firebase so they persist across sessions/devices
+    async function saveExtendedConfig() {
+        try {
+            const pages      = JSON.parse(localStorage.getItem('vx_fb_pages') || '[]');
+            const igAccounts = JSON.parse(localStorage.getItem(IG_ACCOUNTS_KEY) || '[]');
+            // Strip access tokens before storing (security — token is re-applied from FB session)
+            const cleanPages = pages.map(p => ({ id: p.id, name: p.name }));
+            await db.collection('config').doc('bot_settings').set({
+                savedPages:      cleanPages,
+                savedIgAccounts: igAccounts,
+                updatedAt:       new Date().toISOString()
+            }, { merge: true });
+        } catch(e) { console.warn('saveExtendedConfig failed:', e.message); }
+    }
+
+    // ── Facebook OAuth ──────────────────────────────────
+    const FB_APP_ID_KEY = 'vx_fb_app_id';
+    const FB_TOKEN_KEY  = 'vx_fb_token';
+    const FB_USER_KEY   = 'vx_fb_user';
+    const FB_PAGES_KEY  = 'vx_fb_pages';
+
+    function saveFbAppId() {
+        const appId = document.getElementById('fb-app-id').value.trim();
+        if (!appId) return;
+        localStorage.setItem(FB_APP_ID_KEY, appId);
+        initFbSdk(appId);
+    }
+
+    function initFbSdk(appId) {
+        if (typeof FB === 'undefined') {
+            // SDK not ready yet — retry in 500ms
+            setTimeout(() => initFbSdk(appId), 500);
+            return;
+        }
+        FB.init({ appId, cookie: true, xfbml: false, version: 'v19.0' });
+        // Check if already logged in
+        FB.getLoginStatus(resp => {
+            if (resp.status === 'connected') onFbConnected(resp.authResponse.accessToken);
+        });
+    }
+
+    function fbLogin() {
+        const appId = localStorage.getItem(FB_APP_ID_KEY) || document.getElementById('fb-app-id').value.trim();
+        if (!appId) { alert('Paste your Facebook App ID in the field above first.'); return; }
+        if (typeof FB === 'undefined') { alert('Facebook SDK is still loading. Wait a second and try again.'); return; }
+        FB.login(resp => {
+            if (resp.authResponse) {
+                onFbConnected(resp.authResponse.accessToken);
+            } else {
+                alert('Login cancelled or refused.');
+            }
+        }, {
+            scope: 'pages_manage_posts,pages_read_engagement,pages_show_list,instagram_basic,instagram_content_publish',
+            return_scopes: true
+        });
+    }
+
+    async function onFbConnected(token) {
+        localStorage.setItem(FB_TOKEN_KEY, token);
+        setDot('fb', true);
+        // Get user name
+        try {
+            const meRes  = await fetch(`https://graph.facebook.com/me?fields=name&access_token=${token}`);
+            const me     = await meRes.json();
+            const name   = me.name || 'Facebook';
+            localStorage.setItem(FB_USER_KEY, name);
+            document.getElementById('fb-user-name').textContent = `✅ ${name}`;
+        } catch(e) {}
+        // Get pages
+        await loadFbPages(token);
+        // Auto-discover linked Instagram Business accounts
+        discoverIgFromPages();
+        document.getElementById('fb-connected').style.display = 'block';
+        document.getElementById('fb-connect-btn').style.display = 'none';
+        document.getElementById('fb-status').style.display = 'none';
+    }
+
+    function checkAndAddGroup() {
+        const input  = document.getElementById('manual-group-id');
+        const nameIn = document.getElementById('manual-group-name');
+        const status = document.getElementById('groups-status');
+        let raw      = input.value.trim();
+
+        // Extract slug or numeric ID from a facebook.com/groups/... URL
+        const urlMatch = raw.match(/facebook\.com\/groups\/([^/?#]+)/);
+        if (urlMatch) {
+            raw = urlMatch[1].replace(/\/$/, ''); // strip trailing slash
+            // Auto-fill the name field from the slug if it's empty
+            if (!nameIn.value.trim()) nameIn.value = raw;
+        }
+
+        if (!raw) { status.style.color='var(--red)'; status.textContent='⚠️ Paste a group URL or ID.'; return; }
+        const label = nameIn.value.trim();
+        if (!label) { status.style.color='var(--red)'; status.textContent='⚠️ Add a label name so you can recognise the group.'; return; }
+
+        const existing = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]');
+        if (existing.find(p => p.id === raw)) {
+            status.style.color = 'var(--muted)';
+            status.textContent = 'ℹ️ This group is already in your list.';
+            return;
+        }
+        const token = localStorage.getItem(FB_TOKEN_KEY) || '';
+        existing.push({ id: raw, name: '👥 ' + label, access_token: token });
+        localStorage.setItem(FB_PAGES_KEY, JSON.stringify(existing));
+        populatePageSelects(existing);
+        input.value = ''; nameIn.value = '';
+        status.style.color = 'var(--green)';
+        status.textContent = `✅ "👥 ${label}" saved! Select it in Publish To and test a post.`;
+        saveExtendedConfig();
+    }
+
+    function forceRefreshPages() {
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        if (token) loadFbPages(token);
+    }
+
+    async function loadFbPages(token) {
+        try {
+            // 1. Classic Pages via /me/accounts
+            const res  = await fetch(`https://graph.facebook.com/v19.0/me/accounts?fields=id,name,access_token&access_token=${token}`);
+            const data = await res.json();
+            let pages = data.data || [];
+
+            // 2. New Pages Experience — query page profiles via /me?fields=profiles
+            try {
+                const npRes  = await fetch(`https://graph.facebook.com/v19.0/me?fields=profiles{id,name}&access_token=${token}`);
+                const npData = await npRes.json();
+                const profiles = npData.profiles?.data || [];
+                // Add any that aren't already in the list
+                profiles.forEach(p => {
+                    if (!pages.find(x => x.id === p.id)) {
+                        pages.push({ id: p.id, name: p.name + ' (Page)', access_token: token });
+                    }
+                });
+            } catch(e) {}
+
+            // 3. Personal profile
+            try {
+                const meRes  = await fetch(`https://graph.facebook.com/v19.0/me?fields=id,name&access_token=${token}`);
+                const meData = await meRes.json();
+                if (meData.id && !pages.find(x => x.id === meData.id)) {
+                    pages = [{ id: meData.id, name: meData.name + ' (Personal Profile)', access_token: token }, ...pages];
+                }
+            } catch(e) {}
+
+            // 4. Merge with any manually-saved pages
+            const manual = JSON.parse(localStorage.getItem('vx_manual_pages') || '[]');
+            manual.forEach(m => {
+                if (!pages.find(x => x.id === m.id)) {
+                    pages.push({ id: m.id, name: m.name + ' ★', access_token: token });
+                }
+            });
+
+            localStorage.setItem(FB_PAGES_KEY, JSON.stringify(pages));
+            populatePageSelects(pages);
+        } catch(e) {
+            console.error('Network error loading pages:', e);
+        }
+    }
+
+    async function checkAndAddPage() {
+        const idInput = document.getElementById('manual-page-id');
+        const btn     = document.getElementById('manual-page-btn');
+        const status  = document.getElementById('manual-page-status');
+        const pageId  = idInput.value.trim();
+        if (!pageId) { status.style.color='var(--red)'; status.textContent = '⚠️ Paste a Page ID first.'; return; }
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        if (!token)  { status.style.color='var(--red)'; status.textContent = '⚠️ Connect Facebook first.'; return; }
+
+        btn.disabled = true; btn.textContent = '⏳ Checking...';
+        status.textContent = '';
+        try {
+            const res  = await fetch(`https://graph.facebook.com/v19.0/${pageId}?fields=id,name&access_token=${token}`);
+            const data = await res.json();
+            if (data.error) throw new Error(data.error.message);
+            if (!data.id)   throw new Error('Page not found.');
+
+            // Save to manual list
+            const manual = JSON.parse(localStorage.getItem('vx_manual_pages') || '[]');
+            if (!manual.find(m => m.id === data.id)) {
+                manual.push({ id: data.id, name: data.name });
+                localStorage.setItem('vx_manual_pages', JSON.stringify(manual));
+            }
+            idInput.value = '';
+            status.style.color = 'var(--green)';
+            status.textContent = `✅ Found: "${data.name}" — added to dropdown!`;
+            loadFbPages(token);
+        } catch(e) {
+            status.style.color = 'var(--red)';
+            status.textContent = `❌ ${e.message}`;
+        }
+        btn.disabled = false; btn.textContent = '🔍 Check & Add';
+    }
+
+    // Same as above but for the Config section inputs
+    async function checkAndAddPageCfg() {
+        const idInput = document.getElementById('manual-page-id-cfg');
+        const btn     = document.getElementById('manual-page-btn-cfg');
+        const status  = document.getElementById('manual-page-status-cfg');
+        const pageId  = idInput.value.trim();
+        if (!pageId) { status.style.color='var(--red)'; status.textContent = '⚠️ Paste a Page ID first.'; return; }
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        if (!token)  { status.style.color='var(--red)'; status.textContent = '⚠️ Connect Facebook first.'; return; }
+
+        btn.disabled = true; btn.textContent = '⏳...';
+        status.textContent = '';
+        try {
+            const res  = await fetch(`https://graph.facebook.com/v19.0/${pageId}?fields=id,name&access_token=${token}`);
+            const data = await res.json();
+            if (data.error) throw new Error(data.error.message);
+            if (!data.id)   throw new Error('Page not found.');
+            const manual = JSON.parse(localStorage.getItem('vx_manual_pages') || '[]');
+            if (!manual.find(m => m.id === data.id)) {
+                manual.push({ id: data.id, name: data.name });
+                localStorage.setItem('vx_manual_pages', JSON.stringify(manual));
+            }
+            idInput.value = '';
+            status.style.color = 'var(--green)';
+            status.textContent = `✅ "${data.name}" added!`;
+            loadFbPages(token);
+        } catch(e) {
+            status.style.color = 'var(--red)';
+            status.textContent = `❌ ${e.message}`;
+        }
+        btn.disabled = false; btn.textContent = '🔍 Add';
+    }
+
+    function populatePageSelects(pages) {
+        const defaultId = localStorage.getItem('vx_default_fb_page') || '';
+
+        // 1. Config page selector (single select)
+        const cfgSel = document.getElementById('fb-page-select');
+        if (cfgSel) {
+            cfgSel.innerHTML = `<option value="">— Select a Page —</option>`;
+            pages.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = p.name + (p.id === defaultId ? ' ⭐' : '');
+                cfgSel.appendChild(opt);
+            });
+            if (defaultId) cfgSel.value = defaultId;
+        }
+
+        // 2. Hidden select (backward compat)
+        const hidSel = document.getElementById('fb-targets-select');
+        if (hidSel) {
+            hidSel.innerHTML = '';
+            pages.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id; opt.textContent = p.name;
+                hidSel.appendChild(opt);
+            });
+        }
+
+        // 3. Checklist (multi-select) in publish section
+        const list = document.getElementById('fb-targets-list');
+        if (list) {
+            if (!pages.length) {
+                list.innerHTML = '<span style="color:var(--muted);font-size:0.78rem;">No pages or groups added yet.</span>';
+                return;
+            }
+            list.innerHTML = '';
+            pages.forEach(p => {
+                const row = document.createElement('label');
+                row.style.cssText = 'display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;cursor:pointer;';
+                const cb = document.createElement('input');
+                cb.type = 'checkbox'; cb.value = p.id;
+                cb.className = 'fb-target-cb';
+                cb.style.cssText = 'width:15px;height:15px;accent-color:var(--red);cursor:pointer;';
+                // Auto-check the default
+                if (p.id === defaultId) cb.checked = true;
+                row.appendChild(cb);
+                row.appendChild(document.createTextNode(p.name));
+                list.appendChild(row);
+            });
+        }
+    }
+
+    // Return array of IDs from checked checkboxes + manual input
+    function getCheckedTargets() {
+        const checked = [...document.querySelectorAll('.fb-target-cb:checked')].map(cb => cb.value);
+        const manual  = document.getElementById('fb-targets').value.trim().split(',').map(s => s.trim()).filter(Boolean);
+        return [...new Set([...checked, ...manual])];
+    }
+
+
+    // ── FB Page default / delete ────────────────────────
+    function setDefaultFbPage() {
+        const sel = document.getElementById('fb-page-select');
+        if (!sel.value) { alert('Select a page first.'); return; }
+        localStorage.setItem('vx_default_fb_page', sel.value);
+        const pages = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]');
+        populatePageSelects(pages);
+        alert('⭐ Default page set! It will be auto-selected every time.');
+    }
+    function deleteSelectedFbPage() {
+        const sel = document.getElementById('fb-page-select');
+        if (!sel.value) { alert('Select a page to delete.'); return; }
+        const id = sel.value;
+        if (!confirm('Remove this page from the dropdown?')) return;
+        // Remove from manual pages if it's there
+        const manual = JSON.parse(localStorage.getItem('vx_manual_pages') || '[]');
+        localStorage.setItem('vx_manual_pages', JSON.stringify(manual.filter(m => m.id !== id)));
+        // Remove from cached pages list
+        const pages = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]').filter(p => p.id !== id);
+        localStorage.setItem(FB_PAGES_KEY, JSON.stringify(pages));
+        // Clear default if it was this page
+        if (localStorage.getItem('vx_default_fb_page') === id) localStorage.removeItem('vx_default_fb_page');
+        populatePageSelects(pages);
+        saveExtendedConfig();
+    }
+
+    function fbLogout() {
+        if (typeof FB !== 'undefined') FB.logout();
+        [FB_TOKEN_KEY, FB_USER_KEY, FB_PAGES_KEY].forEach(k => localStorage.removeItem(k));
+        document.getElementById('fb-connected').style.display = 'none';
+        document.getElementById('fb-connect-btn').style.display = 'flex';
+        document.getElementById('fb-status').style.display = 'flex';
+        setDot('fb', false);
+        ['fb-page-select','fb-targets-select'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = '<option value="">— Connect Facebook first —</option>';
+        });
+    }
+
+    function restoreFbSession() {
+        const appId = localStorage.getItem(FB_APP_ID_KEY);
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        const name  = localStorage.getItem(FB_USER_KEY);
+        const pages = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]');
+        if (appId) document.getElementById('fb-app-id').value = appId;
+        if (token && name) {
+            setDot('fb', true);
+            document.getElementById('fb-user-name').textContent = `✅ ${name}`;
+            document.getElementById('fb-connected').style.display = 'block';
+            document.getElementById('fb-connect-btn').style.display = 'none';
+            document.getElementById('fb-status').style.display = 'none';
+            if (pages.length) populatePageSelects(pages);
+            // Always refresh pages in the background just in case
+            loadFbPages(token);
+        }
+        if (appId) initFbSdk(appId);
+    }
+
+    // Fetch page token dynamically if not in the cached list
+    async function getFbTokenForTarget(targetId) {
+        const token = localStorage.getItem(FB_TOKEN_KEY);
+        try {
+            // Ask Facebook directly for this specific page's access token
+            const res = await fetch(`https://graph.facebook.com/v19.0/${targetId}?fields=access_token&access_token=${token}`);
+            const data = await res.json();
+            if (data.access_token) return data.access_token;
+        } catch(e) {}
+        // Fallback to user token (will fail for pages, but might work for groups if the old API was used)
+        return token;
+    }
+
+    async function sendToN8n() {
+        const webhookUrl = localStorage.getItem('vx_n8n_url') ||
+                           document.getElementById('n8n-webhook-url').value.trim();
+        if (!webhookUrl) {
+            alert('⚠️ Paste your n8n Webhook URL in Configuration → n8n Webhook URL first, then save.');
+            return;
+        }
+        if (!generatedText) { alert('Generate a post first.'); return; }
+
+        const targets = getCheckedTargets();
+        if (!targets.length) { alert('Tick at least one group or page above.'); return; }
+
+        // Build group list from saved pages
+        const saved   = JSON.parse(localStorage.getItem(FB_PAGES_KEY) || '[]');
+        const groups  = targets.map(id => {
+            const p = saved.find(x => x.id === id);
+            return { id, name: p?.name || id };
+        });
+
+        const fbToken = localStorage.getItem(FB_TOKEN_KEY) || '';
+
+        const payload = {
+            text:      generatedText,
+            imageUrl:  generatedImgUrl && !generatedImgUrl.startsWith('data:') ? generatedImgUrl : null,
+            imageB64:  generatedImgUrl && generatedImgUrl.startsWith('data:')  ? generatedImgUrl : null,
+            groups,
+            fbToken,
+            sentAt: new Date().toISOString()
+        };
+
+        try {
+            const res  = await fetch(webhookUrl, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            alert(`✅ Sent to n8n! ${groups.length} group(s) will be processed.\n\nMake sure your n8n workflow is active.`);
+        } catch(e) {
+            alert(`❌ n8n error: ${e.message}\n\nCheck your webhook URL and make sure the workflow is active.`);
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // A/B tracking
+    match /ab_tracking/{doc} {
+      allow read, write: if true;
+    }
+
+    // Bot config (OpenAI key, FB App ID)
+    match /config/{doc} {
+      allow read, write: if true;
+    }
+  }
+}
