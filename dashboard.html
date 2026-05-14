@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vexasus · Dashboard A/B</title>
+    <title>Vexasus · Dashboard</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -220,6 +220,14 @@
 
     <!-- ═══ TAB 1: A/B Results ═══ -->
     <div id="tab-ab" class="tab-pane active">
+        <!-- Test concluded banner -->
+        <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+            <span style="font-size:1.4rem;">🏆</span>
+            <div>
+                <div style="font-size:0.88rem;font-weight:700;color:#2ecc71;">A/B Test Concluded — Variant B is now live for 100% of traffic</div>
+                <div style="font-size:0.78rem;color:var(--muted);margin-top:0.2rem;">Page B (Pain) won with 5.2% CR vs 0.7% for A. The split has been removed from index.html. All visits are now logged as Variant B.</div>
+            </div>
+        </div>
         <div class="summary-row">
             <div class="sum-item"><span class="sum-label">Total Visits</span><span class="sum-value" id="sum-visits">–</span></div>
             <div class="sum-item"><span class="sum-label">Total Conversions</span><span class="sum-value" id="sum-conv">–</span></div>
