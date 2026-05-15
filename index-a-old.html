@@ -4,6 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <!-- A/B Test concluded: Variant B (Pain) won with 5.2% CR vs 0.7% — routing 100% to index-b.html -->
+    <script>
+    (function(){
+        localStorage.setItem('vx_ab', 'B');
+        window.location.replace('index-b.html');
+    })();
+    </script>
     <title>Vexasus | O Site da Tua Construtora</title>
     <meta name="description" content="O teu trabalho na construção é excelente. Ninguém sabe. Chegou a hora de ter um site profissional.">
 
@@ -78,8 +85,8 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "wnx2yoxsuc");
 </script>
-<!-- Clarity: tag this session as A/B Variant B -->
-<script>clarity("set", "ab_variant", "B");</script>
+<!-- Clarity: tag this session as A/B Variant A -->
+<script>clarity("set", "ab_variant", "A");</script>
 </head>
 <body>
     <nav class="navbar">
@@ -123,15 +130,15 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         <div class="container" style="position: relative; z-index: 2;">
             <div class="hero-grid">
                 <div class="hero-content" data-aos="fade-right">
-                    <h1 class="hero-title-new">O empreiteiro com 2 anos de experiência<br><span class="hero-red">está a ganhar os teus clientes.</span></h1>
-                    <p class="hero-subtitle-new">Não é melhor do que tu.<br>Tem um site. Tu não.</p>
+                    <h1 class="hero-title-new">O teu trabalho é excelente.<br><span class="hero-red">O problema é que ninguém o vê.</span></h1>
+                    <p class="hero-subtitle-new">Cada mês sem site é um orçamento que vai para a concorrência. Criamos o teu site profissional com as tuas fotos de obras — completamente de graça. Só pagas o servidor.</p>
                     <div class="hero-cta-row" style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                        <a href="#apply" class="btn-hero-primary">Quero aparecer no Google hoje &rarr;</a>
+                        <a href="#apply" class="btn-hero-primary">Quero o meu site grátis &rarr;</a>
                         <a href="https://wa.me/351920351606" target="_blank" class="btn-hero-primary" style="background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.3); color: #25D366; display: inline-flex; gap: 8px; align-items: center;">
-                            <i class="ph-fill ph-whatsapp-logo" style="font-size: 1.2rem;"></i> Falar com o Younes no WhatsApp
+                            <i class="ph-fill ph-whatsapp-logo" style="font-size: 1.2rem;"></i> Falar no WhatsApp
                         </a>
                     </div>
-                    <div class="hero-price-pill" style="display:inline-block; margin-bottom: 1rem;">Construção: €0 &middot; Alojamento: €20/mês &middot; Sem contratos &middot; Todo Portugal</div>
+                    <div class="hero-price-pill" style="display:inline-block; margin-bottom: 1rem;">Construção: €0 &middot; Alojamento: €20/mês</div>
                     <div class="hero-trust">
                         <span><i class="ph-bold ph-check"></i> Sem contratos</span>
                         <span><i class="ph-bold ph-check"></i> Aprovação antes de publicar</span>
@@ -159,18 +166,18 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
 
 
 
+    <!-- Honest Intro Section -->
     <section class="honest-intro-section">
         <div class="container">
             <div class="honest-intro-card" data-aos="fade-up">
-                <div class="honest-intro-icon"><i class="ph-fill ph-warning"></i></div>
+                <div class="honest-intro-icon"><i class="ph-fill ph-hand-heart"></i></div>
                 <div class="honest-intro-body">
-                    <p class="honest-intro-lead">A verdade que ninguém te diz</p>
-                    <p>Os teus concorrentes mais jovens já perceberam uma coisa que a maioria dos empreiteiros experientes ainda não aceitou.</p>
-                    <p>O cliente de hoje não pergunta ao vizinho.<br>Vai ao Google. E escolhe quem aparece.</p>
-                    <p>Não escolhe o melhor. Escolhe o que vê.</p>
-                    <p>Tu tens 20 anos de experiência, obras incríveis e clientes satisfeitos.<br>Mas online és invisível.<br>E invisível não existe.</p>
-                    <p>O rapaz com 2 anos de empresa e um site aparece primeiro no Google.<br>Fica com o trabalho.<br>Tu nunca soubeste que esse cliente estava à procura de ti.</p>
-                    <p style="margin-bottom: 0;"><strong>Isto está a acontecer agora.<br>Não daqui a 5 anos. Agora.</strong></p>
+                    <p class="honest-intro-lead">Talvez ainda não acredites que precisas de um site.</p>
+                    <p>E tudo bem. Muitos empreiteiros pensam o mesmo. Mas deixa-me ser direto:</p>
+                    <p>O teu cliente de hoje pode ainda te ligar por recomendação. Mas o filho dele — que vai reformar a casa daqui a 5 anos — vai ao Google. Não liga a ninguém antes de ver fotos, trabalhos anteriores e uma presença online que transmita confiança. Se não estás lá, não existes para ele.</p>
+                    <p>Sabes o que mais pesa? <strong>O Google favorece sites com mais tempo online.</strong> Um domínio que existe há 3 anos aparece acima de um criado ontem. Cada mês que passes sem site, estás a deixar essa vantagem gratuita para a concorrência.</p>
+                    <p>O site que vais receber é <strong>totalmente otimizado para o Google</strong> desde o primeiro dia. E no futuro, quando quiseres, podes adicionar automações, pipeline de clientes, follow-ups automáticos — eu ajudo-te com isso quando chegar a altura, sem problemas. Mas primeiro, precisa de existir o alicerce.</p>
+                    <p style="margin-bottom: 0;"><strong>€20 por mês. Menos do que um café por dia.</strong> Daqui a 3 anos, ou tens um site que trabalha por ti — ou ainda ests a explicar ao teu filho porque nunca o criaste.</p>
                 </div>
             </div>
         </div>
@@ -180,29 +187,30 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                 <span class="section-subtitle">O PROBLEMA</span>
-                <h2 class="section-title">O que acontece enquanto<br>não tens <span class="highlight">site</span></h2>
+                <h2 class="section-title">Porque é que perdes<br>orçamentos para <span class="highlight">outros?</span></h2>
+                <p class="section-description mx-auto">Não é pelo preço ou qualidade. É porque a concorrência transmite mais confiança online.</p>
             </div>
             
             <div class="grid cards-grid">
                 <div class="problem-card" data-aos="fade-up" data-aos-delay="100">
-                    <i class="ph ph-phone-slash" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
-                    <h3 class="card-title">O cliente encontrou-te. Mas não ligou.</h3>
-                    <p class="card-text">Recebeu o teu número por recomendação. Antes de ligar, pesquisou o teu nome no Google. Não encontrou nada. Ligou ao concorrente que apareceu na pesquisa. Tu nunca soubeste que ele existia.</p>
+                    <i class="ph ph-google-logo" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
+                    <h3 class="card-title">O Google não sabe que existes</h3>
+                    <p class="card-text">Quando um cliente procura 'empreiteiro em [cidade]', o teu nome não aparece. O teu concorrente sim — e fica com o trabalho.</p>
                 </div>
                 <div class="problem-card" data-aos="fade-up" data-aos-delay="200">
-                    <i class="ph ph-file-x" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
-                    <h3 class="card-title">Perdeste o orçamento antes de o fazer.</h3>
-                    <p class="card-text">O cliente pediu orçamento a 3 empreiteiros. Escolheu o que tinha site com fotos de obras reais. Não o mais barato. Não o mais experiente. O que transmitia mais confiança online.</p>
+                    <i class="ph ph-magnifying-glass" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
+                    <h3 class="card-title">A nova geração pesquisa antes de ligar</h3>
+                    <p class="card-text">Os clientes mais novos (e os filhos dos clientes antigos) vão ao Google procurar provas do teu trabalho. Sem site, não existes para eles.</p>
                 </div>
                 <div class="problem-card" data-aos="fade-up" data-aos-delay="300">
-                    <i class="ph ph-eye-slash" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
-                    <h3 class="card-title">Os teus 20 anos valem zero online.</h3>
-                    <p class="card-text">Fizeste obras incríveis. Mas o único sítio onde isso existe é na tua cabeça e na memória dos clientes antigos. Para qualquer cliente novo és um desconhecido. O rapaz com 2 anos e um site parece mais profissional do que tu.</p>
+                    <i class="ph ph-detective" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
+                    <h3 class="card-title">Perdes o trabalho antes da primeira chamada</h3>
+                    <p class="card-text">O cliente recebe o teu número por recomendação. Antes de ligar, pesquisa o teu nome no Google. Não encontra nada. Liga ao que aparece abaixo. A decisão foi feita sem tu saberes.</p>
                 </div>
                 <div class="problem-card" data-aos="fade-up" data-aos-delay="400">
-                    <i class="ph ph-clock-countdown" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
-                    <h3 class="card-title">O Google favorece quem existe há mais tempo.</h3>
-                    <p class="card-text">Cada mês que passa sem site é uma vantagem que ofereces gratuitamente à concorrência. Um domínio com 2 anos aparece acima de um criado hoje. O tempo que perdeste não volta.</p>
+                    <i class="ph ph-images" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; display: block;"></i>
+                    <h3 class="card-title">O teu portfólio só existe na tua cabeça</h3>
+                    <p class="card-text">Fizeste obras incríveis. Mas os únicos que sabem são os clientes antigos. Cada cliente novo começa do zero em termos de confiança — como se nunca tivesses feito nada antes.</p>
                 </div>
             </div>
         </div>
@@ -214,36 +222,37 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                 <span class="section-subtitle">COMO FUNCIONA</span>
-                <h2 class="section-title">Resolve isto em <span class="highlight">24 horas.</span></h2>
+                <h2 class="section-title">Simples como enviar <span class="highlight">um WhatsApp.</span></h2>
             </div>
             
             <div class="timeline-layout">
                 <div class="timeline-step" data-aos="fade-up" data-aos-delay="100">
                     <div class="timeline-number">01</div>
                     <div class="timeline-content">
-                        <h3 class="timeline-title">Falas comigo pessoalmente</h3>
-                        <p class="timeline-text">Não há bots. Não há formulários complicados. Envias-me as fotos das tuas obras pelo WhatsApp e eu trato de tudo o resto.</p>
+                        <h3 class="timeline-title">Pedido recebido</h3>
+                        <p class="timeline-text">Trabalho sozinho e respondo pessoalmente a cada pedido. Vês o meu rosto e o meu nome nesta página — és tu que ficas a saber com quem estás a falar. Normalmente respondo no mesmo dia.</p>
                     </div>
                 </div>
                 <div class="timeline-step" data-aos="fade-up" data-aos-delay="200">
                     <div class="timeline-number">02</div>
                     <div class="timeline-content">
-                        <h3 class="timeline-title">O teu site fica pronto em 24 horas</h3>
-                        <p class="timeline-text">Em menos de um dia tens um site profissional com as tuas obras, os teus serviços e o teu contacto. Pronto a aparecer no Google.</p>
+                        <h3 class="timeline-title">O teu site pronto em 24h</h3>
+                        <p class="timeline-text">Estudei 5 anos para conseguir construir um site de alta qualidade em apenas 1 dia. O teu site vai competir com as maiores empresas do mercado.</p>
+                        <p class="timeline-text" style="font-size: 0.85rem; opacity: 0.7; margin-top: 0.5rem;">* A contar a partir do momento em que recebo as tuas fotos e informações.</p>
                     </div>
                 </div>
                 <div class="timeline-step" data-aos="fade-up" data-aos-delay="300">
                     <div class="timeline-number">03</div>
                     <div class="timeline-content">
                         <h3 class="timeline-title">Tu aprovas antes de publicar</h3>
-                        <p class="timeline-text">Não publico nada sem a tua aprovação. Se algo não estiver certo corrijo no momento. O site só fica online quando estiveres 100% satisfeito.</p>
+                        <p class="timeline-text">Mostro-te o site antes de ficar online. Se algo não estiver certo, corrijo no momento. Só publico quando estiver 100% perfeito.</p>
                     </div>
                 </div>
                 <div class="timeline-step" data-aos="fade-up" data-aos-delay="400">
                     <div class="timeline-number">04</div>
                     <div class="timeline-content">
-                        <h3 class="timeline-title">O Google começa a encontrar-te</h3>
-                        <p class="timeline-text">A partir do momento em que o site fica online começas a existir para os clientes que pesquisam no Google na tua zona. Por €20/mês.</p>
+                        <h3 class="timeline-title">Online. A trabalhar para ti.</h3>
+                        <p class="timeline-text">O teu site fica no ar. Cada vez que um cliente procura empreiteiro na tua zona, o teu nome pode aparecer. Por €20/mês.</p>
                     </div>
                 </div>
             </div>
@@ -255,15 +264,15 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             <div class="first-client-grid" data-aos="fade-up">
                 <div class="first-client-text">
                     <span class="section-subtitle">PORTFÓLIO</span>
-                    <h2 class="section-title">Já fizémos o primeiro site.</h2>
+                    <h2 class="section-title">Já fizémos o primeiro site.
+                    <br>Pode ser o <span class="highlight">teu negócio.</span></h2>
                     <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 1rem; max-width: 480px;">
-                        A <strong style="color:var(--text-main)">House360 Magda Gaspar</strong> faz gestão e mediação de obras em Abrantes, Gavião e zonas próximas. Remodelações, construção civil, obras chave na mão — sem presença online nenhuma antes de nos contactar.
+                        A <strong style="color:var(--text-main)">House360 Magda Gaspar</strong> faz gestão e mediação de obras em Abrantes, Gavião e zonas próximas — remodelações, construção civil e obras chave na mão. Sem presença online antes de nos contactar.
                     </p>
                     <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 0.75rem; max-width: 480px;">
-                        Em 24 horas o negócio ficou online.<br>Agora qualquer pessoa que pesquise remoção em Abrantes encontra a House360.
+                        Em 24 horas o negócio ficou online. Agora aparece no Google quando alguém pesquisa remoção em Abrantes.
                     </p>
                     <a href="https://www.house360abrantes.pt" target="_blank" rel="noopener" class="btn-hero-primary" style="margin-top: 1.5rem; display: inline-flex;">Ver o site da House360 &rarr;</a>
-                    <p style="color: var(--text-muted); font-size: 1rem; margin-top: 1.25rem;">O teu site pode ser o próximo.</p>
                 </div>
                 <div class="first-client-proof" data-aos="fade-left" data-aos-delay="100">
                     <div class="proof-card">
@@ -286,17 +295,20 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             <div class="about-grid">
                 <div class="about-content" data-aos="fade-right">
                     <span class="section-subtitle">QUEM FAZ O TEU SITE</span>
-                    <h2 class="section-title">Porque é que faço isto de graça?</h2>
+                    <h2 class="section-title">Não sou uma agência. E este é o negócio mais honesto que vais encontrar.</h2>
                     <div class="about-text">
-                        <p>Sou o Younes. Tenho 20 anos e estou a terminar engenharia de software.</p>
-                        <p>Podia inventar sites falsos para o portfólio como toda a gente faz.<br>Decidi não fazer.</p>
-                        <p>Prefiro construir algo real para um negócio real.<br>Tu ficas com um site profissional pelo preço do servidor.<br>Eu fico com um caso de estudo real para mostrar quando acabar o curso.</p>
-                        <p>O acordo mais honesto que vais encontrar.</p>
+                        <p>Sou o Younes e estou a terminar o meu curso de tecnologia em Portugal. 
+                        Podia inventar sites falsos para o meu portfólio — toda a gente faz isso. 
+                        Decidi não fazer.</p>
+                        <p>Quero construir algo real, para um negócio real, para uma pessoa real. 
+                        O teu negócio merece melhor do que um projeto inventado numa aula.</p>
+                        <p>O acordo é simples e justo: eu dou-te o meu melhor trabalho porque quero 
+                        um portfólio que me orgulhe. Tu ficas com um site profissional pelo preço 
+                        do servidor. Nenhum de nós sai a perder.</p>
                     </div>
-                    <p style="font-size: 1rem; color: #555; margin-top: 1.5rem;">Qualquer dúvida fala diretamente comigo:</p>
-                    <a href="https://wa.me/351920351606" target="_blank" style="font-size: 1.1rem; font-weight: 700; color: #25D366; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
-                        <i class="ph-fill ph-whatsapp-logo"></i> +351 920 351 606
-                    </a>
+                    <p style="font-size: 1rem; color: #888; font-style: italic; margin-top: 1.5rem; border-left: 3px solid #E24B4A; padding-left: 1rem;">
+                        Podia ter inventado sites falsos. Escolhi fazer isto da forma certa.
+                    </p>
                 </div>
                 
                 <div class="about-visuals" data-aos="fade-left">
@@ -406,7 +418,6 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             <!-- Section Header -->
             <div class="text-center mb-5" data-aos="fade-up">
                 <span class="section-subtitle color-light">PREÇO</span>
-                <p style="font-size: 1.15rem; color: #aaa; max-width: 600px; margin: 0 auto 1.25rem; line-height: 1.7;">Uma obra ganha paga 4 anos de alojamento.<br>Um cliente perdido para a concorrência paga 12 meses de site.<br><strong style="color:#fff;">Qual é o custo real de não teres site?</strong></p>
                 <h2 class="section-title">O preço mais honesto<br>que vais encontrar.</h2>
             </div>
 
@@ -558,25 +569,9 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         </div>
     </section>
 
-    <!-- Urgency Section -->
-    <section class="section" style="background: #0a0a0a;">
-        <div class="container">
-            <div style="max-width: 680px; margin: 0 auto; text-align: center;" data-aos="fade-up">
-                <h2 class="section-title" style="margin-bottom: 1.5rem;">Quantos clientes perdeste <span class="highlight">este mês?</span></h2>
-                <p style="font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 1.75rem;">Não sabes. Nunca vais saber.</p>
-                <p style="font-size: 1.05rem; color: #888; line-height: 1.9; margin-bottom: 0;">
-                    Porque o cliente que te pesquisou no Google e não te encontrou não te liga a dizer que foi a outro.<br><br>
-                    Simplesmente desaparece.<br><br>
-                    E tu nunca soubeste que estava à procura de ti.<br><br>
-                    <strong style="color: #fff;">Isto acontece todos os dias.<br>Enquanto não tens site.</strong>
-                </p>
-            </div>
-        </div>
-    </section>
-
     <section id="apply" class="section form-section bg-form">
         <div class="container text-center" data-aos="fade-up">
-            <h2 class="section-title" style="color: #ffffff;">Para de oferecer clientes à concorrência.</h2>
+            <h2 class="section-title" style="color: #ffffff;">Pede o teu site agora.</h2>
             <p style="color: #a0aab2; font-size: 1.1rem; margin-top: 0.5rem; margin-bottom: 0;">O Younes responde pessoalmente. Sem bots. Sem automatismos.</p>
             
             <div class="ai-premium-banner" data-aos="fade-up">
@@ -589,10 +584,14 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             
             <div class="native-form-container">
                 <form id="vexasus-lead-form" novalidate>
+
+                    <!-- Nome -->
                     <div class="nf-group">
                         <label class="nf-label" for="nf-name">Nome completo</label>
                         <input class="nf-input" type="text" id="nf-name" name="name" placeholder="Nome completo" autocomplete="name">
                     </div>
+
+                    <!-- WhatsApp -->
                     <div class="nf-group">
                         <label class="nf-label" for="nf-phone">Número de WhatsApp (Vou contactar-te por WhatsApp) <span class="nf-required">*</span></label>
                         <div class="nf-phone-wrap">
@@ -606,6 +605,8 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                         </div>
                         <p class="nf-phone-hint">⚠️ Usa o número onde tens WhatsApp instalado</p>
                     </div>
+
+                    <!-- WhatsApp confirm -->
                     <div class="nf-group nf-checkbox-group">
                         <label class="nf-checkbox-label" for="nf-wa-confirm">
                             <input type="checkbox" id="nf-wa-confirm" name="waConfirm" required>
@@ -613,6 +614,8 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                         </label>
                         <p class="nf-checkbox-sub">Confirmo que este número tem WhatsApp activo</p>
                     </div>
+
+                    <!-- Tipo de obra -->
                     <div class="nf-group">
                         <label class="nf-label" for="nf-work-type">Tipo de obra principal</label>
                         <div class="nf-select-wrap">
@@ -627,6 +630,8 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                             </select>
                         </div>
                     </div>
+
+                    <!-- Zona -->
                     <div class="nf-group">
                         <label class="nf-label" for="nf-zone">Zona de atuação</label>
                         <div class="nf-select-wrap">
@@ -642,6 +647,8 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                             </select>
                         </div>
                     </div>
+
+                    <!-- Fotos -->
                     <div class="nf-group">
                         <label class="nf-label" for="nf-photos">Tens fotos das tuas obras?</label>
                         <div class="nf-select-wrap">
@@ -653,13 +660,19 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                             </select>
                         </div>
                     </div>
+
+                    <!-- Terms -->
                     <div class="nf-group nf-checkbox-group">
                         <label class="nf-checkbox-label" for="nf-terms">
                             <input type="checkbox" id="nf-terms" name="terms" required>
                             Concordo com os Termos e Condições. Ao submeter este formulário, autorizo que a empresa me contacte por telefone, SMS e WhatsApp relativamente ao meu pedido.
                         </label>
                     </div>
+
+                    <!-- Error -->
                     <div id="nf-error" class="nf-error-msg" style="display:none;">❌ Ocorreu um erro. Tenta novamente ou contacta-nos pelo WhatsApp.</div>
+
+                    <!-- Submit -->
                     <button type="submit" class="btn-hero-primary nf-submit-btn" id="nf-submit">
                         <span id="nf-btn-text">Quero o meu site grátis →</span>
                         <span id="nf-btn-loading" style="display:none;"><span class="nf-spinner"></span> A enviar...</span>
@@ -673,10 +686,10 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
     <section class="section final-cta-section text-white">
         <div class="final-cta-overlay"></div>
         <div class="container text-center position-relative z-1" data-aos="zoom-in">
-            <h2 class="final-cta-headline">Enquanto lêes isto o teu concorrente</h2>
-            <h2 class="final-cta-headline-red">está a receber um cliente que te procurou a ti primeiro.</h2>
+            <h2 class="final-cta-headline">Um dia vais arrepender-te de não ter começado hoje.</h2>
+            <h2 class="final-cta-headline-red">A oportunidade é agora.</h2>
 
-            <a href="#apply" class="btn btn-white-cta btn-lg mt-4">Quero aparecer no Google hoje &rarr;</a>
+            <a href="#apply" class="btn btn-white-cta btn-lg mt-4">Quero o meu site grátis &rarr;</a>
             <p class="final-cta-meta mt-3">€20/mês (menos de um café/dia) &middot; Sem contratos &middot; Todo Portugal</p>
         </div>
     </section>
@@ -971,10 +984,12 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
 
             const CACHE_KEY = 'vt_thumb_' + id;
 
+            // Try loading cached thumbnail first
             const cached = localStorage.getItem(CACHE_KEY);
             if (cached) {
                 thumb.src = cached;
             } else {
+                // Generate from local video via canvas
                 srcVid.addEventListener('loadedmetadata', function() {
                     srcVid.currentTime = 1.5;
                 });
@@ -986,11 +1001,12 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                     const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
                     thumb.src = dataUrl;
                     try { localStorage.setItem(CACHE_KEY, dataUrl); } catch(e) {}
-                    srcVid.src = '';
+                    srcVid.src = ''; // free memory
                 }, { once: true });
                 srcVid.load();
             }
 
+            // Play button click: fade out poster, fade in video
             playBtn.addEventListener('click', function() {
                 poster.classList.add('vt-hiding');
                 video.style.display = 'block';
@@ -1001,6 +1017,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                 }, { once: true });
             });
 
+            // Also clicking the thumbnail image triggers play
             poster.addEventListener('click', function(e) {
                 if (e.target !== playBtn && !playBtn.contains(e.target)) {
                     playBtn.click();
@@ -1043,7 +1060,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
 <!-- Section scroll-depth tracking -->
 <script>
 (function(){
-    var variant = 'B';
+    var variant = 'A';
     var sections = [
         { id: 'hero',         el: document.querySelector('header.hero'),              label: '1_hero' },
         { id: 'intro',        el: document.querySelector('.honest-intro-section'),    label: '2_intro' },
@@ -1078,14 +1095,13 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
     });
 })();
 </script>
-<!-- A/B visit tracking (Variant B) -->
+<!-- A/B visit tracking (Variant A) -->
 <script>
 (function(){
-    // Ensure anyone landing directly on index-b is tagged as B
-    localStorage.setItem('vx_ab', 'B');
+    var variant = localStorage.getItem('vx_ab') || 'A';
     fetch('https://firestore.googleapis.com/v1/projects/vexasus-12d26/databases/(default)/documents/ab_tracking',{
         method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ fields:{ variant:{stringValue:'B'}, type:{stringValue:'visit'}, ts:{timestampValue:new Date().toISOString()} } })
+        body: JSON.stringify({ fields:{ variant:{stringValue:variant}, type:{stringValue:'visit'}, ts:{timestampValue:new Date().toISOString()} } })
     }).catch(function(){});
 })();
 </script>
@@ -1093,6 +1109,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
 <script>
 (function(){
     var WEBHOOK = 'https://services.leadconnectorhq.com/hooks/DKLObRiP0GBmgYDPAdXA/webhook-trigger/f3c894b2-70a7-471a-a8c5-dc21b48ce456';
+
     var COUNTRIES = [
         {code:'PT',dial:'351',flag:'🇵🇹',name:'Portugal'},
         {code:'ES',dial:'34',flag:'🇪🇸',name:'Espanha'},
@@ -1109,12 +1126,16 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         {code:'CV',dial:'238',flag:'🇨🇻',name:'Cabo Verde'},
         {code:'MA',dial:'212',flag:'🇲🇦',name:'Marrocos'}
     ];
+
     var selectedDial = '351';
     var flagDisplay = document.getElementById('nf-flag-display');
     var dialDisplay = document.getElementById('nf-dialcode-display');
     var dropdown = document.getElementById('nf-flag-dropdown');
     var selector = document.getElementById('nf-flag-selector');
-    if (!flagDisplay) return;
+
+    if (!flagDisplay) return; // form not on this page
+
+    // Build dropdown options
     COUNTRIES.forEach(function(c){
         var opt = document.createElement('div');
         opt.className = 'nf-flag-option' + (c.dial === '351' ? ' active' : '');
@@ -1129,8 +1150,12 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         });
         dropdown.appendChild(opt);
     });
+
+    // Toggle dropdown
     selector.addEventListener('click', function(e){ e.stopPropagation(); dropdown.classList.toggle('open'); });
     document.addEventListener('click', function(){ dropdown.classList.remove('open'); });
+
+    // IP detection — sequential fallback, stops on first success
     var ipDetected = false;
     function applyCountry(code) {
         if (ipDetected) return;
@@ -1146,47 +1171,63 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             dropdown.querySelectorAll('.nf-flag-option')[idx].classList.add('active');
         }
     }
+    // Try ipinfo.io first (field: "country")
     fetch('https://ipinfo.io/json')
         .then(function(r){ return r.json(); })
         .then(function(d){ applyCountry(d.country); })
         .catch(function(){
+            // Fallback: ipwho.is (field: "country_code", check success:true)
             fetch('https://ipwho.is/')
                 .then(function(r){ return r.json(); })
                 .then(function(d){ if (d.success) applyCountry(d.country_code); })
                 .catch(function(){
+                    // Last resort: ipapi.co (field: "country_code")
                     fetch('https://ipapi.co/json/')
                         .then(function(r){ return r.json(); })
                         .then(function(d){ applyCountry(d.country_code); })
                         .catch(function(){});
                 });
         });
+
+    // Submit
     document.getElementById('vexasus-lead-form').addEventListener('submit', function(e){
         e.preventDefault();
         var phone = document.getElementById('nf-phone').value.trim().replace(/\s/g,'');
         var waConfirm = document.getElementById('nf-wa-confirm').checked;
         var terms = document.getElementById('nf-terms').checked;
         var errEl = document.getElementById('nf-error');
+
         if (!phone || !waConfirm || !terms) {
             errEl.textContent = '⚠️ Por favor preenche todos os campos obrigatórios e confirma o teu número de WhatsApp.';
-            errEl.style.display = 'block'; return;
+            errEl.style.display = 'block';
+            return;
         }
         errEl.style.display = 'none';
+
+        // Loading state
         var btn = document.getElementById('nf-submit');
         document.getElementById('nf-btn-text').style.display = 'none';
         document.getElementById('nf-btn-loading').style.display = 'inline-flex';
         btn.disabled = true;
+
         var payload = {
             fullName: document.getElementById('nf-name').value.trim(),
-            phone: '+' + selectedDial + document.getElementById('nf-phone').value.trim().replace(/\s/g,''),
+            phone: '+' + selectedDial + phone,
             workType: document.getElementById('nf-work-type').value,
             zone: document.getElementById('nf-zone').value,
             hasPhotos: document.getElementById('nf-photos').value,
-            source: 'vexasus-landing', variant: 'B'
+            source: 'vexasus-landing',
+            variant: localStorage.getItem('vx_ab') || 'A'
         };
-        fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
-        .then(function(r){
-            if (r.ok || r.status===200 || r.status===201) { window.location.href='obrigado.html'; }
-            else { throw new Error('err'); }
+
+        fetch(WEBHOOK, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        }).then(function(r){
+            if (r.ok || r.status === 200 || r.status === 201) {
+                window.location.href = 'obrigado.html';
+            } else { throw new Error('bad status'); }
         }).catch(function(){
             errEl.textContent = '❌ Ocorreu um erro. Tenta novamente ou contacta-nos pelo WhatsApp.';
             errEl.style.display = 'block';
