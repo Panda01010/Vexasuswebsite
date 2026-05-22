@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!-- Deployment: 2026-05-08 04:32 -->
 <html lang="pt">
 <head>
@@ -260,95 +260,105 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         </div>
     </section>
 
-    <!-- Portfolio Section -->
-    <section class="section portfolio-section" id="portfolio">
-        <div class="container">
+    <!-- Portfolio & Testimonials — Combined -->
+    <section id="testimonial" class="testimonial-premium-section">
+        <div class="testimonial-glow-orb"></div>
+        <div class="container" style="position:relative;z-index:2;">
+
             <div class="text-center mb-5" data-aos="fade-up">
-                <span class="section-subtitle">PORTFÓLIO</span>
-                <h2 class="section-title">Já fizemos 3 sites reais.<br>Pode ser o <span class="highlight">teu negócio.</span></h2>
-                <p class="section-desc">Cada site feito de raiz com as fotos e informações do cliente — entregue em 24h.</p>
+                <span class="testimonial-eyebrow">PORTFÓLIO</span>
+                <h2 class="testimonial-heading">Os meus 3 sites reais.<br><span class="testimonial-heading-accent">O que dizem sobre mim.</span></h2>
+                <p class="section-desc" style="color:#aaa;">Clientes reais, vídeos reais — e o site deles mesmo ali para ver.</p>
             </div>
 
-            <div class="portfolio-grid">
+            <div class="testimonials-carousel-wrapper">
+                <div class="testimonials-track" id="tcTrack">
 
-                <!-- Card 1 — Eduardo -->
-                <a href="https://www.edularestauroscasas.com" target="_blank" rel="noopener" class="pcard" data-aos="fade-up">
-                    <div class="pcard-browser">
-                        <div class="pcard-bar">
-                            <span class="pcard-dot"></span><span class="pcard-dot"></span><span class="pcard-dot"></span>
-                            <span class="pcard-url">edularestauroscasas.com</span>
-                        </div>
-                        <div class="pcard-preview">
-                            <img src="https://api.screenshotmachine.com/?key=demo&url=https://www.edularestauroscasas.com&dimension=1024x640&format=jpg&cacheLimit=0" 
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                                 alt="edularestauroscasas.com preview" class="pcard-img" loading="lazy">
-                            <div class="pcard-fallback" style="display:none;">
-                                <i class="ph ph-house"></i>
-                                <span>edularestauroscasas.com</span>
+                    <!-- CARD 1 — Eduardo Duarte -->
+                    <div class="tcard" data-aos="fade-up">
+                        <div class="tcard-video-wrap" id="tvw-1">
+                            <video class="tcard-video" id="tv-1" preload="metadata" playsinline poster="assets/poster1.jpg">
+                                <source src="assets/testimonial3.mp4" type="video/mp4">
+                            </video>
+                            <div class="tcard-play-overlay" id="tpo-1">
+                                <div class="tcard-play-btn">
+                                    <svg viewBox="0 0 24 24" fill="white" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="pcard-body">
-                        <span class="pcard-tag">Obras &amp; Remodelação</span>
-                        <h3 class="pcard-title">EduardoRemodelação</h3>
-                        <p class="pcard-sub">Obras Interiores — Margem Sul</p>
-                        <span class="pcard-cta">Ver site <i class="ph ph-arrow-right"></i></span>
-                    </div>
-                </a>
-
-                <!-- Card 2 — Hugo -->
-                <a href="https://www.hsremodelacoes.pt" target="_blank" rel="noopener" class="pcard" data-aos="fade-up" data-aos-delay="100">
-                    <div class="pcard-browser">
-                        <div class="pcard-bar">
-                            <span class="pcard-dot"></span><span class="pcard-dot"></span><span class="pcard-dot"></span>
-                            <span class="pcard-url">hsremodelacoes.pt</span>
+                        <div class="tcard-body">
+                            <div class="tcard-stars">
+                                <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                            </div>
+                            <p class="tcard-quote">"O Younes fez um trabalho fantástico no meu site. Profissional, rápido e entregou exatamente o que eu queria. Recomendo!"</p>
+                            <p class="tcard-author-name">Eduardo Duarte</p>
+                            <p class="tcard-author-role">CEO · EduardoRemodelação — Margem Sul</p>
+                            <a href="https://www.edularestauroscasas.com" target="_blank" rel="noopener" class="tcard-link"><i class="ph ph-arrow-square-out"></i> edularestauroscasas.com</a>
                         </div>
-                        <div class="pcard-preview">
-                            <img src="https://api.screenshotmachine.com/?key=demo&url=https://www.hsremodelacoes.pt&dimension=1024x640&format=jpg&cacheLimit=0"
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                                 alt="hsremodelacoes.pt preview" class="pcard-img" loading="lazy">
-                            <div class="pcard-fallback" style="display:none;">
-                                <i class="ph ph-paint-roller"></i>
-                                <span>hsremodelacoes.pt</span>
+                    </div>
+
+                    <!-- CARD 2 — Hugo Sousa -->
+                    <div class="tcard" data-aos="fade-up" data-aos-delay="100">
+                        <div class="tcard-video-wrap" id="tvw-2">
+                            <video class="tcard-video" id="tv-2" preload="metadata" playsinline poster="assets/poster2.jpg">
+                                <source src="assets/testimonial2.mp4" type="video/mp4">
+                            </video>
+                            <div class="tcard-play-overlay" id="tpo-2">
+                                <div class="tcard-play-btn">
+                                    <svg viewBox="0 0 24 24" fill="white" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="pcard-body">
-                        <span class="pcard-tag">Pinturas &amp; Remodelação</span>
-                        <h3 class="pcard-title">HS Pinturas &amp; Remodelações</h3>
-                        <p class="pcard-sub">Quartzo &amp; Airless — Algarve</p>
-                        <span class="pcard-cta">Ver site <i class="ph ph-arrow-right"></i></span>
-                    </div>
-                </a>
-
-                <!-- Card 3 — Magda -->
-                <a href="https://www.destinocertobymagdagaspar.pt" target="_blank" rel="noopener" class="pcard" data-aos="fade-up" data-aos-delay="200">
-                    <div class="pcard-browser">
-                        <div class="pcard-bar">
-                            <span class="pcard-dot"></span><span class="pcard-dot"></span><span class="pcard-dot"></span>
-                            <span class="pcard-url">destinocertobymagdagaspar.pt</span>
+                        <div class="tcard-body">
+                            <div class="tcard-stars">
+                                <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                            </div>
+                            <p class="tcard-quote">"Fiquei muito satisfeito com o resultado. O site ficou profissional, moderno e representa bem o meu trabalho. Muito bom serviço!"</p>
+                            <p class="tcard-author-name">Hugo Sousa</p>
+                            <p class="tcard-author-role">CEO · HS Pinturas &amp; Remodelações — Algarve</p>
+                            <a href="https://www.hsremodelacoes.pt" target="_blank" rel="noopener" class="tcard-link"><i class="ph ph-arrow-square-out"></i> hsremodelacoes.pt</a>
                         </div>
-                        <div class="pcard-preview">
-                            <img src="https://api.screenshotmachine.com/?key=demo&url=https://www.destinocertobymagdagaspar.pt&dimension=1024x640&format=jpg&cacheLimit=0"
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                                 alt="destinocertobymagdagaspar.pt preview" class="pcard-img" loading="lazy">
-                            <div class="pcard-fallback" style="display:none;">
-                                <i class="ph ph-airplane"></i>
-                                <span>destinocertobymagdagaspar.pt</span>
+                    </div>
+
+                    <!-- CARD 3 — Magda Gaspar -->
+                    <div class="tcard" data-aos="fade-up" data-aos-delay="200">
+                        <div class="tcard-video-wrap" id="tvw-3">
+                            <video class="tcard-video" id="tv-3" preload="metadata" playsinline poster="assets/poster3.jpg">
+                                <source src="assets/testimonial1.mp4" type="video/mp4">
+                            </video>
+                            <div class="tcard-play-overlay" id="tpo-3">
+                                <div class="tcard-play-btn">
+                                    <svg viewBox="0 0 24 24" fill="white" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
                             </div>
                         </div>
+                        <div class="tcard-body">
+                            <div class="tcard-stars">
+                                <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                            </div>
+                            <p class="tcard-quote">"Gostei muito do trabalho que fizeram, foi um trabalho espetacular. Recomendo sem dúvida!"</p>
+                            <p class="tcard-author-name">Magda Gaspar</p>
+                            <p class="tcard-author-role">CEO · Destino Certo — Agência de Viagens</p>
+                            <a href="https://www.destinocertobymagdagaspar.pt" target="_blank" rel="noopener" class="tcard-link"><i class="ph ph-arrow-square-out"></i> destinocertobymagdagaspar.pt</a>
+                        </div>
                     </div>
-                    <div class="pcard-body">
-                        <span class="pcard-tag">Agência de Viagens</span>
-                        <h3 class="pcard-title">Destino Certo</h3>
-                        <p class="pcard-sub">by Magda Gaspar — Portugal</p>
-                        <span class="pcard-cta">Ver site <i class="ph ph-arrow-right"></i></span>
-                    </div>
-                </a>
 
+                </div><!-- /testimonials-track -->
+            </div><!-- /testimonials-carousel-wrapper -->
+
+            <!-- Mobile dots -->
+            <div class="testimonial-dots" id="tcDots">
+                <button class="testimonial-dot active" data-idx="0"></button>
+                <button class="testimonial-dot" data-idx="1"></button>
+                <button class="testimonial-dot" data-idx="2"></button>
+            </div>
+
+            <div class="text-center mt-5 pt-3" data-aos="fade-up">
+                <a href="#apply" class="testimonial-cta-btn">Quero o meu site de construção a 0€ também &rarr;</a>
             </div>
         </div>
     </section>
+
 
     <section id="about" class="section bg-white">
         <div class="container">
