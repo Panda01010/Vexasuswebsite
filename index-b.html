@@ -314,109 +314,90 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         </div>
     </section>
 
-    <!-- Video Testimonial Section (Premium Redesign) -->
+    <!-- Testimonial Section — Card Carousel -->
     <section id="testimonial" class="testimonial-premium-section">
         <div class="testimonial-glow-orb"></div>
-        <div class="container" style="position: relative; z-index: 2;">
+        <div class="container" style="position:relative;z-index:2;">
 
             <div class="text-center mb-5" data-aos="fade-up">
                 <span class="testimonial-eyebrow">Testemunhos Reais</span>
                 <h2 class="testimonial-heading">O que os nossos clientes<br><span class="testimonial-heading-accent">dizem sobre nós</span></h2>
             </div>
 
-            <div class="testimonials-list">
-                <!-- CARD 1 — Eduardo Duarte (FIRST) -->
-                <div class="testimonial-glass-card mx-auto" data-aos="fade-up">
-                    <div class="testimonial-video-col">
-                        <div class="testimonial-video-frame" id="vt-player-1">
-                            <div class="vt-poster" id="vt-poster-1">
-                                <img id="vt-thumb-1" src="" alt="Eduardo Duarte - Testemunho" class="vt-thumb-img">
-                                <button class="vt-play-btn" id="vt-play-1" aria-label="Reproduzir vídeo">
-                                    <svg viewBox="0 0 24 24" fill="white" width="28" height="28"><path d="M8 5v14l11-7z"/></svg>
-                                </button>
-                            </div>
-                            <video id="vt-video-1" controls preload="none" playsinline webkit-playsinline x5-playsinline style="display:none; width:100%; height:100%; object-fit:cover; border-radius:12px;">
+            <div class="testimonials-carousel-wrapper">
+                <div class="testimonials-track" id="tcTrack">
+
+                    <!-- CARD 1 — Eduardo Duarte -->
+                    <div class="tcard" data-aos="fade-up">
+                        <div class="tcard-video-wrap" id="tvw-1">
+                            <video class="tcard-video" id="tv-1" preload="metadata" playsinline>
                                 <source src="assets/testimonial3.mp4" type="video/mp4">
                             </video>
-                            <video id="vt-src-1" src="assets/testimonial3.mp4" preload="metadata" style="display:none; position:absolute;" crossorigin="anonymous" muted playsinline></video>
-                            <canvas id="vt-canvas-1" style="display:none;"></canvas>
-                        </div>
-                    </div>
-                    <div class="testimonial-content-col">
-                        <div class="testimonial-stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
-                        <div class="testimonial-quote-block">
-                            <i class="ph-fill ph-quotes testimonial-quote-icon"></i>
-                            <p class="testimonial-quote-text">"O Younes fez um trabalho fantástico no meu site. Profissional, rápido e entregou exatamente o que eu queria. Recomendo a qualquer profissional de obras!"</p>
-                        </div>
-                        <div class="testimonial-author-block">
-                            <div class="testimonial-author-name">Eduardo Duarte</div>
-                            <div class="testimonial-author-role">CEO · EduardoRemodelação — Obras Interiores, Margem Sul</div>
-                            <a href="https://www.edularestauroscasas.com" target="_blank" rel="noopener" class="testimonial-project-link"><i class="ph ph-arrow-square-out"></i> www.edularestauroscasas.com</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CARD 2 — Hugo Sousa -->
-                <div class="testimonial-glass-card mx-auto" data-aos="fade-up" data-aos-delay="100">
-                    <div class="testimonial-video-col">
-                        <div class="testimonial-video-frame" id="vt-player-2">
-                            <div class="vt-poster" id="vt-poster-2">
-                                <img id="vt-thumb-2" src="" alt="Hugo Sousa - Testemunho" class="vt-thumb-img">
-                                <button class="vt-play-btn" id="vt-play-2" aria-label="Reproduzir vídeo">
-                                    <svg viewBox="0 0 24 24" fill="white" width="28" height="28"><path d="M8 5v14l11-7z"/></svg>
-                                </button>
+                            <div class="tcard-play-overlay" id="tpo-1">
+                                <div class="tcard-play-btn">
+                                    <svg viewBox="0 0 24 24" fill="white" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
                             </div>
-                            <video id="vt-video-2" controls preload="none" playsinline webkit-playsinline x5-playsinline style="display:none; width:100%; height:100%; object-fit:cover; border-radius:12px;">
+                        </div>
+                        <div class="tcard-body">
+                            <div class="tcard-stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                            <p class="tcard-quote">"O Younes fez um trabalho fantástico no meu site. Profissional, rápido e entregou exatamente o que eu queria. Recomendo!"</p>
+                            <p class="tcard-author-name">Eduardo Duarte</p>
+                            <p class="tcard-author-role">CEO · EduardoRemodelação — Margem Sul</p>
+                            <a href="https://www.edularestauroscasas.com" target="_blank" rel="noopener" class="tcard-link"><i class="ph ph-arrow-square-out"></i> edularestauroscasas.com</a>
+                        </div>
+                    </div>
+
+                    <!-- CARD 2 — Hugo Sousa -->
+                    <div class="tcard" data-aos="fade-up" data-aos-delay="100">
+                        <div class="tcard-video-wrap" id="tvw-2">
+                            <video class="tcard-video" id="tv-2" preload="metadata" playsinline>
                                 <source src="assets/testimonial2.mp4" type="video/mp4">
                             </video>
-                            <video id="vt-src-2" src="assets/testimonial2.mp4" preload="metadata" style="display:none; position:absolute;" crossorigin="anonymous" muted playsinline></video>
-                            <canvas id="vt-canvas-2" style="display:none;"></canvas>
-                        </div>
-                    </div>
-                    <div class="testimonial-content-col">
-                        <div class="testimonial-stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
-                        <div class="testimonial-quote-block">
-                            <i class="ph-fill ph-quotes testimonial-quote-icon"></i>
-                            <p class="testimonial-quote-text">"Fiquei muito satisfeito com o resultado. O site ficou profissional, moderno e representa bem o meu trabalho no Algarve. Muito bom serviço!"</p>
-                        </div>
-                        <div class="testimonial-author-block">
-                            <div class="testimonial-author-name">Hugo Sousa</div>
-                            <div class="testimonial-author-role">CEO · HS Pinturas & Remodelações — Quartzo & Airless, Algarve</div>
-                            <a href="https://www.hsremodelacoes.pt" target="_blank" rel="noopener" class="testimonial-project-link"><i class="ph ph-arrow-square-out"></i> www.hsremodelacoes.pt</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CARD 3 — Magda Gaspar -->
-                <div class="testimonial-glass-card mx-auto" data-aos="fade-up" data-aos-delay="200">
-                    <div class="testimonial-video-col">
-                        <div class="testimonial-video-frame" id="vt-player-3">
-                            <div class="vt-poster" id="vt-poster-3">
-                                <img id="vt-thumb-3" src="" alt="Magda Gaspar - Testemunho" class="vt-thumb-img">
-                                <button class="vt-play-btn" id="vt-play-3" aria-label="Reproduzir vídeo">
-                                    <svg viewBox="0 0 24 24" fill="white" width="28" height="28"><path d="M8 5v14l11-7z"/></svg>
-                                </button>
+                            <div class="tcard-play-overlay" id="tpo-2">
+                                <div class="tcard-play-btn">
+                                    <svg viewBox="0 0 24 24" fill="white" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
                             </div>
-                            <video id="vt-video-3" controls preload="none" playsinline webkit-playsinline x5-playsinline style="display:none; width:100%; height:100%; object-fit:cover; border-radius:12px;">
-                                <source src="https://assets.cdn.filesafe.space/DKLObRiP0GBmgYDPAdXA/media/69fe1a8be4086e455f72560b.mov" type="video/mp4">
+                        </div>
+                        <div class="tcard-body">
+                            <div class="tcard-stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                            <p class="tcard-quote">"Fiquei muito satisfeito com o resultado. O site ficou profissional, moderno e representa bem o meu trabalho. Muito bom serviço!"</p>
+                            <p class="tcard-author-name">Hugo Sousa</p>
+                            <p class="tcard-author-role">CEO · HS Pinturas &amp; Remodelações — Algarve</p>
+                            <a href="https://www.hsremodelacoes.pt" target="_blank" rel="noopener" class="tcard-link"><i class="ph ph-arrow-square-out"></i> hsremodelacoes.pt</a>
+                        </div>
+                    </div>
+
+                    <!-- CARD 3 — Magda Gaspar -->
+                    <div class="tcard" data-aos="fade-up" data-aos-delay="200">
+                        <div class="tcard-video-wrap" id="tvw-3">
+                            <video class="tcard-video" id="tv-3" preload="metadata" playsinline>
+                                <source src="assets/testimonial1.mp4" type="video/mp4">
                             </video>
-                            <video id="vt-src-3" src="assets/testimonial1.mp4" preload="metadata" style="display:none; position:absolute;" crossorigin="anonymous" muted playsinline></video>
-                            <canvas id="vt-canvas-3" style="display:none;"></canvas>
+                            <div class="tcard-play-overlay" id="tpo-3">
+                                <div class="tcard-play-btn">
+                                    <svg viewBox="0 0 24 24" fill="white" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tcard-body">
+                            <div class="tcard-stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                            <p class="tcard-quote">"Gostei muito do trabalho que fizeram, foi um trabalho espetacular. Recomendo sem dúvida!"</p>
+                            <p class="tcard-author-name">Magda Gaspar</p>
+                            <p class="tcard-author-role">CEO · Destino Certo — Agência de Viagens</p>
+                            <a href="https://www.destinocertobymagdagaspar.pt" target="_blank" rel="noopener" class="tcard-link"><i class="ph ph-arrow-square-out"></i> destinocertobymagdagaspar.pt</a>
                         </div>
                     </div>
-                    <div class="testimonial-content-col">
-                        <div class="testimonial-stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
-                        <div class="testimonial-quote-block">
-                            <i class="ph-fill ph-quotes testimonial-quote-icon"></i>
-                            <p class="testimonial-quote-text">"Gostei muito do trabalho que fizeram, foi um trabalho espetacular. Recomendo sem dúvida!"</p>
-                        </div>
-                        <div class="testimonial-author-block">
-                            <div class="testimonial-author-name">Magda Gaspar</div>
-                            <div class="testimonial-author-role">CEO · Destino Certo — Agência de Viagens</div>
-                            <a href="https://www.destinocertobymagdagaspar.pt" target="_blank" rel="noopener" class="testimonial-project-link"><i class="ph ph-arrow-square-out"></i> www.destinocertobymagdagaspar.pt</a>
-                        </div>
-                    </div>
-                </div>
+
+                </div><!-- /testimonials-track -->
+            </div><!-- /testimonials-carousel-wrapper -->
+
+            <!-- Mobile dots -->
+            <div class="testimonial-dots" id="tcDots">
+                <button class="testimonial-dot active" data-idx="0"></button>
+                <button class="testimonial-dot" data-idx="1"></button>
+                <button class="testimonial-dot" data-idx="2"></button>
             </div>
 
             <div class="text-center mt-5 pt-3" data-aos="fade-up">
@@ -995,55 +976,42 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
         // ---- Custom Video Player: Thumbnail + Fade-in ----
-        (function initVideoPlayer(id) {
-            const poster  = document.getElementById('vt-poster-' + id);
-            const playBtn = document.getElementById('vt-play-' + id);
-            const video   = document.getElementById('vt-video-' + id);
-            const srcVid  = document.getElementById('vt-src-' + id);
-            const canvas  = document.getElementById('vt-canvas-' + id);
-            const thumb   = document.getElementById('vt-thumb-' + id);
-            if (!poster || !video || !srcVid) return;
-
-            const CACHE_KEY = 'vt_thumb_' + id;
-
-            const cached = localStorage.getItem(CACHE_KEY);
-            if (cached) {
-                thumb.src = cached;
-            } else {
-                srcVid.addEventListener('loadedmetadata', function() {
-                    srcVid.currentTime = 1.5;
-                });
-                srcVid.addEventListener('seeked', function() {
-                    canvas.width  = srcVid.videoWidth  || 360;
-                    canvas.height = srcVid.videoHeight || 640;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(srcVid, 0, 0, canvas.width, canvas.height);
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-                    thumb.src = dataUrl;
-                    try { localStorage.setItem(CACHE_KEY, dataUrl); } catch(e) {}
-                    srcVid.src = '';
-                }, { once: true });
-                srcVid.load();
-            }
-
-            playBtn.addEventListener('click', function() {
-                poster.classList.add('vt-hiding');
-                video.style.display = 'block';
-                video.classList.add('vt-video-visible');
+        // ---- Simple Video Play Overlays ----
+        [1, 2, 3].forEach(function(id) {
+            var wrap    = document.getElementById('tvw-' + id);
+            var video   = document.getElementById('tv-' + id);
+            var overlay = document.getElementById('tpo-' + id);
+            if (!wrap || !video || !overlay) return;
+            overlay.addEventListener('click', function() {
+                wrap.classList.add('playing');
                 video.play().catch(function(){});
-                poster.addEventListener('animationend', function() {
-                    poster.style.display = 'none';
-                }, { once: true });
             });
+            video.addEventListener('pause', function() {
+                wrap.classList.remove('playing');
+            });
+            video.addEventListener('ended', function() {
+                wrap.classList.remove('playing');
+            });
+        });
 
-            poster.addEventListener('click', function(e) {
-                if (e.target !== playBtn && !playBtn.contains(e.target)) {
-                    playBtn.click();
-                }
+        // ---- Mobile dots for testimonial carousel ----
+        (function() {
+            var track = document.getElementById('tcTrack');
+            var dots  = document.querySelectorAll('.testimonial-dot');
+            if (!track || !dots.length) return;
+            track.addEventListener('scroll', function() {
+                var idx = Math.round(track.scrollLeft / track.offsetWidth);
+                dots.forEach(function(d, i) {
+                    d.classList.toggle('active', i === idx);
+                });
+            }, { passive: true });
+            dots.forEach(function(dot) {
+                dot.addEventListener('click', function() {
+                    var idx = parseInt(dot.getAttribute('data-idx'));
+                    track.scrollTo({ left: idx * track.offsetWidth, behavior: 'smooth' });
+                });
             });
-        initVideoPlayer(1);
-        initVideoPlayer(2);
-        initVideoPlayer(3);
+        })();
     </script>
 <script>
   // الفورمولير جا فـ iframe (من موقع آخر)، داكشي علاش الـ click العادي ما كيتقراش.
