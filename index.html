@@ -343,7 +343,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                     <!-- CARD 1 — Eduardo Duarte -->
                     <div class="tcard" data-aos="fade-up">
                         <div class="tcard-video-wrap" id="tvw-1">
-                            <video class="tcard-video" id="tv-1" preload="metadata" playsinline>
+                            <video class="tcard-video" id="tv-1" preload="metadata" playsinline poster="assets/poster1.jpg">
                                 <source src="assets/testimonial3.mp4" type="video/mp4">
                             </video>
                             <div class="tcard-play-overlay" id="tpo-1">
@@ -366,7 +366,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                     <!-- CARD 2 — Hugo Sousa -->
                     <div class="tcard" data-aos="fade-up" data-aos-delay="100">
                         <div class="tcard-video-wrap" id="tvw-2">
-                            <video class="tcard-video" id="tv-2" preload="metadata" playsinline>
+                            <video class="tcard-video" id="tv-2" preload="metadata" playsinline poster="assets/poster2.jpg">
                                 <source src="assets/testimonial2.mp4" type="video/mp4">
                             </video>
                             <div class="tcard-play-overlay" id="tpo-2">
@@ -389,7 +389,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
                     <!-- CARD 3 — Magda Gaspar -->
                     <div class="tcard" data-aos="fade-up" data-aos-delay="200">
                         <div class="tcard-video-wrap" id="tvw-3">
-                            <video class="tcard-video" id="tv-3" preload="metadata" playsinline>
+                            <video class="tcard-video" id="tv-3" preload="metadata" playsinline poster="assets/poster3.jpg">
                                 <source src="assets/testimonial1.mp4" type="video/mp4">
                             </video>
                             <div class="tcard-play-overlay" id="tpo-3">
@@ -995,21 +995,44 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
         }, { passive: true });
         scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        // ---- Simple Video Play Overlays ----
+        // ---- Video Play / Pause Toggle ----
         [1, 2, 3].forEach(function(id) {
             var wrap    = document.getElementById('tvw-' + id);
             var video   = document.getElementById('tv-' + id);
             var overlay = document.getElementById('tpo-' + id);
             if (!wrap || !video || !overlay) return;
-            overlay.addEventListener('click', function() {
+
+            function startPlay() {
                 wrap.classList.add('playing');
                 video.play().catch(function(){});
+            }
+            function stopPlay() {
+                wrap.classList.remove('playing');
+                video.pause();
+            }
+
+            // Tap overlay → play
+            overlay.addEventListener('click', function(e) {
+                e.stopPropagation();
+                startPlay();
             });
+
+            // Tap video while playing → pause; while paused → play
+            video.addEventListener('click', function() {
+                if (video.paused) {
+                    startPlay();
+                } else {
+                    stopPlay();
+                }
+            });
+
+            // Sync overlay with native pause/end
             video.addEventListener('pause', function() {
                 wrap.classList.remove('playing');
             });
             video.addEventListener('ended', function() {
                 wrap.classList.remove('playing');
+                video.currentTime = 0;
             });
         });
 
