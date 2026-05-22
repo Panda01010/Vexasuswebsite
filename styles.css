@@ -2266,6 +2266,135 @@ h1, h2, h3, h4 {
 }
 
 /* ===========================
+   PORTFOLIO CARDS
+   =========================== */
+.portfolio-section {
+    background: #0a0a0a;
+}
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+}
+.pcard {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.pcard:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(226,75,74,0.18);
+    border-color: #E24B4A;
+    text-decoration: none;
+    color: inherit;
+}
+.pcard-browser { background: #1a1a1a; border-bottom: 1px solid #222; }
+.pcard-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.9rem;
+    background: #161616;
+    border-bottom: 1px solid #222;
+}
+.pcard-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.pcard-dot:nth-child(1) { background: #ff5f57; }
+.pcard-dot:nth-child(2) { background: #febc2e; }
+.pcard-dot:nth-child(3) { background: #28c840; }
+.pcard-url {
+    flex: 1;
+    text-align: center;
+    font-size: 0.68rem;
+    color: #555;
+    font-family: monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.pcard-preview {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    background: #0d0d0d;
+}
+.pcard-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    transition: transform 0.5s ease;
+}
+.pcard:hover .pcard-img { transform: scale(1.04); }
+.pcard-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: #111;
+    color: #444;
+    font-size: 0.78rem;
+}
+.pcard-fallback i { font-size: 2.4rem; color: #E24B4A; opacity: 0.45; }
+.pcard-body { padding: 1.2rem 1.4rem 1.4rem; }
+.pcard-tag {
+    display: inline-block;
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #E24B4A;
+    background: rgba(226,75,74,0.1);
+    border: 1px solid rgba(226,75,74,0.2);
+    border-radius: 4px;
+    padding: 0.18rem 0.55rem;
+    margin-bottom: 0.7rem;
+}
+.pcard-title { font-size: 1rem; font-weight: 700; color: #fff; margin: 0 0 0.25rem; }
+.pcard-sub { font-size: 0.8rem; color: #666; margin: 0 0 1rem; }
+.pcard-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: #E24B4A;
+    transition: gap 0.2s;
+}
+.pcard:hover .pcard-cta { gap: 0.65rem; }
+.section-desc {
+    color: #888;
+    font-size: 1rem;
+    margin-top: 0.6rem;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+}
+@media (max-width: 900px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(3, 78vw);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 1rem;
+        gap: 1rem;
+    }
+    .pcard { scroll-snap-align: start; }
+}
+@media (max-width: 480px) {
+    .portfolio-grid { grid-template-columns: repeat(3, 86vw); }
+}
+
+/* ===========================
    HONEST INTRO SECTION
    =========================== */
 .honest-intro-section {
