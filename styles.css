@@ -595,8 +595,8 @@ h1, h2, h3, h4 {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    padding-top: 7rem;
-    padding-bottom: 3.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
     margin-top: 60px; /* Offset for fixed navbar */
 }
 .hero-overlay {
@@ -720,6 +720,10 @@ h1, h2, h3, h4 {
 @media (max-width: 768px) {
     .hero-title-new {
         font-size: 40px;
+    }
+    .hero.hero-bg {
+        padding-top: 1.2rem;
+        padding-bottom: 1.2rem;
     }
     .hero-image {
         max-width: 100%;
