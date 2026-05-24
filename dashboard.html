@@ -224,8 +224,8 @@
         <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
             <span style="font-size:1.4rem;">🏆</span>
             <div>
-                <div style="font-size:0.88rem;font-weight:700;color:#2ecc71;">A/B Test Concluded — Variant B is now live for 100% of traffic</div>
-                <div style="font-size:0.78rem;color:var(--muted);margin-top:0.2rem;">Page B (Pain) won with 5.2% CR vs 0.7% for A. The split has been removed from index.html. All visits are now logged as Variant B.</div>
+                <div style="font-size:0.88rem;font-weight:700;color:#2ecc71;">A/B Test Running — Variant B currently leading</div>
+                <div style="font-size:0.78rem;color:var(--muted);margin-top:0.2rem;">A: Build Trust First (index.html) · B: Social Proof Early (index-b.html). Collecting live data.</div>
             </div>
         </div>
         <div class="summary-row">
@@ -237,7 +237,7 @@
         <div class="cards-row">
             <div class="ab-card" id="card-a">
                 <div class="variant-label">Variant A</div>
-                <div class="variant-name">Inspiration · index.html</div>
+                <div class="variant-name">Build Trust First · index.html</div>
                 <div class="stat-row"><span class="stat-label">Visits</span><span class="stat-value" id="a-visits">–</span></div>
                 <div class="stat-row"><span class="stat-label">Conversions</span><span class="stat-value" id="a-conv">–</span></div>
                 <div class="rate-big neutral" id="a-rate">–%</div>
@@ -249,7 +249,7 @@
             </div>
             <div class="ab-card" id="card-b">
                 <div class="variant-label">Variant B</div>
-                <div class="variant-name">Pain · index-b.html</div>
+                <div class="variant-name">Social Proof Early · index-b.html</div>
                 <div class="stat-row"><span class="stat-label">Visits</span><span class="stat-value" id="b-visits">–</span></div>
                 <div class="stat-row"><span class="stat-label">Conversions</span><span class="stat-value" id="b-conv">–</span></div>
                 <div class="rate-big neutral" id="b-rate">–%</div>
@@ -352,13 +352,13 @@
         <div class="clarity-grid" style="grid-template-columns:1fr 1fr;margin-bottom:1.5rem;">
             <a class="cl-card var-a" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AA" target="_blank">
                 <div class="cl-icon">🔴</div>
-                <div class="cl-label">Variant A — Inspiration</div>
+                <div class="cl-label">Variant A — Build Trust First</div>
                 <div class="cl-title">Recordings for index.html</div>
                 <div class="cl-sub">Watch user sessions for page A</div>
             </a>
             <a class="cl-card var-b" href="https://clarity.microsoft.com/projects/view/wnx2yoxsuc/recordings?customDimension=ab_variant%3AB" target="_blank">
                 <div class="cl-icon">🔵</div>
-                <div class="cl-label">Variant B — Pain</div>
+                <div class="cl-label">Variant B — Social Proof Early</div>
                 <div class="cl-title">Recordings for index-b.html</div>
                 <div class="cl-sub">Watch user sessions for page B</div>
             </a>
