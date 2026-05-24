@@ -38,6 +38,8 @@
         .btn-refresh:hover { border-color:var(--red); }
         .btn-delete { background:rgba(226,75,74,0.08); border:1px solid rgba(226,75,74,0.25); color:var(--red); border-radius:8px; padding:0.6rem 1.25rem; font-family:var(--font); font-size:0.85rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
         .btn-delete:hover { background:rgba(226,75,74,0.18); border-color:var(--red); }
+        .btn-archive { background:rgba(52,152,219,0.08); border:1px solid rgba(52,152,219,0.25); color:#3498db; border-radius:8px; padding:0.6rem 1.25rem; font-family:var(--font); font-size:0.85rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
+        .btn-archive:hover { background:rgba(52,152,219,0.18); border-color:#3498db; }
         .btn-logout { background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:8px; padding:0.6rem 1.25rem; font-family:var(--font); font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
         .btn-logout:hover { border-color:var(--muted); color:var(--text); }
 
@@ -205,6 +207,7 @@
         </div>
         <div class="header-btns">
             <button class="btn-refresh" onclick="loadData()">⟳ Refresh</button>
+            <button class="btn-archive" onclick="archiveAndReset()">📦 Archive & New Test</button>
             <button class="btn-delete" onclick="confirmDelete()">🗑 Delete data</button>
             <button class="btn-logout" onclick="logout()">Logout</button>
         </div>
@@ -263,6 +266,9 @@
         <div class="log-title">📋 Last 20 events</div>
         <div id="log-wrap" class="loading">Loading...</div>
         <p class="note">Real-time data from Firebase Firestore.<br>Every visit and conversion is automatically logged.</p>
+
+        <!-- Past Tests Archive -->
+        <div id="archives-wrap" style="margin-top:2rem;"></div>
     </div>
 
     <!-- ═══ TAB 2: Google Analytics ═══ -->
@@ -687,6 +693,7 @@
         document.getElementById('dash').style.display = 'block';
         initFirebase();
         loadData();
+        loadArchives();
         initLooker();
     }
 
@@ -756,7 +763,7 @@
             const aRate = aVisits > 0 ? (aConv/aVisits*100) : 0;
             const bRate = bVisits > 0 ? (bConv/bVisits*100) : 0;
             const maxRate = Math.max(aRate, bRate, 1);
-            const winner = aRate > bRate ? 'A (Inspiration)' : bRate > aRate ? 'B (Pain)' : 'Empate';
+            const winner = aRate > bRate ? 'A (Build Trust First)' : bRate > aRate ? 'B (Social Proof Early)' : 'Empate';
 
             document.getElementById('a-visits').textContent = aVisits;
             document.getElementById('a-conv').textContent   = aConv;
@@ -820,6 +827,92 @@
             alert('Erro ao apagar: ' + e.message);
         }
         btn.textContent = 'Yes, delete everything'; btn.disabled = false;
+    }
+
+    // ── Archive & New Test ────────────────────────────────────────
+    async function archiveAndReset() {
+        if (!confirm('Archive current test data and reset to 0/0 for a new test?')) return;
+
+        // Find next archive slot
+        let testNum = 1;
+        while (true) {
+            const probe = await db.collection('ab_tracking_test'+testNum).limit(1).get();
+            if (probe.empty) break;
+            testNum++;
+        }
+        const archiveName = 'ab_tracking_test' + testNum;
+
+        try {
+            // 1. Copy live data → archive collection
+            const snap = await db.collection('ab_tracking').limit(500).get();
+            if (!snap.empty) {
+                const batch = db.batch();
+                snap.docs.forEach(d => {
+                    const ref = db.collection(archiveName).doc(d.id);
+                    batch.set(ref, { ...d.data(), _archived: new Date().toISOString() });
+                });
+                await batch.commit();
+            }
+
+            // 2. Delete live collection
+            let live = await db.collection('ab_tracking').limit(400).get();
+            while (!live.empty) {
+                const b2 = db.batch();
+                live.docs.forEach(d => b2.delete(d.ref));
+                await b2.commit();
+                live = await db.collection('ab_tracking').limit(400).get();
+            }
+
+            alert('✅ Test '+testNum+' archived as "'+archiveName+'". New test starts now at 0/0.');
+            loadData();
+            loadArchives();
+        } catch(e) {
+            alert('Error: ' + e.message);
+        }
+    }
+
+    // ── Load Past Archived Tests ──────────────────────────────────
+    async function loadArchives() {
+        const wrap = document.getElementById('archives-wrap');
+        if (!wrap) return;
+        let html = '';
+        let testNum = 1;
+        while (true) {
+            const colName = 'ab_tracking_test' + testNum;
+            const snap = await db.collection(colName).limit(500).get();
+            if (snap.empty) break;
+            const docs = snap.docs.map(d => d.data());
+            let aV=0,aC=0,bV=0,bC=0;
+            docs.forEach(d => {
+                if (d.variant==='A') { d.type==='visit'?aV++:d.type==='conversion'?aC++:null; }
+                if (d.variant==='B') { d.type==='visit'?bV++:d.type==='conversion'?bC++:null; }
+            });
+            const aR = aV>0?(aC/aV*100).toFixed(1):0;
+            const bR = bV>0?(bC/bV*100).toFixed(1):0;
+            const archivedAt = docs.find(d=>d._archived)?._archived?.split('T')[0] || '–';
+            html += `
+            <details style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:0.75rem;">
+                <summary style="cursor:pointer;font-size:0.88rem;font-weight:700;color:var(--muted);list-style:none;display:flex;justify-content:space-between;align-items:center;">
+                    <span>📦 Test ${testNum} <span style="font-weight:400;font-size:0.78rem;margin-left:0.5rem;">Archived ${archivedAt}</span></span>
+                    <span style="font-size:0.78rem;color:var(--muted);">▾ Show</span>
+                </summary>
+                <div style="margin-top:1rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                    <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:1rem;">
+                        <div style="font-size:0.7rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">Variant A — Build Trust First</div>
+                        <div style="font-size:1.8rem;font-weight:900;">${aR}%</div>
+                        <div style="font-size:0.78rem;color:var(--muted);">${aC} conv / ${aV} visits</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:1rem;">
+                        <div style="font-size:0.7rem;font-weight:700;color:#3498db;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">Variant B — Social Proof Early</div>
+                        <div style="font-size:1.8rem;font-weight:900;">${bR}%</div>
+                        <div style="font-size:0.78rem;color:var(--muted);">${bC} conv / ${bV} visits</div>
+                    </div>
+                </div>
+            </details>`;
+            testNum++;
+            if (testNum > 20) break; // safety cap
+        }
+        wrap.innerHTML = html ? '<div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.75rem;">📦 Past Tests</div>' + html : '';
     }
 
     // ── AI Bot ─────────────────────────────────────────────────────
