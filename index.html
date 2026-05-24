@@ -7,8 +7,8 @@
     <!-- A/B Split: 50/50 — Variant A stays, Variant B redirects to index-b.html -->
     <script>
     (function(){
-        var v = localStorage.getItem('vx_ab');
-        if (!v) { v = Math.random() < 0.5 ? 'B' : 'A'; localStorage.setItem('vx_ab', v); }
+    var v = localStorage.getItem('vx_ab_t2'); // ← bump to t3, t4... for each new test
+        if (!v) { v = Math.random() < 0.5 ? 'B' : 'A'; localStorage.setItem('vx_ab_t2', v); }
         if (v === 'B') window.location.replace('index-b.html');
     })();
     </script>
@@ -672,7 +672,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
 <!-- A/B visit tracking -->
 <script>
 (function(){
-    var variant = localStorage.getItem('vx_ab') || 'A';
+    var variant = localStorage.getItem('vx_ab_t2') || 'A';
     fetch('https://firestore.googleapis.com/v1/projects/vexasus-12d26/databases/(default)/documents/ab_tracking',{
         method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ fields:{ variant:{stringValue:variant}, type:{stringValue:'visit'}, ts:{timestampValue:new Date().toISOString()} } })
@@ -714,7 +714,7 @@ src="https://www.facebook.com/tr?id=4407855016155017&ev=PageView&noscript=1"
             document.getElementById('nf-btn-loading').style.display = 'inline-flex';
             submitBtn.disabled = true;
             if (typeof fbq === 'function') fbq('track', 'InitiateCheckout', { content_name: 'Vexasus Form Start', status: 'started' });
-            var payload = { fullName: name, phone: '+' + selectedDial + phone, source: 'vexasus-landing-form', variant: localStorage.getItem('vx_ab') || 'A' };
+            var payload = { fullName: name, phone: '+' + selectedDial + phone, source: 'vexasus-landing-form', variant: localStorage.getItem('vx_ab_t2') || 'A' };
             fetch(WEBHOOK, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) }).then(function(r){ if (r.ok || r.status === 200 || r.status === 201) { if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'Vexasus Lead', value: 20.00, currency: 'EUR' }); window.location.href = 'obrigado.html'; } else { throw new Error('bad status'); } }).catch(function(){ errEl.textContent = '❌ Ocorreu um erro. Tenta novamente ou contacta-nos pelo WhatsApp.'; errEl.style.display = 'block'; document.getElementById('nf-btn-text').style.display = 'inline'; document.getElementById('nf-btn-loading').style.display = 'none'; submitBtn.disabled = false; });
         });
     }

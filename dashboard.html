@@ -863,7 +863,7 @@
                 live = await db.collection('ab_tracking').limit(400).get();
             }
 
-            alert('✅ Test '+testNum+' archived as "'+archiveName+'". New test starts now at 0/0.');
+            alert('✅ Test '+testNum+' archived as "'+archiveName+'".\n\nNew test starts at 0/0.\n\n⚠️ IMPORTANT: In index.html and index-b.html,\nchange "vx_ab_t'+testNum+'" → "vx_ab_t'+(testNum+1)+'"\n(3 places total) so old visitors get re-randomised.');
             loadData();
             loadArchives();
         } catch(e) {
